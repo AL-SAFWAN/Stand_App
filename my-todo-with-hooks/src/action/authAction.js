@@ -17,7 +17,6 @@ export const loadUser = (dispatch, getState) => {
 
   axios.get("/api/auth/user", tokenConfig(getState))
     .then(res => {
-       
       dispatch({
         type: USER_LOADED,
         payload: res.data
@@ -94,7 +93,7 @@ console.log("in Login method",body)
 export const tokenConfig= getState=>{
 
     const token = getState.auth.token;
-      console.log("THE_TOKEN_", token)
+
     const config = {
 
       headers: {
@@ -105,6 +104,6 @@ export const tokenConfig= getState=>{
     if (token) {
       config.headers["x-auth-token"] = token;
     }
-console.log("config",config)
+
     return config
 }  
