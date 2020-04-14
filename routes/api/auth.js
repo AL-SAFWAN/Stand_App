@@ -25,9 +25,7 @@ router.post("/", (req, res) => {
         return res.status(400).json({ msg: "Invalid credentials" });
       }
       jwt.sign({ id: user.id }, config.get("jwtSecret"), (err, token) => {
-        console.log("token from jwt sign", token);
         if (err) throw err;
-        console.log(token, user);
         res.json({
           token,
           user: {
@@ -42,7 +40,6 @@ router.post("/", (req, res) => {
 });
 
 router.get("/user", auth, (req, res) => {
-  console.log(req.user.id);
   // send the user information without the password
   // use attribuite to remove the password then return the user at the promise
   myUser
@@ -51,7 +48,6 @@ router.get("/user", auth, (req, res) => {
       where: { id: req.user.id },
     })
     .then((user) => {
-      console.log("CHECK HERE_+_+_+_+_+_+_", user);
       res.json(user);
     });
 });

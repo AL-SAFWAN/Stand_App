@@ -13,8 +13,6 @@ import { returnErrors } from "./errorAction";
 
 export const loadUser = (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
-  
-
   axios.get("/api/auth/user", tokenConfig(getState))
     .then(res => {
       dispatch({
@@ -31,14 +29,11 @@ export const loadUser = (dispatch, getState) => {
 };
 
 export const logout= (dispatch)=>{
-  console.log("logout")
   dispatch(
  {
     type: LOGOUT_SUCCESS
   }
-
   )
- 
 }
 export const register = ({name,email,password})=> dispatch=>{
   
@@ -51,12 +46,10 @@ export const register = ({name,email,password})=> dispatch=>{
 
   axios.post('/api/users', body, config)
   .then(res => {
-    console.log(res.data)
     dispatch({
     type: REGISTER_SUCCESS, 
     payload: res.data
   })} ).catch(err =>{
-    console.log(err.response)
     dispatch(
       returnErrors(err.response.data.msg, err.response.status,REGISTER_FAIL));
     dispatch({
@@ -65,23 +58,17 @@ export const register = ({name,email,password})=> dispatch=>{
 })}
 
 export const login = ({email,password})=> dispatch=>{
-  console.log("INFO =>",email,password)
   const config = {
     headers:{
       "Content-Type": "application/json"
     }
   }
-
   const body = JSON.stringify({email,password})
-
-console.log("in Login method",body)
-
   axios.post('/api/auth', body, config)
   .then(res => dispatch({
     type: lOGIN_SUCCESS, 
     payload: res.data
   }) ).catch(err =>{
-    console.log(err.response)
     dispatch(
       returnErrors(err.response.data.msg, err.response.status,LOGIN_FAIL));
     dispatch({
@@ -91,19 +78,14 @@ console.log("in Login method",body)
 
 // used to auth the changed on the todo 
 export const tokenConfig= getState=>{
-
     const token = getState.auth.token;
-
     const config = {
-
       headers: {
         "Content-type": "application/json"
       }
-      
     };
     if (token) {
       config.headers["x-auth-token"] = token;
     }
-
     return config
 }  
