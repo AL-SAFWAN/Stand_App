@@ -8,7 +8,9 @@ const auth = require("../../middleware/auth")
 
 const User = require("../../models/User");
 
+//This is for the login page to auth the user and give accses 
 router.post("/", (req, res) => {
+
   const { email, password } = req.body;
 
 
@@ -19,17 +21,17 @@ router.post("/", (req, res) => {
 
   User.findOne({ email }).then(user => {
     if (!user) return res.status(400).json({ msg: "User Does not exsists" });
-
+    // comparing the password you wrote and the hash password in the db
     bcrypt.compare(password, user.password).then(isMatch => {
   
       if (!isMatch) {return res.status(400).json(({ msg: "Invalid credentials" }))};
       jwt.sign(
         { id: user.id },
         config.get("jwtSecret"),
-        { expiresIn: 3600 },
         (err, token) => {
           console.log("token from jwt sign",token)
           if (err) throw err;
+          console.log(token, user)
           res.json({
             token,
             user: {
@@ -45,7 +47,7 @@ router.post("/", (req, res) => {
 });
 
 router.get('/user',auth,(req,res)=> {
-  
+  // send the user information without the password
     User.findById(req.user.id).select("-password").then(user=> res.json(user))
 })
 
