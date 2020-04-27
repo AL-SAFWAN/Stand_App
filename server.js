@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const config = require("config");
 const connection = require("./db");
-const myUser = require("./models/myUser");
+const Item = require("./models/Item");
 const db = config.get("mongoURI");
 
 const app = express();

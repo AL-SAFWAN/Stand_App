@@ -1,17 +1,13 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-
-const ItemSchema = new Schema({
-  name: String,
-  text: String,
-  isCompleted: Boolean,
-  index: Number, 
-  ID: String,
-  date: {
-    type: Date,
-    default: Date.now()
-  }
+const connection = require("../db");
+const Sequelize = require("sequelize");
+const user= require("./myUser")
+var Item = connection.define(
+  "item", 
+  {
+  name: Sequelize.STRING,
+  text: Sequelize.STRING,
+  isCompleted: Sequelize.BOOLEAN,
+  index: Sequelize.INTEGER
 });
 
-const Item = mongoose.model("item", ItemSchema);
 module.exports = Item;

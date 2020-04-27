@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth")
 const Item = require("../../models/Item");
+const connection = require('../../db')
+const user = require("../../models/myUser")
+
+user.hasMany(Item)
+Item.belongsTo(user)
+
 
 router.get("/", (req, res) => {
   Item.find().then(items => {
@@ -57,15 +63,15 @@ router.get("/", (req, res) => {
   });
 });
 router.post("/", auth, (req, res) => {
-  const newItem = new Item({
+  console.log(req.body)
+  connection.sync().then( ()=> {
+  Item.create({
     name: req.body.name,
     text: req.body.text,
     isCompleted: req.body.isCompleted,
     index: req.body.index,
     ID: req.body.ID
-  });
-
-  newItem.save().then(item => res.json(item)) ;
+  }).then(item => res.json(item))}) ;
 });
 
 router.delete("/:id",auth, (req, res) => {

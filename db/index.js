@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
- const connection = new Sequelize("standapp_schema", "root", "safwan", {
+ const connection = new Sequelize("standapp", "root", "safwan", {
     dialect: "mysql",
   });
 
-  module.exports=  connection;   
+  module.exports=  connection; 
