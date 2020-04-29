@@ -32,4 +32,8 @@ var myUser = connection.define(
   }
 );
 
+myUser.associate= models => {
+  myUser.hasMany(models.Item)
+}
+
 module.exports = myUser;

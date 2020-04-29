@@ -39,7 +39,7 @@ router.post("/", (req, res) => {
   });
 });
 
-router.get("/user", auth, (req, res) => {
+router.get("/user",auth, (req, res) => {
   // send the user information without the password
   // use attribuite to remove the password then return the user at the promise
   myUser

@@ -1,7 +1,7 @@
 const connection = require("../db");
 const Sequelize = require("sequelize");
-const user= require("./myUser")
-var Item = connection.define(
+
+  var item = connection.define(
   "item", 
   {
   name: Sequelize.STRING,
@@ -10,4 +10,11 @@ var Item = connection.define(
   index: Sequelize.INTEGER
 });
 
-module.exports = Item;
+item.associate= models => {
+  item.belongsTo(models.myUser, {foreignKey: "userId"})
+}
+
+module.exports = item;
+
+
+

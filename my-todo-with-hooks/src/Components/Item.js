@@ -1,103 +1,113 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
-
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import IconButton from "@material-ui/core/IconButton";
+import {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Checkbox,
+  ListItemSecondaryAction,
+  IconButton,
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { setItemToDelete} from "../action/itemActions";
+import { returnErrorsOfItem, returnErrors } from "../action/errorAction";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    Width: 360,
-    backgroundColor: theme.palette.background.paper
-  },
-  boxRoot: {
-    flexGrow: 1
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary
-  }
-}));
+function Item({ id, todos, todo, index, classes,token }) {
+    // local stores
+    const dispatch = useDispatch();
+    const labelId = `checkbox-list-label-${index}`;
+    const [check, setCheck] = useState(todo.isCompleted);
+    const [clicked, setClicked] = useState(false);
 
- 
-function Item({ todo, index }) {
-  const classes = useStyles();
-  const labelId = `checkbox-list-label-${index}`;
-  const [check, setCheck] = useState(todo.isCompleted);
+    //functionailty of the item
+    const handelToggle = () => {
+      var checking = check ? false : true;
+      axios.patch("/api/items/" + todos[index].id, {
+        id: todo.id,
+        isCompleted: checking
+      }, token).catch(err => dispatch(returnErrors(err.response.data.msg, err.response.status)));
+      setCheck(checking);
+      todos[index].isCompleted = checking;
+    };
 
-  const handelToggle = () => {
-    var checking = check ? false : true;
+    const checkStyle = done => {
+      var colorStyle = {};
+      if (done) {
+        colorStyle = {
+          color: "#00c853"
+        };
+      } else {
+        colorStyle = {
+          color: "#00b8d4"
+        };
+      }
+      return colorStyle;
+    };
 
-    setCheck(checking);
-    todos[index].isCompleted = checking;
-  };
+    const deleteTodo = () => {
+      setClicked(true);
+      const newTodos = [...todos];
+      newTodos.splice(index, 1);
 
-  const checkStyle = done => {
-    var colorStyle = {};
-    if (done) {
-      colorStyle = {
-        color: "#00c853"
-      };
-    } else {
-      colorStyle = {
-        color: "#00b8d4"
-      };
-    }
-    return colorStyle;
-  };
+      console.log("The todo", todo)
 
-  const deleteTodo = () => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
-  };
+      axios.delete("/api/items/" + todo.id, token).catch(err => {
+        dispatch(() =>
+          returnErrorsOfItem(
+            dispatch,
+            (todo.text + ": " + err.response.data.msg),
+            err.response.status,
+            todos,
+            id,
+          )
+        );
+        console.log(" responce", err.response.data);
+      });
+      dispatch(() => setItemToDelete(dispatch, index, id));
+    };
 
-  const Todo = ({ todo, index }) => {
-    return <div className="todo">{todo.text}</div>;
-  };
-  return (
-    //write down on click to set to true or false
-    <ListItem
-      className={classes.root}
-      key={index}
-      role={undefined}
-      dense
-      button
-      onClick={handelToggle}
-    >
-      <ListItemIcon>
-        <Checkbox
-          edge="start"
-          checked={check}
-          tabIndex={-1}
-          disableRipple
-          inputProps={{ "aria-labelledby": labelId }}
+
+    const Todo = ({ todo, index }) => {
+      return <div className="todo">{todo.text}</div>;
+    };
+    return (
+      <ListItem
+        className={classes.root}
+        key={index}
+        role={undefined}
+        dense
+        button
+        onClick={handelToggle}
+      >
+        <ListItemIcon>
+          <Checkbox
+            edge="start"
+            checked={check}
+            tabIndex={-1}
+            disableRipple
+            inputProps={{ "aria-labelledby": labelId }}
+          />
+        </ListItemIcon>
+
+        <ListItemText
+          id={labelId}
+          primary={<Todo key={index} index={index} todo={todo} />}
+          style={checkStyle(check)}
         />
-      </ListItemIcon>
+        <ListItemSecondaryAction>
+          <IconButton
+            edge="end"
+            aria-label="comments"
+            onClick={deleteTodo}
+            disabled={clicked}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+    );
+  }
 
-      <ListItemText
-        id={labelId}
-        primary={<Todo key={index} index={index} todo={todo} />}
-        style={checkStyle(check)}
-      />
-      <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="comments" onClick={deleteTodo}>
-          <DeleteIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
-    </ListItem>
-  );
-}
-
-
-
-
-export default Item
-
+  export default Item

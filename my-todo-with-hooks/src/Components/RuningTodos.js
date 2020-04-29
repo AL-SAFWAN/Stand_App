@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import RenderTodos from "./RenderTodos";
+import RenderTodoItems from "./RenderTodoItems";
 import { loadItem, setItemToAdd } from "../action/itemActions";
 import Grid from "@material-ui/core/Grid";
 
@@ -8,6 +8,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { tokenConfig } from "../action/authAction";
+
 const useStyles = makeStyles(theme => ({
   root: {
     Width: 360,
@@ -53,7 +54,7 @@ const reOrder = (result, columns, dispatch,token) => {
         item[prop] = index;
         axios
           .patch("/api/items/" + item.ID, {
-            ID: item.ID,
+            id: item.id,
             index: index
           },token)
           .then(res => console.log("Axios done for move"));
@@ -73,8 +74,8 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
     for (const prop in item) {
       if (prop === "index") {
         item[prop] = index;
-        axios.patch("/api/items/" + item.ID, {
-          ID: item.ID,
+        axios.patch("/api/items/" + item.id, {
+          id: item.id,
           name: source.droppableId,
           index: index
         },token);
@@ -90,8 +91,8 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
     for (const prop in item) {
       if (prop === "index") {
         item[prop] = index;
-        axios.patch("/api/items/" + item.ID, {
-          ID: item.ID,
+        axios.patch("/api/items/" + item.id, {
+          id: item.id,
           name: destination.droppableId,
           index: index
         },token);
@@ -125,7 +126,7 @@ function RuningTodos() {
   const { Yesterday, Today, Blocker } = state.item;
 
   useEffect(() => {
-    dispatch(() => loadItem(dispatch));
+    dispatch(() => loadItem(dispatch,state.auth.user.id));
   }, []);
 
   const todoObj = {
@@ -148,17 +149,17 @@ function RuningTodos() {
           style={gridStyle.parent}
         >
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodos
+            <RenderTodoItems
               key={"y"}
               id={"Yesterday"}
               todos={Yesterday}
-            ></RenderTodos>
+            ></RenderTodoItems>
           </Grid>
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodos key={"t"} id={"Today"} todos={Today}></RenderTodos>
+            <RenderTodoItems key={"t"} id={"Today"} todos={Today}></RenderTodoItems>
           </Grid>
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodos key={"b"} id={"Blocker"} todos={Blocker}></RenderTodos>
+            <RenderTodoItems key={"b"} id={"Blocker"} todos={Blocker}></RenderTodoItems>
           </Grid>
         </Grid>
       </div>

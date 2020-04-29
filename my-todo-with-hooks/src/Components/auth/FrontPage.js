@@ -1,28 +1,14 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Grid,
-  List,
-  Paper,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Checkbox,
-  ListItemSecondaryAction,
-  IconButton,
-  TextField,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-  Button
+  Grid
 } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import "./front.css";
 import UserForm from "./UserForm";
 import Login from './Login'
 import {login} from '../../action/authAction'
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: green
@@ -67,7 +53,10 @@ const gridStyle = {
 };
 
 export default function FrontPage() { 
+
   const dispatch = useDispatch()
+  const state = useSelector(state => state);
+
   const [Step, setStep] = useState(1);
 
   const [Email, setEmail] = useState("");
@@ -87,7 +76,7 @@ export default function FrontPage() {
     const User = {email: Email, password:Password};
 
     console.log(User)
-    login(User)(dispatch)
+    login(User)(dispatch, state)
   };
 
   

@@ -14,10 +14,11 @@ import { returnErrors } from "./errorAction";
 
 
 //this is only prerformed once
-export const loadItem = dispatch => {
+export const loadItem = (dispatch,id) => {
   dispatch(() => loading(dispatch));
-
-  axios.get("/api/items").then(res => {
+  
+  axios.get("/api/items/user/"+ id
+    ).then(res => {
     dispatch({
       type: LOAD_ITEMS,
       Yesterday: res.data.Items.Yesterday,

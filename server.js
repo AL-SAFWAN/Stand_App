@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const config = require("config");
 const connection = require("./db");
-const Item = require("./models/Item");
+const Item = require("./models/item");
 const db = config.get("mongoURI");
-
+const models = require("./models")
 const app = express();
+
 
 // the information from the user is being import and used
 

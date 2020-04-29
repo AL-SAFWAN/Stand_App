@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import Todos from "./Components/RuningTodos";
-import { loadUser } from "./action/authAction";
-import { clearErrors } from "./action/errorAction";
 import FrontPage from "./Components/auth/FrontPage";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-import Logout from "../src/Components/auth/Logout";
-import {
-  loadItem,
-  setItemToAdd
-} from "./action/itemActions";
 
 
 export default function OnLog() {
