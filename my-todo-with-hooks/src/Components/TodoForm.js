@@ -7,10 +7,9 @@ import { setItemToAdd } from "../action/itemActions";
 import { returnErrors } from "../action/errorAction";
 import { useDispatch } from "react-redux";
 
-function TodoForm({id ,todos, state,token}) {
-
+function TodoForm({ id, todos, state, token }) {
     const dispatch = useDispatch();
-    // used in haddle submit
+    // used in submit
     const addTodo = text => {
         const itemObj = {
             name: id,
@@ -24,9 +23,7 @@ function TodoForm({id ,todos, state,token}) {
             .then((req, res) => {
                 const newTodos = [req.data, ...todos];
                 dispatch(() => setItemToAdd(dispatch, newTodos, id));
-            })
-
-            .catch(err => dispatch(returnErrors(err.response.data.msg, err.response.status)));;
+            }).catch(err => dispatch(returnErrors(err.response.data.msg, err.response.status)));;
     };
     //handling the submit
     const [value, setValue] = useState("");
@@ -36,7 +33,6 @@ function TodoForm({id ,todos, state,token}) {
         addTodo(value);
         setValue("");
     };
-
     return (
         <form
             noValidate
@@ -54,5 +50,4 @@ function TodoForm({id ,todos, state,token}) {
         </form>
     );
 }
-
 export default TodoForm

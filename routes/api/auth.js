@@ -6,7 +6,7 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 
 const auth = require("../../middleware/auth");
-const myUser = require("../../models/myUser");
+const models = require("../../models");
 
 //This is for the login page to auth the user and give accses
 router.post("/", (req, res) => {
@@ -16,11 +16,14 @@ router.post("/", (req, res) => {
     return res.status(400).json({ msg: "please enter all fields" });
   }
 
-  myUser.findOne({ where: { email } }).then((user) => {
+  models.myUser.findOne({ where: { email } }).then((user) => {
     if (user === null)
       return res.status(400).json({ msg: "User Does not exsists" });
     // comparing the password you wrote and the hash password in the db
+    // is the same password being comared from the DB 
+    console.log(password, user.password)
     bcrypt.compare(password, user.password).then((isMatch) => {
+      console.log( "ismatched", isMatch)
       if (!isMatch) {
         return res.status(400).json({ msg: "Invalid credentials" });
       }
@@ -40,9 +43,8 @@ router.post("/", (req, res) => {
 });
 
 router.get("/user",auth, (req, res) => {
-  // send the user information without the password
-  // use attribuite to remove the password then return the user at the promise
-  myUser
+  // send the user information , ie used in the snack bar 
+   models.myUser
     .findOne({
       attributes: { exclude: ["password"] },
       where: { id: req.user.id },

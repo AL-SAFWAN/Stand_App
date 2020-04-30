@@ -11,8 +11,6 @@ import {
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import uuid from "uuid/v4";;
 
-
-
 //layout styling
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,21 +25,18 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary
   }
 }));
-
 //styling based on dragging
 const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   background: isDragging ? "red" : "lightgrey",
   ...draggableStyle
 });
-
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
   minHeight: 40
 });
 
 function RenderTodos({ id, todos, setTodos }) {
-
   const state = useSelector(state => state)
   const token = tokenConfig(state)
   const classes = useStyles();
@@ -63,7 +58,6 @@ function RenderTodos({ id, todos, setTodos }) {
       items: itemsArray()
     }
   };
-
   return (
     <div>
       <Paper className={classes.paper} elevation={3} square>
@@ -105,8 +99,6 @@ function RenderTodos({ id, todos, setTodos }) {
                                 {todo.item}
                               </div>
                             )}
-
-                            {}
                           </Draggable>
                         );
                       })}

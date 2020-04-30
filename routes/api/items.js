@@ -1,18 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth")
-const Item = require("../../models/item");
+const models = require("../../models");
 const connection = require('../../db')
 
 router.get("/user/:id", (req, res) => {
   // 
-  Item.findAll({ where: { userId: req.params.id } }).then(
-
+  models.Item.findAll({ where: { userId: req.params.id } }).then(
     items => {
-
       const Today = items
         .filter(val => val.name === "Today")
-
         .map(val => {
           const item = {
             name: val.name,
@@ -24,7 +21,6 @@ router.get("/user/:id", (req, res) => {
           return item;
         })
         .sort((a, b) => a.index - b.index);
-
       const Yesterday = items
         .filter(val => val.name === "Yesterday")
         .map(val => {
@@ -37,7 +33,6 @@ router.get("/user/:id", (req, res) => {
           return item;
         })
         .sort((a, b) => a.index - b.index);
-
       const Blocker = items
         .filter(val => val.name === "Blocker")
         .map(val => {
@@ -64,7 +59,7 @@ router.get("/user/:id", (req, res) => {
 
 router.post("/", auth, (req, res) => {
   connection.sync().then(() => {
-    Item.create({
+    models.Item.create({
       name: req.body.name,
       text: req.body.text,
       isCompleted: req.body.isCompleted,
@@ -78,13 +73,13 @@ router.post("/", auth, (req, res) => {
 });
 
 router.delete("/:id", auth, (req, res) => {
-  Item.destroy({ where: { id: req.params.id } }).then(() => res.json({ success: true }))
+  models.Item.destroy({ where: { id: req.params.id } }).then(() => res.json({ success: true }))
     .catch(err => res.status(404).json({ msg: "Failed to delete" }));
 });
 
 router.patch("/:id", auth, (req, res) => {
   const id = { id: req.body.id };
-  Item.update(req.body, { where: id })
+  models.Item.update(req.body, { where: id })
     .then(() => res.json({ success: true }))
     .catch(err => res.status(404).json({ success: false }));
 });

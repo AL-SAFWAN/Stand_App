@@ -40,7 +40,7 @@ const gridStyle = {
   }
 };
 
-const reOrder = (result, columns, dispatch,token) => {
+const reOrder = (result, columns, dispatch, token) => {
   const { source, destination } = result;
 
   const copiedItems = [...columns];
@@ -56,7 +56,7 @@ const reOrder = (result, columns, dispatch,token) => {
           .patch("/api/items/" + item.ID, {
             id: item.id,
             index: index
-          },token)
+          }, token)
           .then(res => console.log("Axios done for move"));
       }
     }
@@ -78,7 +78,7 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
           id: item.id,
           name: source.droppableId,
           index: index
-        },token);
+        }, token);
       }
     }
   });
@@ -95,7 +95,7 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
           id: item.id,
           name: destination.droppableId,
           index: index
-        },token);
+        }, token);
       }
     }
   });
@@ -126,7 +126,7 @@ function RuningTodos() {
   const { Yesterday, Today, Blocker } = state.item;
 
   useEffect(() => {
-    dispatch(() => loadItem(dispatch,state.auth.user.id));
+    dispatch(() => loadItem(dispatch, state.auth.user.id));
   }, []);
 
   const todoObj = {
@@ -149,11 +149,7 @@ function RuningTodos() {
           style={gridStyle.parent}
         >
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodoItems
-              key={"y"}
-              id={"Yesterday"}
-              todos={Yesterday}
-            ></RenderTodoItems>
+            <RenderTodoItems key={"y"} id={"Yesterday"} todos={Yesterday} ></RenderTodoItems>
           </Grid>
           <Grid item xs={3} style={gridStyle.child}>
             <RenderTodoItems key={"t"} id={"Today"} todos={Today}></RenderTodoItems>

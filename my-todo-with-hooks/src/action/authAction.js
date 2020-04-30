@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { returnErrors } from "./errorAction";
 
+// this only get the user information such as the name and email 
 export const loadUser = (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
   axios.get("/api/auth/user", tokenConfig(getState))
@@ -28,7 +29,7 @@ export const loadUser = (dispatch, getState) => {
       });
     });
 };
-
+// setting everything to null... what about the todos?
 export const logout = (dispatch) => {
   dispatch(
     {
@@ -36,6 +37,8 @@ export const logout = (dispatch) => {
     }
   )
 }
+
+
 export const register = ({ name, email, password }) => dispatch => {
 
   const config = {
@@ -60,13 +63,17 @@ export const register = ({ name, email, password }) => dispatch => {
     })
 }
 
-export const login = ({ email, password }) => (dispatch,state) => {
+export const login = ({ email, password }) => (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   }
   const body = JSON.stringify({ email, password })
+
+  // this should recieve the token 
+
+  //we get the invalid crdential error when loading in 
   axios.post('/api/auth', body, config)
     .then(res => dispatch({
       type: lOGIN_SUCCESS,
