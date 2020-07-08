@@ -4,6 +4,8 @@ const auth = require("../../middleware/auth")
 const models = require("../../models");
 const connection = require('../../db')
 
+
+
 router.get("/user/:id", (req, res) => {
   // 
   models.Item.findAll({ where: { userId: req.params.id } }).then(
@@ -16,23 +18,27 @@ router.get("/user/:id", (req, res) => {
             text: val.text,
             isCompleted: val.isCompleted,
             id: val.id,
-            index: val.index
+            index: val.index,
+            createdAt: val.createdAt
           };
           return item;
         })
         .sort((a, b) => a.index - b.index);
+
       const Yesterday = items
         .filter(val => val.name === "Yesterday")
         .map(val => {
           const item = {
-            text: val.text,
+            text: val.text, 
             isCompleted: val.isCompleted,
             id: val.id,
-            index: val.index
+            index: val.index, 
+            createdAt: val.createdAt
           };
           return item;
         })
         .sort((a, b) => a.index - b.index);
+        
       const Blocker = items
         .filter(val => val.name === "Blocker")
         .map(val => {
@@ -40,7 +46,8 @@ router.get("/user/:id", (req, res) => {
             text: val.text,
             isCompleted: val.isCompleted,
             id: val.id,
-            index: val.index
+            index: val.index,
+            createdAt: val.createdAt
           };
           return item;
         })

@@ -11,7 +11,6 @@ const connection = require("../../db");
 router.post("/", (req, res) => {
   let { name, email, password } = req.body;
   // might want to use hooks to crpyt the pass
-
   if (!name || !email || !password) {
     return res.status(400).json({ msg: "please enter all fields" });
   }
@@ -28,23 +27,19 @@ router.post("/", (req, res) => {
           if (users != null)
             return res.status(400).json({ msg: "User already exsists" });
         });
-
       // check the validation
       models.myUser.validationFailed((i, o, e) => {
         e.errors.forEach((e) => {
           return res.status(400).json({ msg: e.message });
         });
       });
-
       models.myUser.beforeCreate(async (user, options) => {
         // the password seemed to be created twice 
-        if(user["_previousDataValues"].password ==undefined ) {
-        const hash = await bcrypt.hashSync(user.password);
-        user.password = hash;
-      } 
-        
+        if (user["_previousDataValues"].password == undefined) {
+          const hash = await bcrypt.hashSync(user.password);
+          user.password = hash;
+        }
       });
-
       models.myUser.create({ name, email, password }).then((user) => {
         jwt.sign({ id: user.id }, config.get("jwtSecret"), (err, token) => {
           if (err) throw err;
@@ -61,7 +56,6 @@ router.post("/", (req, res) => {
       });
     })
     .catch((err) => console.log("the error form mysql", err));
-
 });
 
 

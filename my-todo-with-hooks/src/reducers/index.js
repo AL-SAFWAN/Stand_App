@@ -1,9 +1,11 @@
-import {combineReducers} from 'redux'
+import { combineReducers } from 'redux'
 import itemReducer from './itemReducer'
 import errorReducer from './errorReducer'
 import authReducer from './authReducer'
+import userActivityReducer from "./userActivityReducer"
 export default combineReducers({
-    item : itemReducer,
-    error : errorReducer,
-    auth: authReducer
+    item: itemReducer,
+    error: errorReducer,
+    auth: authReducer,
+    userAcitvity: userActivityReducer
 })

@@ -48,6 +48,7 @@ const reOrder = (result, columns, dispatch, token) => {
   copiedItems.splice(destination.index, 0, removed);
 
   dispatch(() => setItemToAdd(dispatch, copiedItems, destination.droppableId));
+
   copiedItems.forEach((item, index) => {
     for (const prop in item) {
       if (prop === "index") {
@@ -57,14 +58,13 @@ const reOrder = (result, columns, dispatch, token) => {
             id: item.id,
             index: index
           }, token)
-          .then(res => console.log("Axios done for move"));
       }
     }
   });
 };
 
 const move = (result, sTodo, dTodo, dispatch, token) => {
-  //making and instant array
+ 
   const { source, destination } = result;
   const copiedItems = [...sTodo];
   const [pickedUp] = copiedItems.splice(source.index, 1);
@@ -113,12 +113,7 @@ function RuningTodos() {
     if (source.droppableId === destination.droppableId) {
       reOrder(result, todoObj[source.droppableId], dispatch, token);
     } else {
-      move(
-        result,
-        todoObj[source.droppableId],
-        todoObj[destination.droppableId],
-        dispatch,
-        token
+      move(result, todoObj[source.droppableId], todoObj[destination.droppableId], dispatch, token
       );
     }
   };
@@ -127,7 +122,7 @@ function RuningTodos() {
 
   useEffect(() => {
     dispatch(() => loadItem(dispatch, state.auth.user.id));
-  }, []);
+  }, [dispatch, state.auth.user.id]);
 
   const todoObj = {
     Yesterday: Yesterday,

@@ -30,9 +30,11 @@ export default function Login( { classes,vals,setVals, handleSubmit, openUserFor
             >
               Sign In
             </Typography>
-    
+            <form>
             <TextField
-              key={"FormEmail"}
+           
+            name = {"email"}
+              key={"Email"}
               label={"Enter your email"}
               style={{ margin: 30, width: 350, textAlign: "center" }}
               value={Email}
@@ -42,6 +44,7 @@ export default function Login( { classes,vals,setVals, handleSubmit, openUserFor
             ></TextField>
     
             <TextField
+            name = {"password"}
             key={"FormPassword"}
               id={"LogInPassword"}
               label={"Enter your password"}
@@ -51,6 +54,7 @@ export default function Login( { classes,vals,setVals, handleSubmit, openUserFor
               value={Password}
               onChange={e => setPassword(e.target.value)}
             ></TextField>
+            </form>
             <Button
               className={classes.button}
               variant="contained"

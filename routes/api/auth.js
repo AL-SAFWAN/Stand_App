@@ -9,6 +9,7 @@ const auth = require("../../middleware/auth");
 const models = require("../../models");
 
 //This is for the login page to auth the user and give accses
+
 router.post("/", (req, res) => {
   const { email, password } = req.body;
 
@@ -17,13 +18,11 @@ router.post("/", (req, res) => {
   }
 
   models.myUser.findOne({ where: { email } }).then((user) => {
+
     if (user === null)
       return res.status(400).json({ msg: "User Does not exsists" });
-    // comparing the password you wrote and the hash password in the db
-    // is the same password being comared from the DB 
-    console.log(password, user.password)
     bcrypt.compare(password, user.password).then((isMatch) => {
-      console.log( "ismatched", isMatch)
+
       if (!isMatch) {
         return res.status(400).json({ msg: "Invalid credentials" });
       }
@@ -42,9 +41,8 @@ router.post("/", (req, res) => {
   });
 });
 
-router.get("/user",auth, (req, res) => {
-  // send the user information , ie used in the snack bar 
-   models.myUser
+router.get("/user", auth, (req, res) => {
+  models.myUser
     .findOne({
       attributes: { exclude: ["password"] },
       where: { id: req.user.id },
@@ -54,4 +52,24 @@ router.get("/user",auth, (req, res) => {
     });
 });
 
+router.get("/users", (req, res) => {
+  models.myUser
+    .findAll({
+      attributes: { exclude: ["password", "createdAt", "updatedAt", "email"] },
+    })
+    .then((users) => {
+    res.json({ users});
+    });
+    
+});
+
 module.exports = router;
+
+     
+      // var userCnt = 0
+    // users.forEach(user => {
+        
+    //     // user is called here 
+    //     models.Item.findAll({ where: { userId: user.id } }).then(
+    //       items => {
+    //        

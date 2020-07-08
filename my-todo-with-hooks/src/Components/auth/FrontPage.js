@@ -7,8 +7,8 @@ import { green } from "@material-ui/core/colors";
 import "./front.css";
 import UserForm from "./UserForm";
 import Login from './Login'
-import {login} from '../../action/authAction'
-import { useDispatch,useSelector } from "react-redux";
+import { login } from '../../action/authAction'
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
   paper: {
     height: "100%",
     backgroundColor: green,
-    //  padding: 30,
     textAlign: "center",
     color: theme.palette.text.primary
   },
@@ -39,7 +38,6 @@ const gridStyle = {
     height: "100%",
     boxSizing: "border-box",
     borderRadius: 5,
-    // backgroundColor: "rgba(123, 151, 234, 0.19)",
     justifySelf: "auto",
     position: "absolute",
     top: "-30vh",
@@ -47,13 +45,10 @@ const gridStyle = {
   },
   child: {
     height: "100%"
-    // backgroundColor: "rgb(194, 197, 219)",
-    // margin: 10,
-    // borderRadius: 5
   }
 };
 
-export default function FrontPage() { 
+export default function FrontPage() {
 
   const dispatch = useDispatch()
   const state = useSelector(state => state);
@@ -63,9 +58,9 @@ export default function FrontPage() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
-  const vals = {Email,Password}
-  const setVals = {setPassword,setEmail}
-  
+  const vals = { Email, Password }
+  const setVals = { setPassword, setEmail }
+
 
   const openUserForms = () => {
     setStep(2);
@@ -74,21 +69,18 @@ export default function FrontPage() {
   const handleSubmit = e => {
     e.preventDefault();
     e.persist();
-    const User = {email: Email, password:Password};
+    const User = { email: Email, password: Password };
 
     console.log(User)
     login(User)(dispatch, state)
   };
 
-  
+
 
   const classes = useStyles();
-
   switch (Step) {
     case 1:
       return (
-        // <div className={"toFull"} style={{ height: "100%" }}>
-
         <Grid
           container
           spacing={3}
@@ -98,18 +90,14 @@ export default function FrontPage() {
           style={gridStyle.parent}
         >
           <Grid style={gridStyle.child}>
-             
             <Login classes={classes} vals={vals} setVals={setVals} openUserForms={openUserForms} handleSubmit={handleSubmit} ></Login>
           </Grid>
         </Grid>
 
-        // </div>
       );
 
     case 2:
       return (
-        // <div className={"toFull"} style={{ height: "100%" }}>
-
         <Grid
           container
           spacing={3}
@@ -122,8 +110,6 @@ export default function FrontPage() {
             <UserForm setStep={setStep}></UserForm>
           </Grid>
         </Grid>
-
-        // </div>
       );
   }
 }

@@ -4,7 +4,7 @@ import { loadUser } from "./action/authAction";
 import { clearErrors } from "./action/errorAction";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import Logout from "../src/Components/auth/Logout";
+import MenuBar from "../src/Components/auth/Logout";
 import OnLog from './OnLog'
 
 function App() {
@@ -16,16 +16,17 @@ function App() {
   console.log(state);
 
   useEffect(() => dispatch(() => loadUser(dispatch, state))
-  , [dispatch]);
+    , [dispatch]);
 
   const { msg, id } = state.error;
   return (
-    <div style={{ height: "100%" }}>
-      <Logout></Logout>
+    <React.Fragment>
+      {/* This is the top bar menu  */}
+      <MenuBar></MenuBar>
+      {/* This handels the logging in  */}
+      <OnLog />
 
-
-       <OnLog /> 
-
+      {/* This displays all the errors */}
       <Snackbar
         anchorOrigin={{
           vertical: "bottom",
@@ -45,7 +46,7 @@ function App() {
           direction="up"
         />
       </Snackbar>
-    </div>
+    </React.Fragment>
   );
 }
 

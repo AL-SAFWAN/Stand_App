@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 25,
 
     marginRight: 25,
-    marginTop: 10
+    marginTop: 20
   }
 }));
 
@@ -70,7 +70,7 @@ export default function FormUserDetails({
       <TextField
         id={"firstName"}
         label={"Enter your username"}
-        style={{ margin: 18, width: 350, textAlign: "center" }}
+        style={{ margin: 7, width: 350, textAlign: "center" }}
         value={values.name}
         onChange={e => setValue.setName(e.target.value)}
       ></TextField>
@@ -78,9 +78,29 @@ export default function FormUserDetails({
       <TextField
         id={"email"}
         label={"Enter your email"}
-        style={{ margin: 16, width: 350, textAlign: "center" }}
+        style={{ margin: 5, width: 350, textAlign: "center" }}
         value={values.email}
         onChange={e => setValue.setEmail(e.target.value)}
+      ></TextField>
+
+<TextField
+        id={"password"}
+        type="password"
+        autoComplete="current-password"
+        label={"Enter your password"}
+        style={{ margin: 5, width: 350, textAlign: "center" }}
+        value = {values.password}
+        onChange={e => setValue.setPassword(e.target.value)}
+      ></TextField>
+
+      <TextField
+        id={"confirmPassword"}
+        type="password"
+        autoComplete="current-password"
+        label={"Enter your password again"}
+        style={{ margin: 5, width: 350, textAlign: "center" }}
+        value={values.confirmPassword}
+        onChange={e => setValue.setConfirmPassword(e.target.value)}
       ></TextField>
 
       <Button className={classes.button} variant="contained" onClick={goBack}>

@@ -8,7 +8,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { setItemToDelete } from "../action/itemActions";
+import { setItemToDelete, loading } from "../action/itemActions";
 import { returnErrorsOfItem, returnErrors } from "../action/errorAction";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -37,6 +37,8 @@ function Item({ id, todos, todo, index, classes, token }) {
     return colorStyle;
   };
   const handelToggle = () => {
+
+    dispatch(() => { loading(dispatch) })
     var checking = check ? false : true;
     axios.patch("/api/items/" + todos[index].id, {
       id: todo.id,
@@ -44,11 +46,12 @@ function Item({ id, todos, todo, index, classes, token }) {
     }, token).catch(err => dispatch(returnErrors(err.response.data.msg, err.response.status)));
     setCheck(checking);
     todos[index].isCompleted = checking;
+
   };
   const deleteTodo = () => {
     setClicked(true);
     const newTodos = [...todos];
-    
+
     newTodos.splice(index, 1);
     axios.delete("/api/items/" + todo.id, token).catch(err => {
       dispatch(() =>
@@ -64,6 +67,7 @@ function Item({ id, todos, todo, index, classes, token }) {
     });
     dispatch(() => setItemToDelete(dispatch, index, id));
   };
+
   const Todo = ({ todo, index }) => {
     return <div className="todo">{todo.text}</div>;
   };

@@ -1,0 +1,23 @@
+.aqua{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* width: 67%; */
+    height: 250px;
+    /* border: 3px solid rgba(219, 221, 217, 0.2); */
+    margin: 5px;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-radius: 7px;
+    background-color: rgba(123, 151, 234, 0.19);
+}
+
+
+.text{
+    position: absolute;
+    font-size: 20px;
+    margin: auto;
+  
+    
+
+}

@@ -12,6 +12,8 @@ import axios from "axios";
 import { returnErrors } from "./errorAction";
 
 // this only get the user information such as the name and email 
+
+// when im trying to log out this gets called again, hence the logging out problem
 export const loadUser = (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
   axios.get("/api/auth/user", tokenConfig(getState))

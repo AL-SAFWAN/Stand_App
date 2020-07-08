@@ -2,8 +2,6 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
-  console.log("---IN AUTH--")
-
   const token = req.header("x-auth-token");
   console.log("token =>", token)
 
@@ -18,6 +16,4 @@ function auth(req, res, next) {
   } catch (e) { res.status(400).json({ msg: "Token is not valid" });
   }
 }
-
-console.log("---out AUTH--")
 module.exports = auth;
