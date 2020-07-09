@@ -8,7 +8,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { tokenConfig } from "../action/authAction";
-
+import moment from 'moment'
 const useStyles = makeStyles(theme => ({
   root: {
     Width: 360,
@@ -39,6 +39,11 @@ const gridStyle = {
     borderRadius: 5
   }
 };
+
+  const todoDateObj = {
+    Yesterday: moment().subtract(1,"days").toDate(),
+    Today: new Date(),
+  };
 
 const reOrder = (result, columns, dispatch, token) => {
   const { source, destination } = result;
@@ -71,13 +76,14 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
 
   dispatch(() => setItemToAdd(dispatch, copiedItems, source.droppableId));
   copiedItems.forEach((item, index) => {
+    //maintain the order
     for (const prop in item) {
       if (prop === "index") {
         item[prop] = index;
         axios.patch("/api/items/" + item.id, {
           id: item.id,
           name: source.droppableId,
-          index: index
+          index: index,
         }, token);
       }
     }
@@ -85,8 +91,14 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
 
   const dCopyItems = [...dTodo];
   dCopyItems.splice(destination.index, 0, pickedUp);
+  // update the date for the item
+  axios.patch("/api/items/" + pickedUp.id, {
+    id: pickedUp.id,
+    createdAt: todoDateObj[destination.droppableId]
+  }, token);
 
   dispatch(() => setItemToAdd(dispatch, dCopyItems, destination.droppableId));
+  // maintain the order
   dCopyItems.forEach((item, index) => {
     for (const prop in item) {
       if (prop === "index") {
@@ -109,7 +121,7 @@ function RuningTodos() {
   const onDragEnd = result => {
     const { source, destination } = result;
     if (!result.destination) return;
-
+    console.log(result)
     if (source.droppableId === destination.droppableId) {
       reOrder(result, todoObj[source.droppableId], dispatch, token);
     } else {
@@ -128,7 +140,7 @@ function RuningTodos() {
     Yesterday: Yesterday,
     Today: Today,
     Blocker: Blocker
-  };
+  }
 
   const classes = useStyles();
 

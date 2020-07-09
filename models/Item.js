@@ -7,7 +7,14 @@ const Sequelize = require("sequelize");
   name: Sequelize.STRING,
   text: Sequelize.STRING,
   isCompleted: Sequelize.BOOLEAN,
-  index: Sequelize.INTEGER
+  index: Sequelize.INTEGER,
+  createdAt: {
+    type: Sequelize.DATE
+  },
+  endAt: {
+    type: Sequelize.DATE
+  }
+
 });
 
 item.associate= models => {

@@ -6,16 +6,18 @@ import {
   Checkbox,
   ListItemSecondaryAction,
   IconButton,
+  Icon,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { setItemToDelete, loading } from "../action/itemActions";
 import { returnErrorsOfItem, returnErrors } from "../action/errorAction";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import moment from 'moment'
 
 function Item({ id, todos, todo, index, classes, token }) {
-
+// console.log(moment().toDate())
   // local stores
   const dispatch = useDispatch();
   const labelId = `checkbox-list-label-${index}`;
@@ -79,23 +81,29 @@ function Item({ id, todos, todo, index, classes, token }) {
       role={undefined}
       dense
       button
-      onClick={handelToggle}
+      disableRipple
     >
       <ListItemIcon>
         <Checkbox
+        onClick={handelToggle}
           edge="start"
           checked={check}
           tabIndex={-1}
-          disableRipple
+          
           inputProps={{ "aria-labelledby": labelId }}
         />
       </ListItemIcon>
+    
       <ListItemText
         id={labelId}
         primary={<Todo key={index} index={index} todo={todo} />}
         style={checkStyle(check)}
-      />
-      <ListItemSecondaryAction>
+      /><ListItemIcon>
+     
+     
+        <IconButton>
+        <CalendarTodayIcon/> 
+        </IconButton>
         <IconButton
           edge="end"
           aria-label="comments"
@@ -104,7 +112,8 @@ function Item({ id, todos, todo, index, classes, token }) {
         >
           <DeleteIcon />
         </IconButton>
-      </ListItemSecondaryAction>
+        
+       </ListItemIcon>
     </ListItem>
   );
 }

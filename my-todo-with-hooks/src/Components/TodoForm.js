@@ -6,18 +6,28 @@ import axios from "axios";
 import { setItemToAdd } from "../action/itemActions";
 import { returnErrors } from "../action/errorAction";
 import { useDispatch } from "react-redux";
+import moment from 'moment'
+
+
+const todoDateObj = {
+    Yesterday: moment().subtract(1, "days").toDate(),
+    Today: new Date(),
+};
 
 function TodoForm({ id, todos, state, token }) {
     const dispatch = useDispatch();
     // used in submit
     const addTodo = text => {
+        
         const itemObj = {
+            createdAt: todoDateObj[id],
             name: id,
             text,
             isCompleted: false,
             index: -todos.length,
             userId: state.auth.user.id
         };
+       
         //use the res to add the todo with the id
         axios.post("/api/items", itemObj, token)
             .then((req, res) => {

@@ -12,6 +12,8 @@
   "author": "SAFWAN",
   "license": "ISC",
   "dependencies": {
+    "@date-io/moment": "^2.7.0",
+    "@material-ui/pickers": "^3.2.10",
     "bcryptjs": "^2.4.3",
     "chart.js": "^2.9.3",
     "concurrently": "^5.1.0",
