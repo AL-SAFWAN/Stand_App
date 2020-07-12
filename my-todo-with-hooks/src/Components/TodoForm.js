@@ -11,9 +11,9 @@ import moment from 'moment'
 
 const todoDateObj = {
     Yesterday: moment().subtract(1, "days").toDate(),
-    Today: new Date(),
+    Today:  moment().toDate()
 };
-
+console.log("here___________" ,  moment().local().format().substring(0,16) )
 function TodoForm({ id, todos, state, token }) {
     const dispatch = useDispatch();
     // used in submit
@@ -25,12 +25,14 @@ function TodoForm({ id, todos, state, token }) {
             text,
             isCompleted: false,
             index: -todos.length,
-            userId: state.auth.user.id
+            userId: state.auth.user.id,
+            endAt: moment(todoDateObj[id]).add(2, "hours").toDate()
         };
-       
+       console.log("itemOBj-> ", itemObj )
         //use the res to add the todo with the id
         axios.post("/api/items", itemObj, token)
             .then((req, res) => {
+                console.log("req data: form ", req.data)
                 const newTodos = [req.data, ...todos];
                 dispatch(() => setItemToAdd(dispatch, newTodos, id));
             }).catch(err => dispatch(returnErrors(err.response.data.msg, err.response.status)));;

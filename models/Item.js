@@ -8,13 +8,8 @@ const Sequelize = require("sequelize");
   text: Sequelize.STRING,
   isCompleted: Sequelize.BOOLEAN,
   index: Sequelize.INTEGER,
-  createdAt: {
-    type: Sequelize.DATE
-  },
-  endAt: {
-    type: Sequelize.DATE
-  }
-
+  createdAt: Sequelize.DATE,
+  endAt:  Sequelize.DATE
 });
 
 item.associate= models => {

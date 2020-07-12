@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./action/authAction";
 import { clearErrors } from "./action/errorAction";
@@ -9,22 +9,20 @@ import OnLog from './OnLog'
 
 function App() {
 
-
   const dispatch = useDispatch();
+  
   const state = useSelector(state => state);
-
-  console.log(state);
-
-  useEffect(() => dispatch(() => loadUser(dispatch, state))
-    , [dispatch]);
+console.log(state)
+  useEffect(() => 
+    dispatch(() => loadUser(dispatch, state)), []);
 
   const { msg, id } = state.error;
   return (
     <React.Fragment>
       {/* This is the top bar menu  */}
-      <MenuBar></MenuBar>
+      <MenuBar state = {state}></MenuBar>
       {/* This handels the logging in  */}
-      <OnLog />
+      <OnLog state = {state}/>
 
       {/* This displays all the errors */}
       <Snackbar

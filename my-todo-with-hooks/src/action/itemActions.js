@@ -15,7 +15,7 @@ import { returnErrors } from "./errorAction";
 
 //this is only prerformed once
 export const loadItem = (dispatch,id) => {
-  dispatch(() => loading(dispatch));
+  // dispatch(() => loading(dispatch));
   
   axios.get("/api/items/user/"+ id
     ).then(res => {
@@ -23,7 +23,8 @@ export const loadItem = (dispatch,id) => {
       type: LOAD_ITEMS,
       Yesterday: res.data.Items.Yesterday,
       Today: res.data.Items.Today,
-      Blocker: res.data.Items.Blocker
+      Blocker: res.data.Items.Blocker,
+      BeyoundYesturday :res.data.Items.BeyoundYesturday
     })
   }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));;
 };
@@ -61,9 +62,10 @@ export const setItemToAdd = (dispatch, newTodos, name) => {
       newTodos
     }
   };
-  console.log(name)
   dispatch(names[name]);
 };
+//What I want to do is edit the todo createdAt and endAt
+
 
 //TOOGLE FOR LOAD
 export const loading = dispatch => {

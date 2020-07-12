@@ -13,11 +13,11 @@ const initialState = {
   Yesterday: [],
   Today: [],
   Blocker: [],
+  BeyoundYesturday:[],
   onLoad: false
 };
 
 export default function(state = initialState, action) {
-
   switch (action.type) {
     case LOAD_ITEMS:
       return {
@@ -25,6 +25,7 @@ export default function(state = initialState, action) {
         Yesterday: action.Yesterday,
         Today: action.Today,
         Blocker: action.Blocker,
+        BeyoundYesturday: action.BeyoundYesturday,
         onLoad: false
       };
     case LOAD:

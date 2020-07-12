@@ -13,11 +13,11 @@ import { setItemToDelete, loading } from "../action/itemActions";
 import { returnErrorsOfItem, returnErrors } from "../action/errorAction";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import moment from 'moment'
+
+import DateTimePicker from './Calander/DateTimePicker'
 
 function Item({ id, todos, todo, index, classes, token }) {
-// console.log(moment().toDate())
+
   // local stores
   const dispatch = useDispatch();
   const labelId = `checkbox-list-label-${index}`;
@@ -38,8 +38,8 @@ function Item({ id, todos, todo, index, classes, token }) {
     }
     return colorStyle;
   };
-  const handelToggle = () => {
 
+  const handelToggle = () => {
     dispatch(() => { loading(dispatch) })
     var checking = check ? false : true;
     axios.patch("/api/items/" + todos[index].id, {
@@ -48,12 +48,10 @@ function Item({ id, todos, todo, index, classes, token }) {
     }, token).catch(err => dispatch(returnErrors(err.response.data.msg, err.response.status)));
     setCheck(checking);
     todos[index].isCompleted = checking;
-
   };
   const deleteTodo = () => {
     setClicked(true);
     const newTodos = [...todos];
-
     newTodos.splice(index, 1);
     axios.delete("/api/items/" + todo.id, token).catch(err => {
       dispatch(() =>
@@ -85,35 +83,30 @@ function Item({ id, todos, todo, index, classes, token }) {
     >
       <ListItemIcon>
         <Checkbox
-        onClick={handelToggle}
+          onClick={handelToggle}
           edge="start"
           checked={check}
           tabIndex={-1}
-          
+
           inputProps={{ "aria-labelledby": labelId }}
         />
       </ListItemIcon>
-    
+
       <ListItemText
         id={labelId}
         primary={<Todo key={index} index={index} todo={todo} />}
         style={checkStyle(check)}
-      /><ListItemIcon>
-     
-     
-        <IconButton>
-        <CalendarTodayIcon/> 
-        </IconButton>
-        <IconButton
-          edge="end"
-          aria-label="comments"
-          onClick={deleteTodo}
-          disabled={clicked}
-        >
-          <DeleteIcon />
-        </IconButton>
-        
-       </ListItemIcon>
+      />
+      <DateTimePicker todo = {todo} todos = {todos} token = {token}/>
+    
+      <IconButton
+        edge="end"
+        aria-label="comments"
+        onClick={deleteTodo}
+        disabled={clicked}
+      >
+        <DeleteIcon />
+      </IconButton>
     </ListItem>
   );
 }

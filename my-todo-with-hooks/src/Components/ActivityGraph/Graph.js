@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Bar, Pie } from 'react-chartjs-2'
 import Button from '@material-ui/core/Button';
-import { useSelector } from "react-redux";
-export default function Graph() {
+
+export default function Graph({state}) {
 
     const [data, setData] = useState({})
     const [step, setStep] = useState(2)
-    const state = useSelector(state => state);
+
     
-    console.log('from active graph')
-
-
     const notDone = () => {
         var notDone = 0;
         state.item.Today.forEach(element => {

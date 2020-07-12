@@ -15,7 +15,7 @@ import { returnErrors } from "./errorAction";
 
 // when im trying to log out this gets called again, hence the logging out problem
 export const loadUser = (dispatch, getState) => {
-  dispatch({ type: USER_LOADING });
+  // dispatch({ type: USER_LOADING });
   axios.get("/api/auth/user", tokenConfig(getState))
     .then(res => {
       dispatch({

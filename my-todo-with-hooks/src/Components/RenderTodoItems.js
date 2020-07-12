@@ -1,7 +1,6 @@
 import React from "react";
 import TodoForm from './TodoForm'
 import { tokenConfig } from '../action/authAction'
-import { useSelector } from 'react-redux'
 import Item from './Item'
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -36,8 +35,8 @@ const getListStyle = isDraggingOver => ({
   minHeight: 40
 });
 
-function RenderTodos({ id, todos, setTodos }) {
-  const state = useSelector(state => state)
+function RenderTodos({ id, todos, setTodos, state }) {
+  
   const token = tokenConfig(state)
   const classes = useStyles();
 

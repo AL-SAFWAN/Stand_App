@@ -3,14 +3,15 @@ import "./Activity.css"
 import color from '@material-ui/core/colors/amber';
 import { green } from '@material-ui/core/colors';
 import axios from "axios"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {loadUsersActivity, updateUsers} from "../action/userActivityAction"
-export default function ActivityGraph() {
+
+export default function ActivityGraph({state}) {
     const dispatch = useDispatch();
 
-    const state = useSelector(state => state)
     // // user redux for this 
-const userActivity = useSelector(state => state.userAcitvity)
+const userActivity = state.userAcitvity
+
    const {activeUsers,blockedUsers,neutralUsers} = userActivity
    
 

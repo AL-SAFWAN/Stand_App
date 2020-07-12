@@ -17,7 +17,6 @@ const initailState = {
 };
 
 export default function(state = initailState, action) {
-  console.log( "TYPE OF ACTION",action.type)
   switch (action.type) {
     case USER_LOADING:
       return {

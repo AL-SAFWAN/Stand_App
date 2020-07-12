@@ -3,13 +3,13 @@ import axios from 'axios'
 
 export const loadUsersActivity = (dispatch) => {
 
-    dispatch(() => { loadUsers(dispatch) })
+    // dispatch(() => { loadUsers(dispatch) })
 
     const activeUsers = []
     const neutralUsers = []
     const blockedUsers = []
     axios.get("/api/auth/users").then((req, res) => {   
-          console.log("FROM SERVER - CHECKING THE DATA ", req.data)
+       
         const users = req.data.users
         var userCnt = 0;
         users.forEach(user => {
@@ -52,7 +52,6 @@ export const loadUsersActivity = (dispatch) => {
         
 
     })
-console.log("-=-=USERS-=-=",activeUsers,neutralUsers,blockedUsers)
 
 }
 

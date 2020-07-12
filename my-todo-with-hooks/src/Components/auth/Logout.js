@@ -5,7 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 import { logout } from "../../action/authAction";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Chip from "@material-ui/core/Chip";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 const useStyles = makeStyles(theme => ({
@@ -21,13 +21,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Logout() {
+export default function Logout({state}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const logOut = () => {
     logout(dispatch);
   };
-  const authed = useSelector(state => state.auth);
+  const authed =state.auth;
   const LogIcon = () => {
     if (authed.isAuthenticated) {
       return (

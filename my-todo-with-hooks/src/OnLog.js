@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+
 import UserDisplay from './Components/UserDisplay';
 import FrontPage from "./Components/auth/FrontPage";
 import RunningTodos from "./Components/RuningTodos";
 import Graph from "./Components/ActivityGraph/Graph"
 import Calander from './Components/Calander'
-export default function OnLog() {
+
+export default function OnLog({state}) {
   const [step, setStep] = useState(1);
-  const state = useSelector(state => state);
   useEffect(() => {
     console.log("is auth UPDATED to switch page")
 
     if (state.auth.isAuthenticated) {
       setStep(2)
     } else setStep(1)
+    
   }, [state.auth.isAuthenticated])
 
   const style = {
@@ -31,22 +32,22 @@ export default function OnLog() {
   // the activy page should be added about the todos
   switch (step) {
     case 1:
-      return (<FrontPage></FrontPage>)
+      return (<FrontPage state = {state}></FrontPage>)
     case 2:
       return (
         <React.Fragment>
 
           <div style={style.container}>
             <div style={style.item}>
-              <UserDisplay />
+              <UserDisplay state = {state}/>
             </div><div style={style.itemTwo}>
-              < Graph />
+              < Graph state = {state}/>
             </div>
           </div>
-          <RunningTodos></RunningTodos>
+          <RunningTodos state = {state}></RunningTodos>
     {/* add a calander here  */}
     <div style={style.Calander}>
-        <Calander/></div>
+        <Calander state = {state}/></div>
         </React.Fragment>
       )
 

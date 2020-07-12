@@ -10,7 +10,7 @@ export const returnErrors = (msg, status, id = null) => {
 export const returnErrorsOfItem = (dispatch, msg, status, todos, id,text) => {
   // adding back the item
   dispatch(() => setItemToAdd(dispatch, todos, id));
-  console.log(msg);
+
   //chnage the state
   dispatch({
     type: GET_ERRORS,

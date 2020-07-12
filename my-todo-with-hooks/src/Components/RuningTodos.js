@@ -5,10 +5,11 @@ import { loadItem, setItemToAdd } from "../action/itemActions";
 import Grid from "@material-ui/core/Grid";
 
 import { DragDropContext } from "react-beautiful-dnd";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import axios from "axios";
 import { tokenConfig } from "../action/authAction";
 import moment from 'moment'
+
 const useStyles = makeStyles(theme => ({
   root: {
     Width: 360,
@@ -40,14 +41,14 @@ const gridStyle = {
   }
 };
 
-  const todoDateObj = {
-    Yesterday: moment().subtract(1,"days").toDate(),
-    Today: new Date(),
-  };
+const todoDateObj = {
+  Yesterday: moment().subtract(1, "days"),
+  Today: moment(),
+  Blocker: moment()
+};
 
 const reOrder = (result, columns, dispatch, token) => {
   const { source, destination } = result;
-
   const copiedItems = [...columns];
   const [removed] = copiedItems.splice(source.index, 1);
   copiedItems.splice(destination.index, 0, removed);
@@ -69,7 +70,7 @@ const reOrder = (result, columns, dispatch, token) => {
 };
 
 const move = (result, sTodo, dTodo, dispatch, token) => {
- 
+
   const { source, destination } = result;
   const copiedItems = [...sTodo];
   const [pickedUp] = copiedItems.splice(source.index, 1);
@@ -88,15 +89,28 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
       }
     }
   });
+// problem witht the date being formated here 
+  pickedUp.createdAt= todoDateObj[destination.droppableId].format()
+  pickedUp.endAt= todoDateObj[destination.droppableId].add(2, "hours").format()
 
+
+  console.log( pickedUp.createdAt.toDate)
   const dCopyItems = [...dTodo];
   dCopyItems.splice(destination.index, 0, pickedUp);
   // update the date for the item
   axios.patch("/api/items/" + pickedUp.id, {
     id: pickedUp.id,
-    createdAt: todoDateObj[destination.droppableId]
-  }, token);
+    createdAt: pickedUp.createdAt,
+    endAt: pickedUp.endAt
+  }, token).then((res,req) => {
+    console.log('pathch call has been made', pickedUp)
+  });
 
+  // when i pick up the item and move it it updates the DB
+  //but what about the front end??????
+  // maybe i could edit the picked up item and used that 
+
+  //////////////
   dispatch(() => setItemToAdd(dispatch, dCopyItems, destination.droppableId));
   // maintain the order
   dCopyItems.forEach((item, index) => {
@@ -113,9 +127,9 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
   });
 };
 
-function RuningTodos() {
+function RuningTodos({state}) {
   const dispatch = useDispatch();
-  const state = useSelector(state => state);
+
   const token = tokenConfig(state);
 
   const onDragEnd = result => {
@@ -134,7 +148,7 @@ function RuningTodos() {
 
   useEffect(() => {
     dispatch(() => loadItem(dispatch, state.auth.user.id));
-  }, [dispatch, state.auth.user.id]);
+  }, []);
 
   const todoObj = {
     Yesterday: Yesterday,
@@ -156,13 +170,13 @@ function RuningTodos() {
           style={gridStyle.parent}
         >
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodoItems key={"y"} id={"Yesterday"} todos={Yesterday} ></RenderTodoItems>
+            <RenderTodoItems key={"y"} id={"Yesterday"} todos={Yesterday} state ={state} ></RenderTodoItems>
           </Grid>
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodoItems key={"t"} id={"Today"} todos={Today}></RenderTodoItems>
+            <RenderTodoItems key={"t"} id={"Today"} todos={Today} state ={state} ></RenderTodoItems>
           </Grid>
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodoItems key={"b"} id={"Blocker"} todos={Blocker}></RenderTodoItems>
+            <RenderTodoItems key={"b"} id={"Blocker"} todos={Blocker} state ={state}></RenderTodoItems>
           </Grid>
         </Grid>
       </div>

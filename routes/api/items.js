@@ -14,20 +14,26 @@ router.get("/user/:id", (req, res) => {
       var today =[]
       var yesterday = []
       var blocker = [] 
+      var beyoundYesturday = []
       items.forEach(item => {
 
-        const createdAt = moment(item.createdAt.toLocaleString('en-GB', { timeZone: 'UTC' }).substring(0,8), "MM/DD/YYYY")
+        const createdAt = moment(item.createdAt.toLocaleString('en-GB', { timeZone: 'UTC' }), "MM/DD/YYYY")
         const now = moment()
+        console.log(createdAt, createdAt.toDate(), now.toDate())
        if(item.name === "Blocker"){
          blocker.push(item)
-       }else {
-        if(now.diff(createdAt, "days") ==0){
-          today.push(item)
-        }else{
+       }else 
+       {
+        if(now.diff(createdAt, "days") >=2){
+          beyoundYesturday.push(item)
+        }else if(now.diff(createdAt, "days") ==1){
           yesterday.push(item)
-        }}
+        } else{
+          today.push(item)
+        }
+      }
       })
-     
+    
       const Today = today
         .map(val => {
           const item = {
@@ -36,11 +42,25 @@ router.get("/user/:id", (req, res) => {
             isCompleted: val.isCompleted,
             id: val.id,
             index: val.index,
-            createdAt: val.createdAt
+            createdAt: val.createdAt,
+            endAt: val.endAt
           };
           return item;
         })
         .sort((a, b) => a.index - b.index);
+
+       const BeyoundYesturday =  beyoundYesturday
+       .map(val => {
+        const item = {
+          text: val.text, 
+          isCompleted: val.isCompleted,
+          id: val.id,
+          index: val.index, 
+          createdAt: val.createdAt,
+          endAt: val.endAt
+        };
+        return item;
+      }).sort((a, b) => a.index - b.index);
 
       const Yesterday = yesterday
         .map(val => {
@@ -49,7 +69,8 @@ router.get("/user/:id", (req, res) => {
             isCompleted: val.isCompleted,
             id: val.id,
             index: val.index, 
-            createdAt: val.createdAt
+            createdAt: val.createdAt,
+            endAt: val.endAt
           };
           return item;
         })
@@ -62,7 +83,8 @@ router.get("/user/:id", (req, res) => {
             isCompleted: val.isCompleted,
             id: val.id,
             index: val.index,
-            createdAt: val.createdAt
+            createdAt: val.createdAt,
+            endAt: val.endAt
           };
           return item;
         })
@@ -72,7 +94,8 @@ router.get("/user/:id", (req, res) => {
         Items: {
           Yesterday,
           Today,
-          Blocker
+          Blocker, 
+          BeyoundYesturday
         }
       };
       return res.json(itemObj);
@@ -97,10 +120,10 @@ router.delete("/:id", auth, (req, res) => {
 
 router.patch("/:id", auth, (req, res) => {
   const id = { id: req.body.id };
-  console.log(req.body, id)
   models.Item.update(req.body, { where: id })
-    .then(() => res.json({ success: true }))
-    .catch(err => res.status(404).json({ success: false }));
+    .then((item) => { 
+      res.json(item)})
+    .catch(err => res.status(404).json({ msg: false }));
 });
 
 module.exports = router;

@@ -8,7 +8,7 @@ import "./front.css";
 import UserForm from "./UserForm";
 import Login from './Login'
 import { login } from '../../action/authAction'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,10 +48,9 @@ const gridStyle = {
   }
 };
 
-export default function FrontPage() {
+export default function FrontPage({state}) {
 
   const dispatch = useDispatch()
-  const state = useSelector(state => state);
 
   const [Step, setStep] = useState(1);
 
