@@ -5,7 +5,7 @@ import { loadItem, setItemToAdd } from "../action/itemActions";
 import Grid from "@material-ui/core/Grid";
 
 import { DragDropContext } from "react-beautiful-dnd";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { tokenConfig } from "../action/authAction";
 import moment from 'moment'
@@ -89,12 +89,10 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
       }
     }
   });
-// problem witht the date being formated here 
-  pickedUp.createdAt= todoDateObj[destination.droppableId].format()
-  pickedUp.endAt= todoDateObj[destination.droppableId].add(2, "hours").format()
-
-
-  console.log( pickedUp.createdAt.toDate)
+  // problem witht the date being formated here 
+  pickedUp.createdAt = todoDateObj[destination.droppableId].format()
+  pickedUp.endAt = todoDateObj[destination.droppableId].add(2, "hours").format()
+  console.log(pickedUp.createdAt)
   const dCopyItems = [...dTodo];
   dCopyItems.splice(destination.index, 0, pickedUp);
   // update the date for the item
@@ -102,7 +100,7 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
     id: pickedUp.id,
     createdAt: pickedUp.createdAt,
     endAt: pickedUp.endAt
-  }, token).then((res,req) => {
+  }, token).then((res, req) => {
     console.log('pathch call has been made', pickedUp)
   });
 
@@ -127,9 +125,8 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
   });
 };
 
-function RuningTodos({state}) {
+function RuningTodos({ state }) {
   const dispatch = useDispatch();
-
   const token = tokenConfig(state);
 
   const onDragEnd = result => {
@@ -144,7 +141,7 @@ function RuningTodos({state}) {
     }
   };
 
-  const { Yesterday, Today, Blocker } = state.item;
+  const { Yesterday, Today, Blocker, BeyoundYesturday } = state.item;
 
   useEffect(() => {
     dispatch(() => loadItem(dispatch, state.auth.user.id));
@@ -153,7 +150,8 @@ function RuningTodos({state}) {
   const todoObj = {
     Yesterday: Yesterday,
     Today: Today,
-    Blocker: Blocker
+    Blocker: Blocker,
+    BeyoundYesturday: BeyoundYesturday
   }
 
   const classes = useStyles();
@@ -169,15 +167,17 @@ function RuningTodos({state}) {
           alignItems="flex-start"
           style={gridStyle.parent}
         >
+  
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodoItems key={"y"} id={"Yesterday"} todos={Yesterday} state ={state} ></RenderTodoItems>
+            <RenderTodoItems key={"y"} id={"Yesterday"} todos={Yesterday} state={state} ></RenderTodoItems>
           </Grid>
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodoItems key={"t"} id={"Today"} todos={Today} state ={state} ></RenderTodoItems>
+            <RenderTodoItems key={"t"} id={"Today"} todos={Today} state={state} ></RenderTodoItems>
           </Grid>
           <Grid item xs={3} style={gridStyle.child}>
-            <RenderTodoItems key={"b"} id={"Blocker"} todos={Blocker} state ={state}></RenderTodoItems>
+            <RenderTodoItems key={"b"} id={"Blocker"} todos={Blocker} state={state}></RenderTodoItems>
           </Grid>
+
         </Grid>
       </div>
     </DragDropContext>

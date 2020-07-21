@@ -7,8 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import GanttChart from '../ganttChart'
+
 import { setItemToAdd } from "../../action/itemActions";
+import GanttChart from '../ganttChart'
 import Grid from '@material-ui/core/Grid';
 import {
   IconButton,
@@ -16,17 +17,15 @@ import {
   Button,
 } from "@material-ui/core";
 import axios from "axios";
+
 export default function DateTimePicker({ todo, todos,token }) {
   
 
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false);
-  console.log(moment(todo.createdAt).local().format("YYYY-MM-DDThh:mm"))
-  const [value, setValue] = useState(moment(todo.createdAt).local().format("YYYY-MM-DDThh:mm") );
-  const [valueEnd, setValueEnd] = useState(moment(todo.endAt).local().format("YYYY-MM-DDThh:mm"));
-
-
-  console.log("d/t picker =>", todo, value)
+  // console.log(moment(todo.createdAt).local().format("YYYY-MM-DDTHH:mm"))
+  const [value, setValue] = useState(moment(todo.createdAt).local().format("YYYY-MM-DDTHH:mm") );
+  const [valueEnd, setValueEnd] = useState(moment(todo.endAt).local().format("YYYY-MM-DDTHH:mm"));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,24 +34,32 @@ export default function DateTimePicker({ todo, todos,token }) {
   const handleClose = () => {
     setOpen(false);
   };
+  const setUpdatedValue =(value,at) => {
+    if(at == "createdAt"){ 
+      todo.createdAt = value
+      setValue(value)
+    } else{
+      todo.endAt = value
+      setValueEnd(value)
+    }
+  } 
+
   const handleDone = () => {
+    // array manipulation for 
     const copiedTodo = todo;
     var index = todos.indexOf(todo)
     copiedTodo.createdAt = moment(value.substring(0, 16)).format()
-    console.log(copiedTodo.createdAt)
     copiedTodo.endAt = moment(valueEnd.substring(0, 16)).format()
     const copiedItems = [...todos]
     copiedItems.splice(index, 1, copiedTodo)
+    // update the backend then re-render
     dispatch(() => setItemToAdd(dispatch, copiedItems, todo.name));
-    console.log( copiedTodo)
     axios.patch("/api/items/" + copiedTodo.id, {
       id: copiedTodo.id,
       createdAt: copiedTodo.createdAt,
       endAt: copiedTodo.endAt
     }, token)
   }
-
-  
 
   return (
     <React.Fragment>
@@ -76,7 +83,7 @@ export default function DateTimePicker({ todo, todos,token }) {
                 label="start"
                 type="datetime-local"
                 value={value}
-                onChange={e => setValue(e.target.value)}
+                onChange={e => setUpdatedValue(e.target.value, "createdAt")}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -86,7 +93,7 @@ export default function DateTimePicker({ todo, todos,token }) {
                 label="end"
                 type="datetime-local"
                 value={valueEnd}
-                onChange={e => setValueEnd(e.target.value)}
+                onChange={e => setUpdatedValue(e.target.value, "endAt")}
                 InputLabelProps={{
                   shrink: true,
                 }}

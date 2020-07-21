@@ -1,54 +1,139 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
+import { useDispatch } from 'react-redux'
 import moment from "moment";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "./style.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
+import axios from "axios";
+import { setItemToAdd } from "../../action/itemActions";
+import { tokenConfig } from '../../action/authAction'
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
 
- const ItemToEvent = (item) => {
-    const event = {
-      id: item.id,
-      start: moment(item.createdAt).local().toDate(),
-      end: moment(item.endAt).local().toDate(),
-      title: item.text
-    }
-     return event
+const ItemToEvent = (item) => {
+  const event = {
+    id: item.id,
+    name: item.name,
+    start: moment(item.createdAt).local().toDate(),
+    end: moment(item.endAt).local().toDate(),
+    title: item.text
   }
+  return event
+}
 
-export default function App({state}) {
+export default function App({ state }) {
+
+  const dispatch = useDispatch()
+  const token = tokenConfig(state)
   const [events, setEvents] = useState([])
-  console.log("events :calander -> ", events)
+
+  // bind the items together 
   const items = state.item
   const { Yesterday, Today, Blocker, BeyoundYesturday } = items
-  var cominedItems = [Yesterday, Today, Blocker, BeyoundYesturday]
+  var combinedItems = [Yesterday, Today, Blocker, BeyoundYesturday]
 
 
-  
-  const loadItems= (cominedItems)=> {
+  // loading the evented items 
+  const loadItems = (cominedItems) => {
     var array = []
     cominedItems.forEach(day => {
-    day.forEach(item => {
-     const event = ItemToEvent(item)
-    array.push(event)
-    })
-  });
+      day.forEach(item => {
+        const event = ItemToEvent(item)
+        array.push(event)
+      })
+    });
     setEvents(array)
   }
 
-  useEffect(()=> loadItems(cominedItems), [state])
+  useEffect(() => loadItems(combinedItems), [state])
+
+  const date = (date) => {
+    const now = moment()
+    const diff = now.diff(moment(date), "days")
+    if (diff >= 2) {
+      return "BeyoundYesturday"
+    } else if (diff == 1) {
+      return "Yesterday"
+    } else {
+      return "Today"
+    }
+  }
+
+
+
+  const update = (copiedItems, copiedTodo) => {
+    dispatch(() => setItemToAdd(dispatch, copiedItems, copiedTodo.name));
+
+    axios.patch("/api/items/" + copiedTodo.id, {
+      id: copiedTodo.id,
+      createdAt: copiedTodo.createdAt,
+      endAt: copiedTodo.endAt,
+      name: copiedTodo.name
+    }, token)
+  }
 
   const onEventResize = (data) => {
-    console.log(data)
-    const { start, end } = data;
+    const { start, end, event } = data;
+    console.log(event.id,items[event.name] )
+    console.log(items[event.name].filter((todo) => todo.id == event.id))
+    // finding the todo that was picked up, based from then event name passed in orginally 
+    const [copiedTodo] = items[event.name].filter((todo) => todo.id == event.id)
+  
+
+    // index picked up based from the event 
+    const index = items[event.name].indexOf(copiedTodo)
+
+    
+    copiedTodo.createdAt = start
+    copiedTodo.endAt = end
+
+    const copiedItems = [...items[event.name]]
+
+    copiedItems.splice(index, 1, copiedTodo)
+
+    update(copiedItems, copiedTodo)
+
   };
 
   const onEventDrop = (data) => {
-    console.log(data);
+    
+    // need to handle the change in array of the weeks and months 
+    const { start, end, event } = data;
+
+    // this is based on the desination 
+    var name = date(start)
+   
+
+    // finding the todo that was picked up, based from then event name passed in orginally 
+    const copyS = [...items[event.name]]
+   // problem could happen because of this ^
+    const [theCopiedTodo] = copyS.filter((todo, index) => {
+      if (todo.id == event.id) {
+        copyS.splice(index, 1)
+        return true
+      }
+    })
+     if(name == theCopiedTodo.name) {
+      onEventResize(data)
+     }
+     else{
+
+    update(copyS, theCopiedTodo)
+      console.log(theCopiedTodo)
+    theCopiedTodo.createdAt = moment(start).format()
+    theCopiedTodo.endAt = moment(end).format()
+    theCopiedTodo.name = name
+
+    const copyD = items[theCopiedTodo.name]
+    copyD.splice(0,0,theCopiedTodo)
+
+    update(copyD, theCopiedTodo)
+
+}
   };
+
 
 
   return (

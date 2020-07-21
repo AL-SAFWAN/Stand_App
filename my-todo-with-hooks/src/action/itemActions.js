@@ -6,7 +6,9 @@ import {
   DELETE_ITEM_Y,
   SET_ITEM_Y,
   SET_ITEM_T,
-  SET_ITEM_B
+  SET_ITEM_B,
+  DELETE_ITEM_BY,
+  SET_ITEM_BY
 } from "./type";
 import axios from "axios";
 import {tokenConfig} from './authAction'
@@ -42,6 +44,10 @@ export const setItemToDelete = (dispatch, index, name) => {
     Blocker: {
       type: DELETE_ITEM_B,
       index
+    }, 
+    BeyoundYesturday:{
+      type: DELETE_ITEM_BY,
+      index
     }
   };
   dispatch(names[name]);
@@ -60,7 +66,12 @@ export const setItemToAdd = (dispatch, newTodos, name) => {
     Blocker: {
       type: SET_ITEM_B,
       newTodos
+    },  
+     BeyoundYesturday:{
+      type: SET_ITEM_BY,
+      newTodos
     }
+
   };
   dispatch(names[name]);
 };

@@ -5,10 +5,12 @@ export const LOAD = "LOAD";
 export const DELETE_ITEM_Y = "DELETE_ITEM_Y"
 export const DELETE_ITEM_T = "DELETE_ITEM_T"
 export const DELETE_ITEM_B = "DELETE_ITEM_B"
+export const DELETE_ITEM_BY = "DELETE_ITEM_BY"
 
 export const SET_ITEM_Y = "SET_ITEM_Y"
 export const SET_ITEM_T = "SET_ITEM_T"
 export const SET_ITEM_B = "SET_ITEM_B"
+export const SET_ITEM_BY = "SET_ITEM_BY"
 
 export const USER_LOADING ="USER_LOADING" 
 export const USER_LOADED="USER_LOADED"

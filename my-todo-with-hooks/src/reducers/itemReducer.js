@@ -6,7 +6,9 @@ import {
   DELETE_ITEM_B,
   SET_ITEM_Y,
   SET_ITEM_T,
-  SET_ITEM_B
+  SET_ITEM_B,
+  SET_ITEM_BY,
+  DELETE_ITEM_BY
 } from "../action/type";
 
 const initialState = {
@@ -54,6 +56,12 @@ export default function(state = initialState, action) {
         Blocker: state.Blocker.filter((item, index) => index !== action.index)
       };
 
+      case DELETE_ITEM_BY:
+      return {
+        ...state,
+        BeyoundYesturday: state.BeyoundYesturday.filter((item, index) => index !== action.index)
+      };
+
     case SET_ITEM_Y:
       return {
         ...state,
@@ -69,6 +77,11 @@ export default function(state = initialState, action) {
         ...state,
         Blocker: action.newTodos
       };
+    case SET_ITEM_BY:
+        return {
+          ...state,
+          BeyoundYesturday: action.newTodos
+        };
 
     default:
       return state;

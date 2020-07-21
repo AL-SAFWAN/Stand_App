@@ -25,10 +25,13 @@ router.get("/user/:id", (req, res) => {
        }else 
        {
         if(now.diff(createdAt, "days") >=2){
+          item.name = "BeyoundYesturday"
           beyoundYesturday.push(item)
         }else if(now.diff(createdAt, "days") ==1){
+          item.name ="Yesterday"
           yesterday.push(item)
         } else{
+          item.name ="Today"
           today.push(item)
         }
       }
@@ -52,6 +55,7 @@ router.get("/user/:id", (req, res) => {
        const BeyoundYesturday =  beyoundYesturday
        .map(val => {
         const item = {
+          name: val.name,
           text: val.text, 
           isCompleted: val.isCompleted,
           id: val.id,
@@ -65,6 +69,7 @@ router.get("/user/:id", (req, res) => {
       const Yesterday = yesterday
         .map(val => {
           const item = {
+            name: val.name,
             text: val.text, 
             isCompleted: val.isCompleted,
             id: val.id,
@@ -79,6 +84,7 @@ router.get("/user/:id", (req, res) => {
       const Blocker = blocker
         .map(val => {
           const item = {
+            name: val.name,
             text: val.text,
             isCompleted: val.isCompleted,
             id: val.id,
