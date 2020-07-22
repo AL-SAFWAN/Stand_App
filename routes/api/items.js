@@ -15,11 +15,13 @@ router.get("/user/:id", (req, res) => {
       var yesterday = []
       var blocker = [] 
       var beyoundYesturday = []
+      var beyoundToday = []
       items.forEach(item => {
 
         const createdAt = moment(item.createdAt.toLocaleString('en-GB', { timeZone: 'UTC' }), "MM/DD/YYYY")
-        const now = moment()
-        console.log(createdAt, createdAt.toDate(), now.toDate())
+        const date = new Date
+        const now = moment(date.toDateString(),"ddd MMM DD YYYY")
+        console.log(createdAt, now, now.diff(createdAt, "days"))
        if(item.name === "Blocker"){
          blocker.push(item)
        }else 
@@ -30,9 +32,12 @@ router.get("/user/:id", (req, res) => {
         }else if(now.diff(createdAt, "days") ==1){
           item.name ="Yesterday"
           yesterday.push(item)
-        } else{
+        } else if (now.diff(createdAt, "days") ==0) {
           item.name ="Today"
           today.push(item)
+        }else{
+          item.name = "BeyoundToday"
+          beyoundToday.push(item)
         }
       }
       })
@@ -52,7 +57,21 @@ router.get("/user/:id", (req, res) => {
         })
         .sort((a, b) => a.index - b.index);
 
-       const BeyoundYesturday =  beyoundYesturday
+        const BeyoundYesturday =  beyoundYesturday
+        .map(val => {
+         const item = {
+           name: val.name,
+           text: val.text, 
+           isCompleted: val.isCompleted,
+           id: val.id,
+           index: val.index, 
+           createdAt: val.createdAt,
+           endAt: val.endAt
+         };
+         return item;
+       }).sort((a, b) => a.index - b.index);
+
+       const BeyoundToday =  beyoundToday
        .map(val => {
         const item = {
           name: val.name,
@@ -101,7 +120,8 @@ router.get("/user/:id", (req, res) => {
           Yesterday,
           Today,
           Blocker, 
-          BeyoundYesturday
+          BeyoundYesturday, 
+          BeyoundToday
         }
       };
       return res.json(itemObj);

@@ -8,7 +8,9 @@ import {
   SET_ITEM_T,
   SET_ITEM_B,
   DELETE_ITEM_BY,
-  SET_ITEM_BY
+  SET_ITEM_BY,
+  DELETE_ITEM_BT,
+  SET_ITEM_BT
 } from "./type";
 import axios from "axios";
 import {tokenConfig} from './authAction'
@@ -26,7 +28,8 @@ export const loadItem = (dispatch,id) => {
       Yesterday: res.data.Items.Yesterday,
       Today: res.data.Items.Today,
       Blocker: res.data.Items.Blocker,
-      BeyoundYesturday :res.data.Items.BeyoundYesturday
+      BeyoundYesturday :res.data.Items.BeyoundYesturday,
+      BeyoundToday :res.data.Items.BeyoundToday,
     })
   }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));;
 };
@@ -47,6 +50,10 @@ export const setItemToDelete = (dispatch, index, name) => {
     }, 
     BeyoundYesturday:{
       type: DELETE_ITEM_BY,
+      index
+    },
+    BeyoundToday:{
+      type: DELETE_ITEM_BT,
       index
     }
   };
@@ -69,6 +76,10 @@ export const setItemToAdd = (dispatch, newTodos, name) => {
     },  
      BeyoundYesturday:{
       type: SET_ITEM_BY,
+      newTodos
+    },
+    BeyoundToday:{
+      type: SET_ITEM_BT,
       newTodos
     }
 

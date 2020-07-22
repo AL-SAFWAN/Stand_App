@@ -141,7 +141,7 @@ function RuningTodos({ state }) {
     }
   };
 
-  const { Yesterday, Today, Blocker, BeyoundYesturday } = state.item;
+  const { Yesterday, Today, Blocker, BeyoundYesturday, BeyoundToday } = state.item;
 
   useEffect(() => {
     dispatch(() => loadItem(dispatch, state.auth.user.id));
@@ -151,7 +151,8 @@ function RuningTodos({ state }) {
     Yesterday: Yesterday,
     Today: Today,
     Blocker: Blocker,
-    BeyoundYesturday: BeyoundYesturday
+    BeyoundYesturday: BeyoundYesturday,
+    BeyoundToday: BeyoundToday
   }
 
   const classes = useStyles();

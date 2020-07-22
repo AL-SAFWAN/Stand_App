@@ -8,18 +8,21 @@ import {
   SET_ITEM_T,
   SET_ITEM_B,
   SET_ITEM_BY,
-  DELETE_ITEM_BY
+  DELETE_ITEM_BY,
+  SET_ITEM_BT,
+  DELETE_ITEM_BT
 } from "../action/type";
 
 const initialState = {
   Yesterday: [],
   Today: [],
   Blocker: [],
-  BeyoundYesturday:[],
+  BeyoundYesturday: [],
+  BeyoundToday: [],
   onLoad: false
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case LOAD_ITEMS:
       return {
@@ -28,6 +31,7 @@ export default function(state = initialState, action) {
         Today: action.Today,
         Blocker: action.Blocker,
         BeyoundYesturday: action.BeyoundYesturday,
+        BeyoundToday: action.BeyoundToday,
         onLoad: false
       };
     case LOAD:
@@ -56,10 +60,15 @@ export default function(state = initialState, action) {
         Blocker: state.Blocker.filter((item, index) => index !== action.index)
       };
 
-      case DELETE_ITEM_BY:
+    case DELETE_ITEM_BY:
       return {
         ...state,
         BeyoundYesturday: state.BeyoundYesturday.filter((item, index) => index !== action.index)
+      };
+    case DELETE_ITEM_BT:
+      return {
+        ...state,
+        BeyoundToday: state.BeyoundToday.filter((item, index) => index !== action.index)
       };
 
     case SET_ITEM_Y:
@@ -78,10 +87,15 @@ export default function(state = initialState, action) {
         Blocker: action.newTodos
       };
     case SET_ITEM_BY:
-        return {
-          ...state,
-          BeyoundYesturday: action.newTodos
-        };
+      return {
+        ...state,
+        BeyoundYesturday: action.newTodos
+      };
+    case SET_ITEM_BT:
+      return {
+        ...state,
+        BeyoundToday: action.newTodos
+      };
 
     default:
       return state;

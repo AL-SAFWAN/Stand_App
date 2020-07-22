@@ -31,8 +31,8 @@ export default function App({ state }) {
 
   // bind the items together 
   const items = state.item
-  const { Yesterday, Today, Blocker, BeyoundYesturday } = items
-  var combinedItems = [Yesterday, Today, Blocker, BeyoundYesturday]
+  const { Yesterday, Today, Blocker, BeyoundYesturday, BeyoundToday } = items
+  var combinedItems = [Yesterday, Today, Blocker, BeyoundYesturday, BeyoundToday]
 
 
   // loading the evented items 
@@ -50,14 +50,18 @@ export default function App({ state }) {
   useEffect(() => loadItems(combinedItems), [state])
 
   const date = (date) => {
-    const now = moment()
-    const diff = now.diff(moment(date), "days")
+    const ndate = new Date
+    const now = moment(ndate.toDateString(),"ddd MMM DD YYYY")
+    const diff = now.diff(moment(date, "MM/DD/YYYY"), "days")
+    console.log(diff)
     if (diff >= 2) {
       return "BeyoundYesturday"
     } else if (diff == 1) {
       return "Yesterday"
-    } else {
+    } else if (diff ==0){
       return "Today"
+    }else{
+      return "BeyoundToday"
     }
   }
 
