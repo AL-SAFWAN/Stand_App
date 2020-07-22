@@ -52,11 +52,16 @@ export default function App({ state }) {
   const date = (date) => {
     const ndate = new Date
     const now = moment(ndate.toDateString(),"ddd MMM DD YYYY")
-    const diff = now.diff(moment(date, "MM/DD/YYYY"), "days")
-    console.log(diff)
+
+    const start = moment(date, "MM/DD/YYYY")
+    const diff = now.diff(start, "days")
+
+    console.log( now.toDate(),start.toDate(), diff)
+
     if (diff >= 2) {
       return "BeyoundYesturday"
     } else if (diff == 1) {
+
       return "Yesterday"
     } else if (diff ==0){
       return "Today"
@@ -107,7 +112,7 @@ export default function App({ state }) {
     const { start, end, event } = data;
 
     // this is based on the desination 
-    var name = date(start)
+    var name = date(moment(start).format("MM/DD/YYYY"))
    
 
     // finding the todo that was picked up, based from then event name passed in orginally 
