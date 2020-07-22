@@ -91,7 +91,7 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
   });
   // problem witht the date being formated here 
   pickedUp.createdAt = todoDateObj[destination.droppableId].format()
-  pickedUp.endAt = todoDateObj[destination.droppableId].add(2, "hours").format()
+  pickedUp.endAt = todoDateObj[destination.droppableId].format()
   console.log(pickedUp.createdAt)
   const dCopyItems = [...dTodo];
   dCopyItems.splice(destination.index, 0, pickedUp);

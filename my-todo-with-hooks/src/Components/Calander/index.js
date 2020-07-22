@@ -124,7 +124,7 @@ export default function App({ state }) {
         return true
       }
     })
-     if(name == theCopiedTodo.name) {
+     if(name == theCopiedTodo.name ) {
       onEventResize(data)
      }
      else{
@@ -133,7 +133,10 @@ export default function App({ state }) {
       console.log(theCopiedTodo)
     theCopiedTodo.createdAt = moment(start).format()
     theCopiedTodo.endAt = moment(end).format()
-    theCopiedTodo.name = name
+    
+       theCopiedTodo.name = name
+    
+   
 
     const copyD = items[theCopiedTodo.name]
     copyD.splice(0,0,theCopiedTodo)
