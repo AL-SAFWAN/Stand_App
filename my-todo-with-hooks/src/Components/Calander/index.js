@@ -54,6 +54,7 @@ export default function App({ state }) {
     const now = moment(ndate.toDateString(),"ddd MMM DD YYYY")
 
     const start = moment(date, "MM/DD/YYYY")
+    
     const diff = now.diff(start, "days")
 
     console.log( now.toDate(),start.toDate(), diff)

@@ -18,21 +18,23 @@ router.get("/user/:id", (req, res) => {
       var beyoundToday = []
       items.forEach(item => {
 
-        const createdAt = moment(item.createdAt.toLocaleString('en-GB', { timeZone: 'UTC' }), "MM/DD/YYYY")
+        const createdAt = moment(item.createdAt).format("MM/DD/YYYY")
         const date = new Date
         const now = moment(date.toDateString(),"ddd MMM DD YYYY")
-        console.log(createdAt, now, now.diff(createdAt, "days"))
+        const diff = now.diff(moment(createdAt),"days" )
+        console.log(createdAt, now, diff)
+
        if(item.name === "Blocker"){
          blocker.push(item)
        }else 
        {
-        if(now.diff(createdAt, "days") >=2){
+        if(diff >=2){
           item.name = "BeyoundYesturday"
           beyoundYesturday.push(item)
-        }else if(now.diff(createdAt, "days") ==1){
+        }else if(diff ==1){
           item.name ="Yesterday"
           yesterday.push(item)
-        } else if (now.diff(createdAt, "days") ==0) {
+        } else if (diff ==0) {
           item.name ="Today"
           today.push(item)
         }else{

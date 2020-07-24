@@ -41,11 +41,7 @@ const gridStyle = {
   }
 };
 
-const todoDateObj = {
-  Yesterday: moment().subtract(1, "days"),
-  Today: moment(),
-  Blocker: moment()
-};
+
 
 const reOrder = (result, columns, dispatch, token) => {
   const { source, destination } = result;
@@ -89,9 +85,41 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
       }
     }
   });
-  // problem witht the date being formated here 
-  pickedUp.createdAt = todoDateObj[destination.droppableId].format()
-  pickedUp.endAt = todoDateObj[destination.droppableId].format()
+
+
+  const adjustTimingAtStart =( result, todo )=> {
+    const {createdAt} = todo
+    const cameFrom = result.source.droppableId
+    const goingTo = result.destination.droppableId
+    var time = moment(createdAt).format()
+    if(cameFrom =="Yesterday" && (goingTo == "Today" || goingTo == "Blocker")){
+     time =  moment(createdAt).add(1, "days").format()
+    }
+    if(goingTo =="Yesterday" && (cameFrom == "Today" || cameFrom == "Blocker")){
+      time = moment(createdAt).subtract(1, "days").format()
+    }
+    return time
+  }
+  const adjustTimingAtEnd =( result, todo )=> {
+    const {endAt} = todo
+    const cameFrom = result.source.droppableId
+    const goingTo = result.destination.droppableId
+    var time = moment(endAt).format()
+
+    if(cameFrom =="Yesterday" && (goingTo == "Today" || goingTo == "Blocker")){
+      time = moment(endAt).add(1, "days").format()
+    }
+    if(goingTo =="Yesterday" && (cameFrom == "Today" || cameFrom == "Blocker")){
+      time = moment(endAt).subtract(1, "days").format()
+    }
+    return time
+  }
+
+  // Error of the time chaning is here
+  pickedUp.createdAt =adjustTimingAtStart(result, pickedUp)
+  pickedUp.endAt = adjustTimingAtEnd(result, pickedUp)
+  // pickedUp.name = destination.droppableId
+  
   console.log(pickedUp.createdAt)
   const dCopyItems = [...dTodo];
   dCopyItems.splice(destination.index, 0, pickedUp);
@@ -101,7 +129,7 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
     createdAt: pickedUp.createdAt,
     endAt: pickedUp.endAt
   }, token).then((res, req) => {
-    console.log('pathch call has been made', pickedUp)
+    console.log('pathch call has been made',pickedUp)
   });
 
   // when i pick up the item and move it it updates the DB
@@ -132,7 +160,6 @@ function RuningTodos({ state }) {
   const onDragEnd = result => {
     const { source, destination } = result;
     if (!result.destination) return;
-    console.log(result)
     if (source.droppableId === destination.droppableId) {
       reOrder(result, todoObj[source.droppableId], dispatch, token);
     } else {
