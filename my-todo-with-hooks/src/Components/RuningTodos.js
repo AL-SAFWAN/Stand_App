@@ -118,7 +118,7 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
   // Error of the time chaning is here
   pickedUp.createdAt =adjustTimingAtStart(result, pickedUp)
   pickedUp.endAt = adjustTimingAtEnd(result, pickedUp)
-  // pickedUp.name = destination.droppableId
+  pickedUp.name = destination.droppableId
   
   console.log(pickedUp.createdAt)
   const dCopyItems = [...dTodo];
