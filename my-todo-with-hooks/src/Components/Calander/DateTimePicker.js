@@ -35,7 +35,7 @@ export default function DateTimePicker({ todo, todos,token }) {
     setOpen(false);
   };
   const setUpdatedValue =(value,at) => {
-    if(at == "createdAt"){ 
+    if(at === "createdAt"){ 
       todo.createdAt = value
       setValue(value)
     } else{

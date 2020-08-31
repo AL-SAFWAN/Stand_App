@@ -1,10 +1,7 @@
-import React,{useState, useEffect} from 'react'
+import React,{ useEffect} from 'react'
 import "./Activity.css"
-import color from '@material-ui/core/colors/amber';
-import { green } from '@material-ui/core/colors';
-import axios from "axios"
 import { useDispatch } from "react-redux";
-import {loadUsersActivity, updateUsers} from "../action/userActivityAction"
+import {loadUsersActivity} from "../action/userActivityAction"
 
 export default function ActivityGraph({state}) {
     const dispatch = useDispatch();

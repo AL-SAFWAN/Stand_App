@@ -13,7 +13,6 @@ import {
   SET_ITEM_BT
 } from "./type";
 import axios from "axios";
-import {tokenConfig} from './authAction'
 import { returnErrors } from "./errorAction";
 
 

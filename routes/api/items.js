@@ -19,7 +19,7 @@ router.get("/user/:id", (req, res) => {
       items.forEach(item => {
 
         const createdAt = moment(item.createdAt).format("MM/DD/YYYY")
-        const date = new Date
+        const date = new Date()
         const now = moment(date.toDateString(),"ddd MMM DD YYYY")
         const diff = now.diff(moment(createdAt),"days" )
         console.log(createdAt, now, diff)

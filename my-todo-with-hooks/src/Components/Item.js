@@ -4,26 +4,24 @@ import {
   ListItemIcon,
   ListItemText,
   Checkbox,
-  ListItemSecondaryAction,
   IconButton,
-  Icon,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { setItemToDelete, loading } from "../action/itemActions";
 import { returnErrorsOfItem, returnErrors } from "../action/errorAction";
+import {loadNote, setOpenNote} from '../action/noteAction'
 import axios from "axios";
 import { useDispatch } from "react-redux";
-
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import DateTimePicker from './Calander/DateTimePicker'
-
 function Item({ id, todos, todo, index, classes, token }) {
+
 
   // local stores
   const dispatch = useDispatch();
   const labelId = `checkbox-list-label-${index}`;
   const [check, setCheck] = useState(todo.isCompleted);
   const [clicked, setClicked] = useState(false);
-
   //functionailty of the item
   const checkStyle = done => {
     var colorStyle = {};
@@ -50,9 +48,13 @@ function Item({ id, todos, todo, index, classes, token }) {
     todos[index].isCompleted = checking;
   };
   const deleteTodo = () => {
+    
+    setOpenNote(dispatch, false) 
+
     setClicked(true);
     const newTodos = [...todos];
     newTodos.splice(index, 1);
+    // also need to delete the notes, then remove it from the front end 
     axios.delete("/api/items/" + todo.id, token).catch(err => {
       dispatch(() =>
         returnErrorsOfItem(
@@ -72,6 +74,9 @@ function Item({ id, todos, todo, index, classes, token }) {
     return <div className="todo">{todo.text}</div>;
   };
 
+  const openNotes =()=>{
+    dispatch(()=>{loadNote(dispatch,todo)})
+  }
   return (
     <ListItem
       className={classes.root}
@@ -98,7 +103,13 @@ function Item({ id, todos, todo, index, classes, token }) {
         style={checkStyle(check)}
       />
       <DateTimePicker todo = {todo} todos = {todos} token = {token}/>
-    
+      <IconButton
+      edge="end"
+      aria-label="comments"
+      onClick={openNotes}>
+      <NoteAddIcon />
+      </IconButton>
+
       <IconButton
         edge="end"
         aria-label="comments"

@@ -4,8 +4,9 @@ import { loadUser } from "./action/authAction";
 import { clearErrors } from "./action/errorAction";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import MenuBar from "../src/Components/auth/Logout";
+import MenuBar from "../src/Components/auth/Bar";
 import OnLog from './OnLog'
+import Bar from './Components/Bar'
 
 function App() {
 
@@ -20,9 +21,14 @@ console.log(state)
   return (
     <React.Fragment>
       {/* This is the top bar menu  */}
-      <MenuBar state = {state}></MenuBar>
+
+      {/* <MenuBar state = {state}></MenuBar> */}
+      <Bar state = {state } dispatch={dispatch}></Bar>
+
       {/* This handels the logging in  */}
       <OnLog state = {state}/>
+
+      
 
       {/* This displays all the errors */}
       <Snackbar

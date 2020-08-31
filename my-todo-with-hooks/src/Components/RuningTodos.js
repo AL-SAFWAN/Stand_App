@@ -87,39 +87,39 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
   });
 
 
-  const adjustTimingAtStart =( result, todo )=> {
-    const {createdAt} = todo
+  const adjustTimingAtStart = (result, todo) => {
+    const { createdAt } = todo
     const cameFrom = result.source.droppableId
     const goingTo = result.destination.droppableId
     var time = moment(createdAt).format()
-    if(cameFrom =="Yesterday" && (goingTo == "Today" || goingTo == "Blocker")){
-     time =  moment(createdAt).add(1, "days").format()
+    if (cameFrom === "Yesterday" && (goingTo === "Today" || goingTo === "Blocker")) {
+      time = moment(createdAt).add(1, "days").format()
     }
-    if(goingTo =="Yesterday" && (cameFrom == "Today" || cameFrom == "Blocker")){
+    if (goingTo === "Yesterday" && (cameFrom === "Today" || cameFrom === "Blocker")) {
       time = moment(createdAt).subtract(1, "days").format()
     }
     return time
   }
-  const adjustTimingAtEnd =( result, todo )=> {
-    const {endAt} = todo
+  const adjustTimingAtEnd = (result, todo) => {
+    const { endAt } = todo
     const cameFrom = result.source.droppableId
     const goingTo = result.destination.droppableId
     var time = moment(endAt).format()
 
-    if(cameFrom =="Yesterday" && (goingTo == "Today" || goingTo == "Blocker")){
+    if (cameFrom === "Yesterday" && (goingTo === "Today" || goingTo === "Blocker")) {
       time = moment(endAt).add(1, "days").format()
     }
-    if(goingTo =="Yesterday" && (cameFrom == "Today" || cameFrom == "Blocker")){
+    if (goingTo === "Yesterday" && (cameFrom === "Today" || cameFrom === "Blocker")) {
       time = moment(endAt).subtract(1, "days").format()
     }
     return time
   }
 
   // Error of the time chaning is here
-  pickedUp.createdAt =adjustTimingAtStart(result, pickedUp)
+  pickedUp.createdAt = adjustTimingAtStart(result, pickedUp)
   pickedUp.endAt = adjustTimingAtEnd(result, pickedUp)
   pickedUp.name = destination.droppableId
-  
+
   console.log(pickedUp.createdAt)
   const dCopyItems = [...dTodo];
   dCopyItems.splice(destination.index, 0, pickedUp);
@@ -129,7 +129,7 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
     createdAt: pickedUp.createdAt,
     endAt: pickedUp.endAt
   }, token).then((res, req) => {
-    console.log('pathch call has been made',pickedUp)
+    console.log('pathch call has been made', pickedUp)
   });
 
   // when i pick up the item and move it it updates the DB
@@ -195,7 +195,7 @@ function RuningTodos({ state }) {
           alignItems="flex-start"
           style={gridStyle.parent}
         >
-  
+          
           <Grid item xs={3} style={gridStyle.child}>
             <RenderTodoItems key={"y"} id={"Yesterday"} todos={Yesterday} state={state} ></RenderTodoItems>
           </Grid>

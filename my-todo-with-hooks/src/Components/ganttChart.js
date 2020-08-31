@@ -1,11 +1,12 @@
 import React from 'react'
 import Chart from 'react-google-charts'
 import moment from 'moment'
+
 export default function ganttChart({todo, todos}) {
 
 
   const  createEventsFromTodo= (todo)=>{
-    const {id, name , createdAt, endAt, isCompleted, text} = todo
+    const {id , createdAt, endAt, isCompleted, text} = todo
     const event = 
     [
       id,
@@ -14,7 +15,7 @@ export default function ganttChart({todo, todos}) {
       moment(createdAt).toDate(), 
       moment(endAt).toDate(), 
       null, 
-      isCompleted == true ? 100: 0, 
+      isCompleted === true ? 100: 0, 
       null
     ]
     return event

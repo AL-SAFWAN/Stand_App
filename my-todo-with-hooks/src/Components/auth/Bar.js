@@ -23,11 +23,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function Logout({state}) {
   const classes = useStyles();
+
   const dispatch = useDispatch();
+
   const logOut = () => {
     logout(dispatch);
   };
+  
   const authed =state.auth;
+
   const LogIcon = () => {
     if (authed.isAuthenticated) {
       return (
@@ -45,6 +49,7 @@ export default function Logout({state}) {
       );
     } else return "";
   };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">

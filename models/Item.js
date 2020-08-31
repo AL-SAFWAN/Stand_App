@@ -14,6 +14,7 @@ const Sequelize = require("sequelize");
 
 item.associate= models => {
   item.belongsTo(models.myUser, {foreignKey: "userId"})
+  item.hasOne(models.note)
 }
 
 module.exports = item;

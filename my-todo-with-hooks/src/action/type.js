@@ -27,4 +27,12 @@ export const GET_ERRORS="GET_ERRORS"
 export const CLEAR_ERRORS="CLEAR_ERRORS"
 
 export const GET_USER_ACTIVITY ="GET_USER_ACTIVITY"
-export const LOAD_USERS = "LOAD_USERS";
+export const LOAD_USERS = "LOAD_USERS"
+
+export const GET_NOTE = "GET_NOTE"
+export const SET_NOTE = "SET_NOTE"
+export const DELETE_NOTE = "DELETE_NOTE"
+export const LOAD_NOTE = "LOAD_NOTE"
+export const LOADED_NOTE = "LOADED_NOTE"    
+export const SET_NOTE_ID = "SET_NOTE_ID"
+export const CLEAR_NOTE = "CLEAR_NOTE"

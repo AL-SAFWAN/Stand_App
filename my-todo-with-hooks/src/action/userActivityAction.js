@@ -35,7 +35,7 @@ export const loadUsersActivity = (dispatch) => {
                     } else { neutralUsers.push({ name: user.name, done, notDone }) }
                 }
                 
-                if(users.length == userCnt){
+                if(users.length === userCnt){
                     dispatch({
             type: GET_USER_ACTIVITY,
             activeUsers,
