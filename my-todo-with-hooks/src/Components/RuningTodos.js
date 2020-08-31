@@ -27,8 +27,8 @@ const useStyles = makeStyles(theme => ({
 
 const gridStyle = {
   parent: {
-    margin: 5,
-    width: "99%",
+    margin: "auto",
+    width: "97vw",
     boxSizing: "border-box",
     borderRadius: 5,
     backgroundColor: "rgba(123, 151, 234, 0.19)",

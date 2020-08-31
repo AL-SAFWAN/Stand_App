@@ -2,8 +2,13 @@
 .App {
     text-align: center;
     height: 500px;
+    display: flex;
   }
-  
+  .Calendar{
+    margin: auto;
+    padding: 15px;
+  }
+
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
     height: 80px;

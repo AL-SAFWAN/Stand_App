@@ -9,6 +9,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import axios from "axios";
 import { setItemToAdd } from "../../action/itemActions";
 import { tokenConfig } from '../../action/authAction'
+import Support from '../Support'
+
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -18,7 +20,8 @@ const ItemToEvent = (item) => {
     name: item.name,
     start: moment(item.createdAt).local().toDate(),
     end: moment(item.endAt).local().toDate(),
-    title: item.text
+    title: <p style={item.isCompleted? {color: "lightgreen"}: {}}>{item.text}</p>,
+    style: item.isCompleted? {background: "lightgreen"}: {}
   }
   return event
 }
@@ -150,15 +153,17 @@ export default function App({ state }) {
   return (
     <div className="App">
       <DnDCalendar
+        className= "Calendar"
         defaultDate={moment().toDate()}
-        defaultView="day"
+        defaultView="week"
         events={events}
         localizer={localizer}
         onEventDrop={onEventDrop}
         onEventResize={onEventResize}
         resizable
-        style={{ height: "56vh" }}
+        style={{ height: "48vh", width:"48vw"}}
       />
+      <Support className="Calendar"/>
     </div>
   );
 

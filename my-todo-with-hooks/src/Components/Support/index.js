@@ -1,167 +1,129 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import { useDispatch } from 'react-redux'
 import moment from "moment";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import "./style.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import axios from "axios";
-import { setItemToAdd } from "../../action/itemActions";
-import { tokenConfig } from '../../action/authAction'
+import { green, lightBlue, yellow, red } from "@material-ui/core/colors";
+
+
+
 const localizer = momentLocalizer(moment);
-const DnDCalendar = withDragAndDrop(Calendar);
+
+var request = require('request');
+
 
 const ItemToEvent = (item) => {
+
+  const setColor = () =>{
+    
+    switch(item.priority){
+      case 1 :
+        return {color:"lightgreen"}
+      case 2 :
+        return{color: "lightBlue"}
+      case 3 :
+         return {color: "gold"} 
+      case 4:
+        return {color: "red"}
+    }
+  }
+  
+  const style = {
+    color: setColor
+  }
+  const url = "https://support.abehrdigital.com/a/tickets/"+ item.id
   const event = {
-    id: item.id,
-    name: item.name,
+  //   id: item.id,
+  //   name: item.name,
     start: moment(item.createdAt).local().toDate(),
-    end: moment(item.endAt).local().toDate(),
-    title: item.text
+    end: moment(item.createdAt).local().add(3,"hour").toDate(),
+    title: <a href={url} target="_blank" style = {setColor()}>{item.text}</a>
   }
   return event
 }
 
-export default function App({ state }) {
-  
 
-  const dispatch = useDispatch()
-  const token = tokenConfig(state)
+
+
+
+export default function App({className}) {
+  
   const [events, setEvents] = useState([])
 
-  // bind the items together 
-  const items = state.item
-  const { Yesterday, Today, Blocker, BeyoundYesturday, BeyoundToday } = items
-  var combinedItems = [Yesterday, Today, Blocker, BeyoundYesturday, BeyoundToday]
+  const [data, setData] = useState([])
 
 
   // loading the evented items 
-  const loadItems = (cominedItems) => {
-    var array = []
-    cominedItems.forEach(day => {
-      day.forEach(item => {
-        const event = ItemToEvent(item)
-        array.push(event)
-      })
-    });
-    setEvents(array)
-  }
+ 
+    var headers = {
+    'Content-Type': 'application/json'
+};
 
-  useEffect(() => loadItems(combinedItems), [state])
-
-  const date = (date) => {
-    const ndate = new Date()
-    const now = moment(ndate.toDateString(),"ddd MMM DD YYYY")
-
-    const start = moment(date, "MM/DD/YYYY")
-    
-    const diff = now.diff(start, "days")
-
-
-    if (diff >= 2) {
-      return "BeyoundYesturday"
-    } else if (diff === 1) {
-
-      return "Yesterday"
-    } else if (diff ===0){
-      return "Today"
-    }else{
-      return "BeyoundToday"
+var options = {
+    url: 'https://acrosshealth.freshdesk.com/api/v2/tickets?per_page=100',
+    headers: headers,
+    auth: {
+        'user': 'kQXIq7tf8krxBCtan8WM',
+        'pass': 'X'
     }
+};
+
+   const fetchData=()=>{ 
+     var array = []
+    
+    request(options, (error, response, body) =>{
+      if (!error && response.statusCode == 200) { 
+
+          var obj = JSON.parse(body)
+
+          obj.forEach(ticket =>{
+            const {created_at, subject,priority,id} = ticket
+            const item ={createdAt: created_at,
+            text: subject,
+            priority,
+            id
+          }
+            const event = ItemToEvent(item)
+            array.push(event)
+
+            console.log(created_at, subject
+               ) })
+               setEvents(array)
+               setData(obj)
+               console.log(obj)
+      }
+  })
   }
 
 
+  
+   const onClick=(data)=>{
+    console.log(data)
+    // I can use this to open to view more at the bottom 
 
-  const update = (copiedItems, copiedTodo) => {
-    dispatch(() => setItemToAdd(dispatch, copiedItems, copiedTodo.name));
-
-    axios.patch("/api/items/" + copiedTodo.id, {
-      id: copiedTodo.id,
-      createdAt: copiedTodo.createdAt,
-      endAt: copiedTodo.endAt,
-      name: copiedTodo.name
-    }, token)
-  }
-
-  const onEventResize = (data) => {
-    const { start, end, event } = data;
-    // finding the todo that was picked up, based from then event name passed in orginally 
-    const [copiedTodo] = items[event.name].filter((todo) => todo.id === event.id)
+   }
   
 
-    // index picked up based from the event 
-    const index = items[event.name].indexOf(copiedTodo)
 
-    
-    copiedTodo.createdAt = start
-    copiedTodo.endAt = end
-
-    const copiedItems = [...items[event.name]]
-
-    copiedItems.splice(index, 1, copiedTodo)
-
-    update(copiedItems, copiedTodo)
-
-  };
-
-  const onEventDrop = (data) => {
-    
-    // need to handle the change in array of the weeks and months 
-    const { start, end, event } = data;
-
-    // this is based on the desination 
-    var name = date(moment(start).format("MM/DD/YYYY"))
-   
-
-    // finding the todo that was picked up, based from then event name passed in orginally 
-    const copyS = [...items[event.name]]
-   // problem could happen because of this ^
-    const [theCopiedTodo] = copyS.filter((todo, index) => {
-      if (todo.id === event.id) {
-        copyS.splice(index, 1)
-        return true
-      }
-    })
-     if(name === theCopiedTodo.name ) {
-      onEventResize(data)
-     }
-     else{
-
-    update(copyS, theCopiedTodo)
-      console.log(theCopiedTodo)
-    theCopiedTodo.createdAt = moment(start).format()
-    theCopiedTodo.endAt = moment(end).format()
-    
-       theCopiedTodo.name = name
-    
-   
-
-    const copyD = items[theCopiedTodo.name]
-    copyD.splice(0,0,theCopiedTodo)
-
-    update(copyD, theCopiedTodo)
-
-}
-  };
+useEffect( ()=>fetchData(),[])
 
 
-
+  
   return (
-    <div className="App">
-      <DnDCalendar
-        defaultDate={moment().toDate()}
-        defaultView="day"
-        events={events}
-        localizer={localizer}
-        onEventDrop={onEventDrop}
-        onEventResize={onEventResize}
-        resizable
-        style={{ height: "56vh" }}
-      />
-    </div>
+<Calendar
+          className= {className}
+         defaultDate={moment().toDate()}
+         defaultView="week"
+         events={events}
+         localizer={localizer}
+         style={{ height: "48vh" , width:"48vw"}}
+         onSelectEvent={onClick}
+  />
   );
 
 
 }
+
+
+
 

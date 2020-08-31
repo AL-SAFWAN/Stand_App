@@ -7,7 +7,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import MenuBar from "../src/Components/auth/Bar";
 import OnLog from './OnLog'
 import Bar from './Components/Bar'
-
+import Support from './Components/Support'
 function App() {
 
   const dispatch = useDispatch();
@@ -23,12 +23,12 @@ console.log(state)
       {/* This is the top bar menu  */}
 
       {/* <MenuBar state = {state}></MenuBar> */}
-      <Bar state = {state } dispatch={dispatch}></Bar>
+      <Bar style={{  position: "sticky"}} state = {state } dispatch={dispatch}></Bar>
 
       {/* This handels the logging in  */}
       <OnLog state = {state}/>
 
-      
+   
 
       {/* This displays all the errors */}
       <Snackbar

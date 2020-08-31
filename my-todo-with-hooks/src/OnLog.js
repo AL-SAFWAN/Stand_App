@@ -18,13 +18,13 @@ export default function OnLog({state}) {
   }, [state.auth.isAuthenticated])
 
   const style = {
-    Calander: {height: "400px"},
     container: {
-      display: 'flex'
+      display: 'flex', 
+      padding: " 10px 0px 10px 38px"
     },
-    item: { width: '68%' },
+    item: { width: '60vw' },
     itemTwo: {
-      width: '21%',
+      width: '19vw',
       display: 'flex'
     }
   }
@@ -48,11 +48,9 @@ export default function OnLog({state}) {
         <React.Fragment>
 
           <div style={style.container}>
-            <div style={style.item}>
-              <UserDisplay state = {state}/>
-            </div><div style={style.itemTwo}>
-              < Graph state = {state}/>
-            </div>
+            <div style={style.item}><UserDisplay state = {state}/></div>
+            <div style={style.itemTwo}>< Graph state = {state}/> </div>
+            
           </div>
           <RunningTodos state = {state}></RunningTodos>
     {/* add a calander here  */}
