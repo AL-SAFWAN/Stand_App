@@ -29,11 +29,19 @@ var myUser = connection.define(
         },
       },
     },
+    supportType: {
+      type: Sequelize.INTEGER,
+    },
+    isStandup: {
+      type: Sequelize.BOOLEAN,
+    }
   }
 );
 
 myUser.associate= models => {
   myUser.hasMany(models.Item)
+  myUser.hasOne(models.supportDate)
+  myUser.hasOne(models.standupDate)
 }
 
 module.exports = myUser;

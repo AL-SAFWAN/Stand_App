@@ -2,7 +2,7 @@ import React,{ useEffect} from 'react'
 import "./Activity.css"
 import { useDispatch } from "react-redux";
 import {loadUsersActivity} from "../action/userActivityAction"
-
+import Img from '../img/support.png'
 export default function ActivityGraph({state}) {
     const dispatch = useDispatch();
 
@@ -29,21 +29,30 @@ const userActivity = state.userAcitvity
             background: color,
             borderRadius: "50px",
             margin: "auto",
-            border: "1px solid " + borderColor,
+            border: "2px solid " + borderColor,
             display: "flex",
             alignItems: "center",
             justifyContent: "center"
 
         }
-        const testStyle = {
-            // paddingTop: "30px",
-            // paddingLeft: "30px"
+        const imgStyle = {
+            width: "29px",
+            position: "fixed",
+            marginTop: "30px",
+            marginLeft: "30px",
+            background: color,
+            borderRadius: "50%",
+            border: "2px solid " + borderColor,
         }
 
         const produceItems = () => {
             var items = [];
             for (var i = 0; i < users.length; i++) {
-                items.push(<div style={style} key={i}> <div style={testStyle}>{users[i].name}</div></div>)
+                // produce the support logo here by doing 
+                // user[i].isSupport then push into the array with the img 
+                // else normal push 
+
+                items.push(<div style={style} key={i}> {users[i].name}<img src={Img} style={imgStyle} /></div>)
             }
             return items
         }

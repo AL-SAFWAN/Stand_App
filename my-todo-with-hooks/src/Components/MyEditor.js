@@ -47,6 +47,7 @@ export default function MyEditor({ state }) {
     //updating and saving the note 
     setEditorState(con)
     const content = serialiseEditorStateToRaw(editorState)
+    console.log(content)
     if (content != null) {
       axios.patch("/api/notes/" + state.note.todo.id, {
         itemId: state.note.todo.id,

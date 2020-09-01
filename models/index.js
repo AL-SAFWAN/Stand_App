@@ -4,7 +4,9 @@ const connection = require("../db")
 const models = {
     myUser : require("./myUser"),
     Item : require("./item"),
-    note: require("./note")
+    note: require("./note"),
+    supportDate: require("./supportDate"),
+    standupDate: require("./standupDate")
 }
 
 Object.keys(models).forEach((modelName)=> {
