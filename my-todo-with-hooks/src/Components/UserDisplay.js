@@ -32,7 +32,8 @@ const userActivity = state.userAcitvity
             border: "2px solid " + borderColor,
             display: "flex",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            textAlign: "center"
 
         }
         const imgStyle = {

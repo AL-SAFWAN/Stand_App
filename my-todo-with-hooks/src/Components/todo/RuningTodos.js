@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import RenderTodoItems from "./RenderTodoItems";
-import { loadItem, setItemToAdd } from "../action/itemActions";
+import { loadItem, setItemToAdd } from "../../action/itemActions";
 import Grid from "@material-ui/core/Grid";
 
 import { DragDropContext } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { tokenConfig } from "../action/authAction";
+import { tokenConfig } from "../../action/authAction";
 import moment from 'moment'
 
 const useStyles = makeStyles(theme => ({

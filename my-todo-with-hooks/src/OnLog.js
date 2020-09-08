@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import UserDisplay from './Components/UserDisplay';
 import FrontPage from "./Components/auth/FrontPage";
-import RunningTodos from "./Components/RuningTodos";
+import RunningTodos from "./Components/todo/RuningTodos";
 import Graph from "./Components/ActivityGraph/Graph"
 import Calander from './Components/Calander'
 import MyEditor from './Components/MyEditor'
+import { TextareaAutosize } from "@material-ui/core";
 
 export default function OnLog({state}) {
   
@@ -25,6 +26,7 @@ export default function OnLog({state}) {
     item: { width: '60vw' },
     itemTwo: {
       width: '19vw',
+      margin: "auto",
       display: 'flex'
     }
   }

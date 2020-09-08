@@ -3,8 +3,8 @@ import {
     TextField
 } from "@material-ui/core";
 import axios from "axios";
-import { setItemToAdd } from "../action/itemActions";
-import { returnErrors } from "../action/errorAction";
+import { setItemToAdd } from "../../action/itemActions";
+import { returnErrors } from "../../action/errorAction";
 import { useDispatch } from "react-redux";
 import moment from 'moment'
 

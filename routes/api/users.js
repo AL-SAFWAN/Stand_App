@@ -40,7 +40,7 @@ router.post("/", (req, res) => {
           user.password = hash;
         }
       });
-      models.myUser.create({ name, email, password }).then((user) => {
+      models.myUser.create({ name, email, password,isStandup: false, supportType : 0 }).then((user) => {
         jwt.sign({ id: user.id }, config.get("jwtSecret"), (err, token) => {
           if (err) throw err;
           // sends a responce to the client side with the token and user information

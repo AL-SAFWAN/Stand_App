@@ -7,13 +7,14 @@ import {
   IconButton,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { setItemToDelete, loading } from "../action/itemActions";
-import { returnErrorsOfItem, returnErrors } from "../action/errorAction";
-import {loadNote, setOpenNote} from '../action/noteAction'
+import { setItemToDelete, loading } from "../../action/itemActions";
+import { returnErrorsOfItem, returnErrors } from "../../action/errorAction";
+import {loadNote, setOpenNote} from '../../action/noteAction'
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import DateTimePicker from './Calander/DateTimePicker'
+import DateTimePicker from '../Calander/DateTimePicker'
+
 function Item({ id, todos, todo, index, classes, token }) {
 
 
