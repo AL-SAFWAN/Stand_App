@@ -60,7 +60,7 @@ export default function App({className}) {
 };
 
 var options = {
-    url: 'https://acrosshealth.freshdesk.com/api/v2/tickets?per_page=100',
+    url: 'https://acrosshealth.freshdesk.com/api/v2/tickets',
     headers: headers,
     auth: {
         'user': 'kQXIq7tf8krxBCtan8WM',

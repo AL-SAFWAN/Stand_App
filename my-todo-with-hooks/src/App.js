@@ -7,7 +7,8 @@ import MuiAlert from "@material-ui/lab/Alert";
 import MenuBar from "../src/Components/auth/Bar";
 import OnLog from './OnLog'
 import Bar from './Components/Bar'
-import StandupForm from './Components/StandupForm'
+import StandupForm from './Components/StandupForm' 
+// import {ReactComponent as ReactLogo} from './img/undraw_speech_to_text_9uir 1.svg'
 function App() {
 
   const dispatch = useDispatch();
@@ -26,10 +27,10 @@ console.log(state)
       <Bar style={{  position: "sticky"}} state = {state } dispatch={dispatch}></Bar>
 
       {/* This handels the logging in  */}
-      {/* <OnLog state = {state}/> */}
+      {/* <OnLog state = {state}/>  */}
 
-    <StandupForm></StandupForm>
-
+    <StandupForm state ={state}></StandupForm>
+{/* <ReactLogo/> */}
       {/* This displays all the errors */}
       <Snackbar
         anchorOrigin={{

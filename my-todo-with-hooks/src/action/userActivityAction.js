@@ -28,11 +28,11 @@ export const loadUsersActivity = (dispatch) => {
                 })
                 var diff = done - notDone
                 if (Blocker.length > 0) {
-                    blockedUsers.push({ name: user.name, amount: Blocker.length })
+                    blockedUsers.push({ id : user.id ,name: user.name, amount: Blocker.length, ...res.data.Items })
                 } else {
                     if (diff > 0) {
-                        activeUsers.push({ name: user.name, done, notDone })
-                    } else { neutralUsers.push({ name: user.name, done, notDone }) }
+                        activeUsers.push({ id : user.id ,name: user.name, done, notDone, ...res.data.Items })
+                    } else { neutralUsers.push({ id : user.id ,name: user.name, done, notDone, ...res.data.Items }) }
                 }
                 
                 if(users.length === userCnt){

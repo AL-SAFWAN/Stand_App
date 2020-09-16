@@ -8,6 +8,7 @@ import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import { useDispatch } from "react-redux";
 import { logout } from '../../action/authAction'
 import { CSSTransition } from 'react-transition-group'
+import { Link } from 'react-router-dom'
 
 export default function index({ state, dispatch }) {
 
@@ -22,7 +23,7 @@ export default function index({ state, dispatch }) {
       return (
         <React.Fragment>
           <NavItem icon={<EjectIcon onClick={() => logOut()} />} />
-          <NavItem icon={<SettingsIcon />} />
+            <NavItem icon={<SettingsIcon />} />
           <NavItem icon={<UnfoldMoreIcon />} >
             <DropdownMenu />
           </NavItem>
@@ -33,16 +34,16 @@ export default function index({ state, dispatch }) {
 
 
   return (
-     
+
     <React.Fragment>
-       
+
       <NavBar>
-        <div className= "logo">
-        <AccessibilityNewIcon fontSize={"large"} />
-      <Typography variant="h6" className="title">
-        | Stand App
+        <div className="logo">
+          <AccessibilityNewIcon fontSize={"large"} />
+          <Typography variant="h6" className="title">
+            | Stand App
       </Typography>
-      </div> 
+        </div>
         <WhenLogin />
       </NavBar>
     </React.Fragment>
@@ -89,13 +90,13 @@ function DropdownMenu() {
     )
   }
 
-  return (<div className="dropdown" style={{height: menuHeight}}>
+  return (<div className="dropdown" style={{ height: menuHeight }}>
     <CSSTransition
       in={activeMenu === "main"}
       unmountOnExit timeout={500}
       classNames="menu-primary"
       onEnter={calcHeight}
-      >
+    >
       <div className="menu">
         <DropdownItem goToMenu={"more"}> My Profile</DropdownItem>
         <DropdownItem leftIcon="🗿"> My Profile</DropdownItem>
@@ -105,7 +106,7 @@ function DropdownMenu() {
     <CSSTransition
       in={activeMenu === "more"}
       unmountOnExit
-       timeout={500}
+      timeout={500}
       classNames="menu-secondary"
       onEnter={calcHeight}>
       <div className="menu">
