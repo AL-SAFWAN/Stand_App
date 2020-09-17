@@ -1,0 +1,73 @@
+.textField{
+    margin: auto;
+    min-width: 15vw;
+    margin-left: 3em;
+}
+.icon{
+    align-self: flex-end;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.div-outer-container{
+    display: flex;
+  
+}
+.div-container{
+    display: flex;
+    
+    border: 12px solid #c2c5db ;
+    border-radius: 5px;
+    /* margin: auto; */
+    margin-top: 1em;
+    padding: 0.5em;
+    width: fit-content;
+}
+.div-container1{display: flex;
+    
+border: 6px solid #c2c5db ;
+border-radius: 5px;
+/* margin: auto; */
+margin-top: 0.5em;
+padding: 0.5em;
+width: fit-content;
+}
+.div-item-container{
+    margin: auto;
+    /* align-self: flex-start; */
+    margin-top: 0.7vh;
+    margin-right: 2.5vw;
+}
+.div-item-container2{
+    align-self: flex-end;
+    /* border: 2px solid black; */
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 0.5em;
+    padding: 0.5em;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin: auto;
+}
+.date{
+    margin-left: 5em;
+    margin-right: 1em;
+}
+
+.icon:active{
+    transform: scale(1.2);
+}
+.textField-display{
+    margin: auto;
+    width: 6vw;
+    margin-left: 1em;
+    margin-top: 1em
+}
+.date-item{
+    margin: auto;
+    width: 135px;
+    margin-left: 1em;
+}
