@@ -56,6 +56,7 @@ function Item({ id, todos, todo, index, classes, token }) {
     const newTodos = [...todos];
     newTodos.splice(index, 1);
     // also need to delete the notes, then remove it from the front end 
+    
     axios.delete("/api/items/" + todo.id, token).catch(err => {
       dispatch(() =>
         returnErrorsOfItem(

@@ -36,3 +36,22 @@ export const LOAD_NOTE = "LOAD_NOTE"
 export const LOADED_NOTE = "LOADED_NOTE"    
 export const SET_NOTE_ID = "SET_NOTE_ID"
 export const CLEAR_NOTE = "CLEAR_NOTE"
+
+
+export const GET_SUPPORT_USERS = "GET_SUPPORT_USERS"
+export const GET_STANDUP_USERS = "GET_STANDUP_USERS"
+export const SET_SUPPORT_USER = "SET_SUPPORT_USER"
+export const SET_STANDUP_USER = "SET_STANDUP_USER"
+
+export const DELETE_SUPPORT_USER = "DELETE_SUPPORT_USER"
+export const DELETE_STANDUP_USER = "DELETE_STANDUP_USER"
+
+export const LOAD_SUPPORT_USERS = "LOAD_SUPPORT_USERS"
+
+
+export const ADD_USER = "ADD_USER"
+
+export const DELETE_USER = "DELETE_USER"
+
+export const EDIT_USERS = "EDIT_USERS"
+

@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import "./index.css"
 import FactoryCard from './FactoryCard'
 import { loadUsersActivity } from "../../action/userActivityAction"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { animated, useSprings, interpolate, useSpring,config } from 'react-spring'
 import { useGesture } from 'react-use-gesture'
 import FactorySideCard from './FactorySideCard'
-
-export default function Index({ state }) {
+ 
+export default function Index() {
+  const state = useSelector(state => state);
+   
     const userData = []
     Object.values(state.userAcitvity).map(arr => {
         return Object.values(arr)

@@ -161,9 +161,8 @@ export default function App({ state }) {
         onEventDrop={onEventDrop}
         onEventResize={onEventResize}
         resizable
-        style={{ height: "48vh", width:"48vw"}}
+        style={{ height: "48vh", width: "90vw" ,margin : "auto"}}
       />
-      <Support className="Calendar"/>
     </div>
   );
 

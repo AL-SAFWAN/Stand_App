@@ -6,6 +6,9 @@ const Sequelize = require("sequelize");
   {
     start: Sequelize.DATE,
     end:  Sequelize.DATE,
+    supportType: {
+      type: Sequelize.INTEGER,
+    },
 });
 
 supportDate.associate= models => {

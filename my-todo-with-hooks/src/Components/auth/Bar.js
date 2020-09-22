@@ -8,6 +8,10 @@ import { logout } from "../../action/authAction";
 import { useDispatch } from "react-redux";
 import Chip from "@material-ui/core/Chip";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
+import {Link,Router} from 'react-router-dom'
+import "./bar.css"
+
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -52,6 +56,7 @@ export default function Logout({state}) {
 
   return (
     <div className={classes.root}>
+     
       <AppBar position="static">
         <Toolbar>
           <AccessibilityNewIcon fontSize={"large"} />
@@ -60,9 +65,26 @@ export default function Logout({state}) {
             | Stand App
           </Typography>
 
+          <Link to='/'>
+          <div className= "menu">Dashboard</div>
+          </Link>
+
+          <Link to='/support'>
+          <div className= "menu">Support</div>
+          </Link>
+
+          <Link to='/standup'>
+          <div className= "menu">Stand Up</div>
+          </Link>
+
+          <Link to='/admin'>
+          <div className= "menu">Admin</div>
+          </Link>
           <LogIcon></LogIcon>
+
         </Toolbar>
       </AppBar>
+
     </div>
   );
 }

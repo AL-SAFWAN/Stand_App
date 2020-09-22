@@ -29,9 +29,6 @@ var myUser = connection.define(
         },
       },
     },
-    supportType: {
-      type: Sequelize.INTEGER,
-    },
     accountType: {
       type: Sequelize.INTEGER,
     },
