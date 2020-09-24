@@ -3,8 +3,9 @@ import "./index.css"
 import Support from '../Support'
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
-import {useLocation} from 'react-router-dom'
+import SupportTodayCard from './SupportTodayCard'
 var request = require('request');
+
 
 // objective 
 
@@ -16,48 +17,7 @@ var request = require('request');
 
 // 3. have a table which shows the list of urgent ticket                    -DONE
 // 4.then have a clanders of the tickets                                    -DONE
-const SupportUserCard = () => {
-    return (<>
-        <div className="support-table-card">
-            <div>
-                <div className="user-card marginTop" >
-                    <div className="user-icon"></div>
 
-                    <div className="text-container">
-
-                        <div className="support-type"> 1st Line</div>
-                        <div className="username"> Al-Safwan </div>
-
-                    </div>
-                </div>
-                <div className="line" />
-
-                <div className="user-card" >
-                    <div className="user-icon"></div>
-
-                    <div className="text-container">
-
-                        <div className="support-type"> 2nd Line</div>
-                        <div className="username"> Al</div>
-
-                    </div>
-                </div>
-                <div className="line" />
-
-                <div className="user-card marginBottom" >
-                    <div className="user-icon"></div>
-
-                    <div className="text-container">
-
-                        <div className="support-type"> 1st Line</div>
-                        <div className="username"> Luke </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </>)
-}
 
 
 
@@ -175,7 +135,13 @@ const SearchTable = ({ data }) => {
 
 export default function Index() {
 
-    const [one, setOne] = useState(true)
+
+    // NOTE -----------------------
+    // have a setting for this in the setting option
+    // , which is then loaded bellow 
+
+    // NOTE -----------------------
+    const [one, setOne] = useState(false)
     const [two, setTwo] = useState(true)
     const [three, setThree] = useState(true)
     const [four, setFour] = useState(true)
@@ -210,8 +176,8 @@ export default function Index() {
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                 <CheckboxOption one={one} two={two} three={three} four={four} setOne={setOne} setTwo={setTwo} setThree={setThree} setFour={setFour} />
                 <SearchTable data={filterData}></SearchTable>
-
-                <SupportUserCard />
+<SupportTodayCard/>
+                
             </div>
 
             <div className="calender"> <Support style={{ margin: "auto" }} data={filterData}></Support></div>

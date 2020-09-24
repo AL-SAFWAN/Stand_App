@@ -19,8 +19,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import axios from 'axios';
 import { deleteSupportUser, editSupportUser, loadSupportUser } from '../../action/supportDateAction';
 import { addSupportUser } from '../../action/supportDateAction'
-import { returnErrors } from '../../action/errorAction';
 import { GET_ERRORS } from '../../action/type';
+import SupportTodayCard from '../SupportPage/SupportTodayCard'
 
 export default function Index() {
     const state = useSelector(state => state);
@@ -30,29 +30,49 @@ export default function Index() {
         dispatch(() => { loadSupportUser(dispatch) })
 
     }, [])
-    console.log(state.support)
 
-    const [allUsers, setAllUsers] = useState({
-        "1st line": [],
-        "2nd line": [],
-        "3rd line": [],
-        "Stand Up": []
-    })
+    
+
+
+    
+
+
+    // if( (item.start<=today)&&(item.end >=0) )
 
     return (<>
-        <div style={{ display: "flex", marginRight: "1vw", marginLeft: "1vw" }}>
+        
+        <div style={{ display: "flex",  justifyContent: "center",  marginRight: "1vw", marginLeft: "1vw" }}>
+        <div style={{ display: "flex", flexDirection:"column" , marginRight: "1vw", marginLeft: "1vw" }}>
+
             <div style={{ marginRight: "1vw", marginTop: "3vh" }} >
-                <ExpandingForm state={state} name={"1st line"} allUsers={allUsers} setAllUsers={setAllUsers} />
-                <ExpandingForm state={state} name={"2nd line"} allUsers={allUsers} setAllUsers={setAllUsers} />
-                <ExpandingForm state={state} name={"3rd line"} allUsers={allUsers} setAllUsers={setAllUsers} />
-                <ExpandingForm state={state} name={"Stand Up"} allUsers={allUsers} setAllUsers={setAllUsers} />
+                <ExpandingForm state={state} name={"1st line"} />
+                <ExpandingForm state={state} name={"2nd line"} />
+                <ExpandingForm state={state} name={"3rd line"} />
+                <ExpandingForm state={state} name={"Stand Up"} />
             </div>
-            <div className="calender"><Cal allUsers={state.support}></Cal></div>
-        </div>
+
+            {/* 
+
+            What data will i need to enter 
+            who is on support today and who is doing the stand up 
+            -we have 2 information the start and the end 
+            |
+            `-> this information is sorted by the ascending from the start date 
+            - if the start<= today and end>= today -> means that the user is within the today date 
+                    -- add them to an array 
+            -- sort the array 
+            The one with the greatest distance of today to the start date will be displayed, 
+            since its already sorted this will be ok 
+
+            */}
+    
+
+            <div><SupportTodayCard /></div>
+            </div>
+            <div className="calender"><Cal allUsers={state.support}></Cal></div></div>
+        
     </>)
 }
-
-
 const getSupportType = (supportName) => {
     switch (supportName) {
         case "1st line":
@@ -69,8 +89,25 @@ const getSupportType = (supportName) => {
     }
 }
 
+const getSupportTypeFromInt = (supportName) => {
+    switch (supportName) {
+        case 1:
+            return "1st Line"
 
-const ExpandingForm = ({ name, state, allUsers, setAllUsers }) => {
+        case 2:
+            return "2nd Line"
+
+        case 3:
+            return "3rd Line"
+
+        default:
+            return "Stand Up"
+    }
+}
+
+
+
+const ExpandingForm = ({ name, state }) => {
 
     const [openTable, setOpenTable] = useState(false)
     const [users, setUsers] = useState([])
@@ -102,7 +139,7 @@ const ExpandingForm = ({ name, state, allUsers, setAllUsers }) => {
             return isUser
         })
         setUsers(arr)
-        console.log(arr, userData, displayArr)
+
 
     }, [state.userAcitvity])
 
@@ -112,7 +149,7 @@ const ExpandingForm = ({ name, state, allUsers, setAllUsers }) => {
         // ref: springRef,
         config: config.slow,
         opacity: openTable ? 1 : 0,
-        height: openTable ? (100 * state.support[name].length) + 35 : 0,
+        height: openTable ? (100 * state.support[name].length) + 40 : 0,
         from: { opacity: 0, height: 0 },
         overflow: "hidden"
     })
@@ -157,7 +194,6 @@ const ExpandingForm = ({ name, state, allUsers, setAllUsers }) => {
         // newArr[name] = setArr
         // setAllUsers(newArr)
     }
-
     return (
         <div className="container"
             key={name}
@@ -170,7 +206,7 @@ const ExpandingForm = ({ name, state, allUsers, setAllUsers }) => {
             }}
         >
             <div   >
-                <ExpandingFormHeader userData={users} clicked={clicked} name={name} />
+                <ExpandingFormHeader state={state} userData={users} clicked={clicked} name={name} />
             </div>
 
             <animated.div className="div-outer-container" style={{ ...rest }}>
@@ -242,11 +278,39 @@ const ExpandingForm = ({ name, state, allUsers, setAllUsers }) => {
 
 }
 
+// used to produce the form,will i have the information of the last user? 
+const ExpandingFormHeader = ({ state, name, userData, clicked }) => {
 
-const ExpandingFormHeader = ({ name, userData, clicked }) => {
+    const users = [...state.support[name]]
+    const lastUser = users.pop()
+
+
     const [selectedName, setSelectedName] = useState('');
+    // here we are
+    // this is where the date is set up 
+    // set a difference for the first user, let it be call U1 
+    // then from the next user (U1), let the start date for the U1 be the last value for the U2
+
     const [start, setStartValue] = useState(moment().local().format("YYYY-MM-DD"));
     const [end, setEndValue] = useState(moment().add(1, "days").local().format("YYYY-MM-DD"));
+
+    useEffect(() => {
+
+        if (lastUser !== undefined) {
+            // updating to the latest user for the next user to use 
+            setStartValue(moment(lastUser.end).add(1, "days").local().format("YYYY-MM-DD"))
+            setEndValue(moment(lastUser.end).add(2, "days").local().format("YYYY-MM-DD"))
+
+        } else {
+            // when i delete the array i need to change the date to the latest user 
+            setStartValue(moment().add(0, "days").local().format("YYYY-MM-DD"))
+            setEndValue(moment().add(1, "days").local().format("YYYY-MM-DD"))
+        }
+
+    }, [clicked, state.support])
+
+
+
     const setUpdatedValue = (value, at) => {
         if (at === "createdAt") {
             // todo.createdAt = value
@@ -311,11 +375,7 @@ const ExpandingFormHeader = ({ name, userData, clicked }) => {
     )
 }
 
-
-
-
 function GanttChart({ todos }) {
-    console.log("from gannt Chart \n", todos, "\n")
     if (todos.length == 0) {
         return <></>
     }
@@ -353,7 +413,7 @@ function GanttChart({ todos }) {
         return events
     }
     var data = createEventsFromTodos(todos)
-    console.log(data)
+
     return (
         <Chart
             chartType="Gantt"
@@ -379,14 +439,14 @@ const localizer = momentLocalizer(moment);
 const ItemToEvent = (item) => {
 
     const setColor = () => {
-        switch (item.priority) {
-            case 1:
+        switch (item.supportType) {
+            case 0:
                 return { color: "lightgreen" }
-            case 2:
+            case 1:
                 return { color: "lightBlue" }
-            case 3:
+            case 2:
                 return { color: "gold" }
-            case 4:
+            case 3:
                 return { color: "red" }
         }
     }
@@ -394,10 +454,10 @@ const ItemToEvent = (item) => {
     const event = {
         //   id: item.id,
         //   name: item.name,
-        start: moment(item.start).local().toDate(),
-        end: moment(item.end).local().toDate(),
+        start: moment(item.start).toDate(),
+        end: moment(item.end + "T24:00:00").toDate(),
 
-        title: <p style={setColor()}>{item.name}</p>
+        title: <p style={setColor()}>{getSupportTypeFromInt(item.supportType) + ": " + item.name}</p>
     }
     return event
 }

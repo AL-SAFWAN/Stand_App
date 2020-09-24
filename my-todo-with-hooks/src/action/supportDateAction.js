@@ -20,7 +20,8 @@ export const loadSupportUser = (dispatch) => {
                 type: LOAD_SUPPORT_USERS,
                 "1st line": result.filter(item => item.supportType === 1),
                 "2nd line": result.filter(item => item.supportType === 2),
-                "3rd line": result.filter(item => item.supportType === 3)
+                "3rd line": result.filter(item => item.supportType === 3),
+                "Stand Up": result.filter(item => item.supportType === 0)
             });
         })
 };
