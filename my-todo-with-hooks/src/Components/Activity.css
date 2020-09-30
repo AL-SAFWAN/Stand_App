@@ -1,23 +1,83 @@
 .aqua{
+   
+    /* animate the color redo */
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    /* width: 67%; */
-    height: 245px;
-    /* border: 3px solid rgba(219, 221, 217, 0.2); */
-    /* margin: auto; */
-    grid-template-columns: 1fr 1fr 1fr;
     border-radius: 7px;
-    background-color: rgba(123, 151, 234, 0.19);
+    width: fit-content;
+    margin: auto;
+    padding: 10px;
+    justify-content: center;
+    height: fit-content;
 }
 
 
+    /* background-color: rgba(123, 151, 234, 0.19); */
 .text{
-    position: absolute;
+    /* position: absolute; */
     font-size: 20px;
     margin: auto;
   
-    
+   
+}
 
+.badge-div{
+    position: relative;
+    display: flex;
+}
+
+.badge{
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+
+.div-arrow {
+    position: absolute;
+    bottom: 8px;
+    left: 111px;
+	width: 0;
+	height: 0;
+	border-top: 5px solid transparent;
+	border-left: 10px solid  rgba(194, 197, 219, 0.7);;
+	border-bottom: 5px solid transparent;
+}
+.hover-info{
+    margin-top: 13px;
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 5px;
+  
+    color: black;
+    border: 3px solid rgba(194, 197, 219, 0.7);
+
+    background-color:rgba(194, 197, 219, 0.23);
+    border-radius: 10px;
+    height: 30px;
+    width: max-content;
+
+}
+
+.movingButtons{
+    margin-top: 50px;
+    align-items: flex-end;
+    margin: auto;
+    display: flex;
+    height: 42px;
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 42px;
+    justify-content: center;
 }

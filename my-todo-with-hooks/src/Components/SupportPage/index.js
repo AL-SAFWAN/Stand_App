@@ -4,6 +4,7 @@ import Support from '../Support'
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import SupportTodayCard from './SupportTodayCard'
+import { useHistory, useLocation } from "react-router-dom";
 var request = require('request');
 
 
@@ -135,6 +136,7 @@ const SearchTable = ({ data }) => {
 
 export default function Index() {
 
+    // let l = useLocation()
 
     // NOTE -----------------------
     // have a setting for this in the setting option

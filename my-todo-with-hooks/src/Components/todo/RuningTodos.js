@@ -26,14 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const gridStyle = {
-  parent: {
-    margin: "auto",
-    width: "97vw",
-    boxSizing: "border-box",
-    borderRadius: 5,
-    backgroundColor: "rgba(123, 151, 234, 0.19)",
-    justifySelf: "auto"
-  },
+
   child: {
     backgroundColor: "rgb(194, 197, 219)",
     margin: 10,
@@ -153,7 +146,7 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
   });
 };
 
-function RuningTodos({ state }) {
+function RuningTodos({ state,width }) {
   const dispatch = useDispatch();
   const token = tokenConfig(state);
 
@@ -194,6 +187,14 @@ function RuningTodos({ state }) {
           justify="space-evenly"
           alignItems="flex-start"
           style={gridStyle.parent}
+          style={{ 
+            margin: "auto",
+            width: width,
+            boxSizing: "border-box",
+            borderRadius: 5,
+            backgroundColor: "rgba(123, 151, 234, 0.19)",
+            justifySelf: "auto"
+          }}
         >
           
           <Grid item xs={3} style={gridStyle.child}>

@@ -2,13 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import "./index.css"
 import FactoryCard from './FactoryCard'
 import { loadUsersActivity } from "../../action/userActivityAction"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { animated, useSprings, interpolate, useSpring,config } from 'react-spring'
 import { useGesture } from 'react-use-gesture'
 import FactorySideCard from './FactorySideCard'
  
-export default function Index() {
-  const state = useSelector(state => state);
+export default function Index({state}) {
    
     const userData = []
     Object.values(state.userAcitvity).map(arr => {
@@ -32,7 +31,7 @@ const Users = ({ userData }) => {
 
     // using the totol length here 
     const to = i => ({ x: ((((i * (1.1)) / userData.length) * 80) - 40), y: 0, zIndex: 0, scale: 0.5, r: -10 + Math.random() * 20, delay: i * 100, width: 30 })
-    const from = i => ({ x: -4000, r: 0, scale: 1, y: 0, width: 30, zIndex: 0 })
+    const from = i => ({ x: -200, r: 0, scale: 1, y: -200, width: 30, zIndex: 0 })
     // This is being used down there in the view, it interpolates rotation and scale into a css transform
     const transformFn = (r, s) => ` rotateX(10deg) rotateY(${r}deg) rotateZ(${r / 15}deg) scale(${s})`
 

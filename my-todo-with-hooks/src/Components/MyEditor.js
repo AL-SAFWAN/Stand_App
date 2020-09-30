@@ -10,7 +10,10 @@ import { createEditorStateFromRaw, serialiseEditorStateToRaw } from "draftail"
 import { setOpenNote} from "../action/noteAction";
 import { useDispatch } from 'react-redux'
 
+
 export default function MyEditor({ state }) {
+
+
   const dispatch = useDispatch()
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
 

@@ -6,6 +6,7 @@
     border: 2px solid white;
     border-radius: 5px;
     padding: 7px;
+    color: white;
 }
 .menu:hover{
     cursor: pointer;

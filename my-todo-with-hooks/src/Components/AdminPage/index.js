@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { loadUsersActivity } from "../../action/userActivityAction";
 import Chart from 'react-google-charts'
 import { IconButton, } from "@material-ui/core";
@@ -15,16 +15,15 @@ import { animated, config, useSpring, interpolate } from 'react-spring'
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+
 import DeleteIcon from "@material-ui/icons/Delete";
-import axios from 'axios';
 import { deleteSupportUser, editSupportUser, loadSupportUser } from '../../action/supportDateAction';
 import { addSupportUser } from '../../action/supportDateAction'
 import { GET_ERRORS } from '../../action/type';
 import SupportTodayCard from '../SupportPage/SupportTodayCard'
 
-export default function Index() {
-    const state = useSelector(state => state);
-
+export default function Index({state}) {
+  
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(() => { loadSupportUser(dispatch) })

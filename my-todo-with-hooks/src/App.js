@@ -14,9 +14,36 @@ import StandupForm from './Components/StandupForm'
 import SupportPage from './Components/SupportPage'
 import AdminPage from './Components/AdminPage'
 
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { Route, Switch, useHistory, useLocation, withRouter } from 'react-router-dom'
+import { config, animated, useTransition } from "react-spring";
 
-function App() {
+
+const Routers = ({ location, state }) => {
+
+
+
+  const transitions = useTransition(location, location => location.pathname, {
+    config:{duration: 100},
+    from:  { opacity: 0},
+    enter: { opacity: 1},
+    leave: { opacity: 0},
+  })
+  return transitions.map(({ item: location, props, key }) => (
+    <animated.div key={key} style={props}>
+      <Switch location={location}>
+
+        <Route exact path='/' render={ ()=> <OnLog state ={state}/>} />
+        <Route exact path='/support' render={() =><SupportPage /> } />
+        <Route exact path='/standup' render={()=> <StandupForm state={state} />} />
+        <Route exact path='/admin' render={()=> <AdminPage state={state}/>} />
+
+      </Switch>
+    </animated.div>
+  ))
+}
+
+function App({ location }) {
+
 
   const dispatch = useDispatch();
 
@@ -26,45 +53,21 @@ function App() {
   useEffect(() =>
     dispatch(() => loadUser(dispatch, state)), []);
 
-  const [msg,setMsg]= useState({}) 
-  const [id,setId]= useState(null) 
+  const [msg, setMsg] = useState({})
+  const [id, setId] = useState(null)
 
-  
- 
-  useEffect(() =>{
+  useEffect(() => {
     const { msg, id } = state.error;
     setMsg(msg)
-      setId(id)
-
-      console.log("from the error up front App.js", msg,id )
-  }
-  
-    , [state.error]);
+    setId(id)
+  }, [state.error]);
 
   return (
     <React.Fragment>
-      {/* This is the top bar menu  */}
-      <Router>
+      <MenuBar state={state}></MenuBar>
 
-        {/* <Bar style={{ position: "sticky" }} state={state} dispatch={dispatch}></Bar> */}
-        <MenuBar state={state}></MenuBar>
-        <Switch>
+      <Routers location={location} state ={state}/>
 
-          {/* This handels the logging in  */}
-
-          {/* <Route path ='/' component = {OnLog} /> */}
-
-          <Route exact path='/' component={OnLog} />
-
-          <Route exact path='/support' component={SupportPage} />
-
-          <Route exact path='/standup' component={StandupForm} />
-
-          <Route exact path='/admin' component={AdminPage} />
-        </Switch>
-      </Router>
-
-      {/* This displays all the errors */}
       <Snackbar
         anchorOrigin={{
           vertical: "bottom",
@@ -84,13 +87,16 @@ function App() {
           direction="up"
         />
       </Snackbar>
+
     </React.Fragment>
   );
 }
 
-export default App;
+export default withRouter(App);
+
 
 //  <OnLog state = {state}/> 
 //  <AdminPage state ={state}/>
 //  <StandupForm state ={state}></StandupForm>
-//done  <SupportPage/>
+//  done  <SupportPage/>
+// <Bar style={{ position: "sticky" }} state={state} dispatch={dispatch}></Bar>

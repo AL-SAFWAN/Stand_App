@@ -8,7 +8,7 @@ import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import { useDispatch } from "react-redux";
 import { logout } from '../../action/authAction'
 import { CSSTransition } from 'react-transition-group'
-import { Link } from 'react-router-dom'
+
 
 export default function index({ state, dispatch }) {
 
