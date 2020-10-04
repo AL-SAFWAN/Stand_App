@@ -14,13 +14,14 @@ export default function(state = initialState, action) {
         msg: action.payload.msg,
         state: action.payload.status,
         id: action.payload.id,
-        type: action.payload.id
+        type: action.payload.type
       };
     case CLEAR_ERRORS:
       return {
         msg:  " ",
         status: null,
-        id: null
+        id: null, 
+        type: "info"
       };
     default:
       return state;

@@ -21,16 +21,11 @@ import { deleteSupportUser, editSupportUser, loadSupportUser } from '../../actio
 import { addSupportUser } from '../../action/supportDateAction'
 import { GET_ERRORS } from '../../action/type';
 import SupportTodayCard from '../SupportPage/SupportTodayCard'
+import { returnErrors } from '../../action/errorAction';
 
 export default function Index({state}) {
   
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(() => { loadSupportUser(dispatch) })
-
-    }, [])
-
-    
+ 
 
 
     
@@ -66,7 +61,7 @@ export default function Index({state}) {
             */}
     
 
-            <div><SupportTodayCard /></div>
+            <div><SupportTodayCard state ={state}/></div>
             </div>
             <div className="calender"><Cal allUsers={state.support}></Cal></div></div>
         
@@ -155,13 +150,9 @@ const ExpandingForm = ({ name, state }) => {
 
     const clicked = (selectedName, start, end, index) => {
         if (typeof (selectedName) === "string" || typeof (selectedName) === "undefined") {
-            console.log(" -ERROR-")
-            dispatch({
-                type: GET_ERRORS,
-                payload: {
-                    msg: `please enter the field: ${name}`, id: index
-                }
-            })
+
+            dispatch(()=>returnErrors(`please enter the field: ${name}`, "error",dispatch))
+
             return
         }
         const user = {

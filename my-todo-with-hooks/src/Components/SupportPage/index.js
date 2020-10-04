@@ -103,7 +103,7 @@ const CheckboxOption = ({ one, two, three, four, setOne, setTwo, setThree, setFo
     )
 }
 
-const SearchTable = ({ data, addTodo, text,setText }) => {
+const SearchTable = ({ data, addTodo, text, setText }) => {
     const setColor = (i) => {
         switch (i) {
             case 1:
@@ -171,13 +171,11 @@ export default function Index({ state }) {
 
 
                 dispatch(() => setItemToAdd(dispatch, newTodos, "Today"));
-                dispatch({
-                    type: GET_ERRORS,
-                    payload: {
-                        msg: `Added to Today's todo: ${text}`, type: "success"
-                    }
-                })
-            }).catch(err => dispatch(returnErrors(err.response.data.msg, err.response.status)))
+       
+                dispatch(()=>returnErrors( `Added to Today's todo: ${text}`, "success",dispatch)
+                    
+                )
+            })
     };
 
 
@@ -218,7 +216,7 @@ export default function Index({ state }) {
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                 <CheckboxOption one={one} two={two} three={three} four={four} setOne={setOne} setTwo={setTwo} setThree={setThree} setFour={setFour} />
                 <SearchTable text={text} setText={setText} data={filterData} addTodo={addTodo} ></SearchTable>
-                <SupportTodayCard />
+                <SupportTodayCard state={state} />
 
             </div>
 

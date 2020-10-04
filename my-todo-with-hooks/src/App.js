@@ -10,7 +10,7 @@ import MenuBar from "../src/Components/auth/Bar";
 
 import OnLog from './OnLog'
 
-import StandupForm from './Components/StandupForm'
+import StandupForm from './Components/StandupForm/page'
 import SupportPage from './Components/SupportPage'
 import AdminPage from './Components/AdminPage'
 
@@ -23,7 +23,7 @@ const Routers = ({ location, state }) => {
 
 
   const transitions = useTransition(location, location => location.pathname, {
-    config:{duration: 100},
+    config:{duration: 400},
     from:  { opacity: 0},
     enter: { opacity: 1},
     leave: { opacity: 0},
@@ -53,17 +53,10 @@ function App({ location }) {
   useEffect(() =>
     dispatch(() => loadUser(dispatch, state)), []);
 
-  const [msg, setMsg] = useState({})
-  const [id, setId] = useState(null)
-  const [type, setType] = useState("error")
 
-  useEffect(() => {
+    console.log("here", state.error)
     const { msg, id,type } = state.error;
-    setMsg(msg)
-    setId(id)
-    setType(type)
-
-  }, [state.error]);
+ 
 
   return (
     <React.Fragment>

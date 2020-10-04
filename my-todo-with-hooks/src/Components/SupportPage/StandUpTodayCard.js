@@ -1,9 +1,11 @@
 import React, { useState,useEffect } from 'react'
 import moment from 'moment'
+import {useDispatch, useSelector} from 'react-redux'
 import { useSpring, animated, config } from 'react-spring'
 import TextField from '@material-ui/core/TextField';
-import { useDispatch } from 'react-redux';
+import index from '../Bar'
 import { loadSupportUser } from '../../action/supportDateAction';
+
 const compareForToday = (array) => {
 
 
@@ -17,22 +19,23 @@ const compareForToday = (array) => {
     return todayInLine
 }
 
-export default function SupportTodayCard({state}) {
+export default  SupportTodayCard =({state})=> {
 
- const dispatch = useDispatch();
- useEffect(() => {
-     dispatch(() => { loadSupportUser(dispatch) })
+    // const dispatch = useDispatch();
 
- }, [])
+    // useEffect(() => {
+    //     dispatch(() => { loadSupportUser(dispatch) })
+
+    // }, [])
 
 
-    console.log(state)
-    const firstLine = compareForToday([...state.support["1st line"]])
+
+    const standUp = compareForToday([...state.support["Stand Up"]])
     const secondLine = compareForToday([...state.support["2nd line"]])
     const thirdLine = compareForToday([...state.support["3rd line"]])
 
 
-    console.log(firstLine, "\n", secondLine, "\n", thirdLine)
+    console.log(standUp, "\n", secondLine, "\n", thirdLine)
 
 
     return (
@@ -40,23 +43,13 @@ export default function SupportTodayCard({state}) {
             <div className="support-table-card">
                 <div>
 
-                    <Badge array={firstLine} name="1st Line" className="marginTop" />
-                    <div className="line" />
-                    <Badge array={secondLine} name="2nd Line" />
-                    <div className="line" />
-                    <Badge array={thirdLine} name="3rd Line" className="marginBottom" />
-
-
+                    <Badge array={standUp} name="Stand Up Today" className="marginTop" />
+                    
                 </div>
             </div>
         </>
     )
 }
-
-
-
-
-
 
 
 
@@ -172,36 +165,3 @@ const Badge = ({ array, name }) => {
 
 
 
-
-
-
-// const ExpandingForm = ({ name, state }) => {
-
-//     const [users, setUsers] = useState([])
-//     const dispatch = useDispatch();
-
-
-
-
-
-
-
-
-
-//     return (
-//         <div className="container"
-//             key={name}
-            
-//         >
-
-
-
-//         </div>
-//     )
-
-// }
-
-
-
-// use this to when i am making the standup page 
-//    const standUp = compareForToday([...state.support["Stand Up"]])
