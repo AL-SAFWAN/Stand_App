@@ -69,7 +69,7 @@ export default function App({ data }) {
   return (
     <Calendar
       defaultDate={moment().toDate()}
-      defaultView="month"
+      defaultView="day"
       events={events}
       localizer={localizer}
       style={{ height: "48vh", width: "90vw" ,margin : "auto"}}

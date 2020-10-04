@@ -1,10 +1,12 @@
 import {SET_NOTE_ID, LOAD_NOTE, LOADED_NOTE } from "../action/type";
 
 
-export const loadNote =( dispatch, todo ) =>{
+export const loadNote =( dispatch, todo,todos,token ) =>{
     dispatch({ 
         type : LOAD_NOTE,
         todo,
+        todos,
+        token,
         openNote: true
     })
 } 

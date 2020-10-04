@@ -81,3 +81,61 @@
     width: 42px;
     justify-content: center;
 }
+
+.item-container{
+    margin: auto;
+    border: 15px solid rgba(194, 197, 219, 0.7);
+    border-radius: 5px;
+    padding: 10px;
+display: flex;
+flex-direction: column;
+width: fit-content;
+/* margin: auto; */
+margin-top: 1vh;
+/* background-color: lightgray; */
+align-items: center;
+justify-items: center;
+}
+.item-editor{
+    margin: auto;
+width: 30vw;
+height: fit-content;
+
+}
+.item-dates{
+    
+    margin: 10px;
+    display: flex;
+  width: fit-content;  
+  margin-left: 10px;
+
+}
+.date-container{
+margin-bottom:10px;
+display: flex;
+    flex-direction: row;
+
+}
+.ganttChart-container{
+    margin-top: 17vh;
+    margin: 30px;
+    height: fit-content;
+}
+.edit-group{
+    display: flex;
+    flex-direction: row;    
+    /* margin-bottom: 23px; */
+
+}
+.buttons{
+    display: flex;
+    align-self: center;
+    margin: 28px;
+    margin-bottom: 0;
+    
+}
+.button{
+    margin-left: 10px;
+    border: 2px solid rgba(194, 197, 219, 0.3);
+    border-radius: 5px;
+}

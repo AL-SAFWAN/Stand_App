@@ -89,8 +89,8 @@ export const login = ({ email, password }) => (dispatch) => {
 }
 
 // used to auth the changed on the todo 
-export const tokenConfig = getState => {
-  const token = getState.auth.token;
+export const tokenConfig = state => {
+  const token = state.auth.token;
   const config = {
     headers: {
       "Content-type": "application/json"

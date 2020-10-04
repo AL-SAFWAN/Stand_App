@@ -12,8 +12,7 @@ import { returnErrorsOfItem, returnErrors } from "../../action/errorAction";
 import {loadNote, setOpenNote} from '../../action/noteAction'
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import DateTimePicker from '../Calander/DateTimePicker'
+import EditIcon from '@material-ui/icons/Edit';
 
 function Item({ id, todos, todo, index, classes, token }) {
 
@@ -77,8 +76,9 @@ function Item({ id, todos, todo, index, classes, token }) {
   };
 
   const openNotes =()=>{
-    dispatch(()=>{loadNote(dispatch,todo)})
+    dispatch(()=>{loadNote(dispatch,todo,todos,token)})
   }
+
   return (
     <ListItem
       className={classes.root}
@@ -104,12 +104,12 @@ function Item({ id, todos, todo, index, classes, token }) {
         primary={<Todo key={index} index={index} todo={todo} />}
         style={checkStyle(check)}
       />
-      <DateTimePicker todo = {todo} todos = {todos} token = {token}/>
+      {/* Change the note icon to show More */}
       <IconButton
       edge="end"
       aria-label="comments"
       onClick={openNotes}>
-      <NoteAddIcon />
+      <EditIcon />
       </IconButton>
 
       <IconButton

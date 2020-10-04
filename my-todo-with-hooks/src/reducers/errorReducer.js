@@ -3,7 +3,8 @@ import { GET_ERRORS, CLEAR_ERRORS } from "../action/type";
 const initialState = {
   msg: {},
   status: null,
-  id: null
+  id: null,
+  type: "error"
 };
 
 export default function(state = initialState, action) {
@@ -12,7 +13,8 @@ export default function(state = initialState, action) {
       return {
         msg: action.payload.msg,
         state: action.payload.status,
-        id: action.payload.id
+        id: action.payload.id,
+        type: action.payload.id
       };
     case CLEAR_ERRORS:
       return {

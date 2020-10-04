@@ -33,7 +33,7 @@ const Routers = ({ location, state }) => {
       <Switch location={location}>
 
         <Route exact path='/' render={ ()=> <OnLog state ={state}/>} />
-        <Route exact path='/support' render={() =><SupportPage /> } />
+        <Route exact path='/support' render={() =><SupportPage state={state} /> } />
         <Route exact path='/standup' render={()=> <StandupForm state={state} />} />
         <Route exact path='/admin' render={()=> <AdminPage state={state}/>} />
 
@@ -55,11 +55,14 @@ function App({ location }) {
 
   const [msg, setMsg] = useState({})
   const [id, setId] = useState(null)
+  const [type, setType] = useState("error")
 
   useEffect(() => {
-    const { msg, id } = state.error;
+    const { msg, id,type } = state.error;
     setMsg(msg)
     setId(id)
+    setType(type)
+
   }, [state.error]);
 
   return (
@@ -81,7 +84,7 @@ function App({ location }) {
           elevation={6}
           variant="filled"
           onClose={() => dispatch(clearErrors())}
-          severity="error"
+          severity= {type}
           children={msg.toString()}
           style={{ opacity: 1, transform: "none", visibility: undefined }}
           direction="up"

@@ -1,11 +1,11 @@
 import { GET_ERRORS, CLEAR_ERRORS } from "../action/type";
 import { setItemToAdd } from "./itemActions";
 
-export const returnErrors = (msg, status, id = null) => {
+export const returnErrors = (msg, status, id = null, type = "error") => {
   console.log(msg,status,id)
   return {
     type: GET_ERRORS,
-    payload: { msg, status, id }
+    payload: { msg, status, id,type }
   };
 };
 

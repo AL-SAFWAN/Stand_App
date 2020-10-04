@@ -3,6 +3,8 @@ import { LOAD_NOTE, LOADED_NOTE, CLEAR_NOTE} from "../action/type";
 const initialState = {
   preTodo : null,
   todo:null, 
+  todos:[], 
+  token: null,
   openNote : false
 };
 
@@ -19,6 +21,8 @@ export default function (state = initialState, action) {
       ...state,
       preTodo: state.todo,
       todo: action.todo,
+      todos: action.todos,
+      token: action.token,
       openNote: action.openNote,
        
     }

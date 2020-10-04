@@ -1,7 +1,7 @@
 import React from 'react'
 import Chart from 'react-google-charts'
 import moment from 'moment'
-
+import "./Activity.css"
 export default function ganttChart({todo, todos}) {
 
 
@@ -41,18 +41,17 @@ export default function ganttChart({todo, todos}) {
 
     return (
 <Chart
-  width={'100%'}
-  height={'400px'}
+className ="ganttChart-container"
   chartType="Gantt"
   loader={<div>Loading Chart</div>}
   data={data}
   options={{
-    height: 400,
+    height: `${(30*todos.length) +50}px`,
     gantt: {
       trackHeight: 30,
     },
   }}
-  rootProps={{ 'data-testid': '2' }}
+  rootProps={{ 'data-testid': '1' }}
 />
        
     )
