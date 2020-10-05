@@ -5,10 +5,13 @@ import { KeyboardArrowLeft } from '@material-ui/icons';
 import { IconButton, } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { animated, useTransition, config, useSpring, useSprings, useChain, interpolate } from 'react-spring'
-
+import moment from 'moment'
+import axios from 'axios'
+import { useSelector } from 'react-redux'
+import { tokenConfig } from '../../action/authAction'
 let idKey = 0
 
-export default function FactoryCard({name}) {
+export default function FactoryCard({ name, userId }) {
     return (
         <React.Fragment>
 
@@ -20,18 +23,19 @@ export default function FactoryCard({name}) {
                     <div></div>
                 </div>
                 <br></br>
-                <FactoryInputField id={"Yesterday"} />
-                <FactoryInputField id={"Today"} />
-                <FactoryInputField id={"Blocker"} />
+                <FactoryInputField name={name} userId={userId} id={"Yesterday"} />
+                <FactoryInputField name={name} userId={userId} id={"Today"} />
+                <FactoryInputField name={name} userId={userId} id={"Blocker"} />
             </div>
 
         </React.Fragment>
-    )}
+    )
+}
 
 
 
 const Todos = ({ config = { mass: 5, tension: 650, friction: 55 }, todos, onDeleteTodo, trRef }) => {
-    const transitions = useTransition(todos, item => item.key, {
+    const transitions = useTransition(todos, item => item.id, {
         ref: trRef,
         from: { opacity: 0, transform: "translateY(-10px)" },
         enter: { opacity: 1, transform: "translateY(0)" },
@@ -43,8 +47,8 @@ const Todos = ({ config = { mass: 5, tension: 650, friction: 55 }, todos, onDele
         (
             <animated.div style={props} key={key}>{
                 <div className="listItem">
-                    <div className="todo">{item.todo}</div>
-                    <IconButton onClick={() => onDeleteTodo(item.key)}>
+                    <div className="todo">{item.text}</div>
+                    <IconButton onClick={() => onDeleteTodo(item.id)}>
                         <DeleteIcon />
                     </IconButton>
                 </div>
@@ -53,35 +57,67 @@ const Todos = ({ config = { mass: 5, tension: 650, friction: 55 }, todos, onDele
     )
 }
 
+// maybe have an axios call 
+const FactoryInputField = ({ name, id, userId }) => {
 
-const FactoryInputField = ({ id }) => {
+    const todoDateObj = {
+        Yesterday: moment().subtract(1, "days").toDate(),
+        Today: moment().toDate(),
+        Blocker: moment().toDate()
+    };
 
     const [todos, setTodos] = useState([]);
+
     const [openTable, setOpenTable] = useState(false)
     const [value, setValue] = useState("");
     const springRef = useRef()
+
     const { size, opacity, x, ...rest } = useSpring({
         ref: springRef,
         config: config.gentle,
         // opacity: openTable ? 1 : 0,
         x: openTable ? 90 : 0,
-        height: openTable ? 55 * todos.length : 0,
+        height: openTable ? (55 * todos.length) + 10 : 0,
         from: { opacity: 0, x: 0, height: 0 },
         // reverse: !openTable,
         overflow: "hidden"
     })
     const trRef = useRef()
+
+    const state = useSelector(state => state)
+    const token = tokenConfig(state)
     const handleSubmit = e => {
+
+
         e.preventDefault();
         if (!value) return;
-        todos.push({ todo: value, key: idKey++ })
-        // setTodos([...todos,{ todo: value, key: id++ } ])
+        // todos.push({})
+      
+        const itemObj = {
+            createdAt: todoDateObj[id],
+            name: id,
+            text: value,
+            isCompleted: false,
+            index: -todos.length,
+            userId,
+            endAt: moment(todoDateObj[id]).add(2, "hours").toDate()
+        };
+
+        axios.post("/api/items", itemObj, token)
+            .then((req, res) => {
+                console.log(req.data)
+                setTodos([req.data, ...todos,])
+            })
+            console.log(todos)
         setValue("");
     };
-    const deleteTodo = (index) => {
-        setTodos(todos.filter((todo) => todo.key !== index))
+
+    const deleteTodo = (id) => {
+
+        axios.delete("/api/items/" + id, token).then(() => {
+            setTodos(todos.filter((todo) => todo.id !== id))
+        })
     }
-    // console.log("open table is?", openTable)
     useChain(openTable ? [springRef, trRef] : [trRef, springRef])
 
     return (
@@ -103,7 +139,7 @@ const FactoryInputField = ({ id }) => {
                     <TextField
                         fullWidth={true}
                         className="textfield"
-                        id={id}
+                        id={name + id}
                         label={id}
                         variant="outlined"
 

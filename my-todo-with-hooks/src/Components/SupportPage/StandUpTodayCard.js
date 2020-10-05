@@ -1,9 +1,8 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useSpring, animated, config } from 'react-spring'
 import TextField from '@material-ui/core/TextField';
-import index from '../Bar'
 import { loadSupportUser } from '../../action/supportDateAction';
 
 const compareForToday = (array) => {
@@ -19,32 +18,37 @@ const compareForToday = (array) => {
     return todayInLine
 }
 
-export default  SupportTodayCard =({state})=> {
+export default function StandUpTodayCard({ state }) {
 
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     dispatch(() => { loadSupportUser(dispatch) })
+    useEffect(() => {
+        dispatch(() => { loadSupportUser(dispatch) })
 
-    // }, [])
+    }, [])
 
 
 
     const standUp = compareForToday([...state.support["Stand Up"]])
-    const secondLine = compareForToday([...state.support["2nd line"]])
-    const thirdLine = compareForToday([...state.support["3rd line"]])
 
 
-    console.log(standUp, "\n", secondLine, "\n", thirdLine)
 
-
+    const [openTable, setOpenTable] = useState(false)
     return (
         <>
-            <div className="support-table-card">
+            <div className="support-table-card"
+               onMouseEnter={() => {
+                setOpenTable(true)
+            }
+            }
+            onMouseLeave={() => {
+                setOpenTable(false)
+            }}
+            >
                 <div>
 
-                    <Badge array={standUp} name="Stand Up Today" className="marginTop" />
-                    
+                    <Badge openTable = {openTable} array={standUp} name="Stand Up Today" className="marginTop" />
+
                 </div>
             </div>
         </>
@@ -54,8 +58,7 @@ export default  SupportTodayCard =({state})=> {
 
 
 
-const Badge = ({ array, name }) => {
- const [openTable, setOpenTable] = useState(false)
+const Badge = ({ array, name,openTable }) => {
     const { ...rest } = useSpring({
         // ref: springRef,
         config: config.slow,
@@ -66,31 +69,24 @@ const Badge = ({ array, name }) => {
         overflow: "hidden"
     })
 
-    if (array.length == 0 ) return <> 
-     <div className="user-card" >
-    {/* <div className="user-icon"></div> */}
+    if (array.length == 0) return <>
+        <div className="user-card" >
+            {/* <div className="user-icon"></div> */}
 
             <div className="text-container">
 
                 <div className="support-type"> {name}</div>
-               
-                    <div className="username"> NotAssign</div>
+
+                <div className="username"> NotAssign</div>
 
             </div> </div>
-    
+
     </>
 
-   
+
 
     return (<>
-        <div className="user-card" 
-        onMouseEnter={() => {
-                setOpenTable(true)
-            }
-            }
-            onMouseLeave={() => {
-                setOpenTable(false)
-            }}>
+        <div className="user-card">
 
             <div className="user-icon"></div>
 
@@ -101,52 +97,55 @@ const Badge = ({ array, name }) => {
                     <div className="username"> {array[0].name} </div>}
 
             </div> </div>
-            
+
         <animated.div className="div-outer-container" style={{ ...rest }}>
 
-            <div style = {{marginLeft: 20,marginRight:20}} key={name} >
+            <div style={{
+                margin: "auto",
+                width: " 80%"
+            }} key={name} >
 
                 {/* here i'll map the slice array  */}
                 {array.map((user, i) => {
                     return (
 
 
-                        <div className="div-container1" key={i + user.name}>
+                        <div className="allItems" key={i + user.name}>
 
-                      <div className="textField-display">
-                                    <TextField fullWidth id="standard-basic" label="" value={user.name} />
-                                </div>
+                            <div className="textField-display">
+                                <TextField fullWidth id= {`standard-basic +${i}`}  label="" value={user.name} />
+                            </div>
 
-                     <div className="date-item">
-                                    <TextField
-                                        fullWidth
-                                        id="datetime-local"
-                                        label="start"
-                                        type="date"
-                                        value={user.start}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
-                                </div>
-                                
+                            <div className="date-item">
+                                <TextField
+                                    fullWidth
+                                    id="datetime-local"
+                                    label="start"
+                                    type="date"
+                                    value={user.start}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
 
-                     <div className="date-item">
 
-                                    <TextField
-                                        fullWidth
-                                        id="datetime-local"
-                                        label="end"
-                                        type="date"
-                                        value={user.end}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
-                                </div>
-                       
+                            <div className="date-item">
 
-                     
+                                <TextField
+                                    fullWidth
+                                    id="datetime-local"
+                                    label="end"
+                                    type="date"
+                                    value={user.end}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
+
+
+
                         </div>)
                 }
                 )}

@@ -10,5 +10,8 @@
 }
 .menu:hover{
     cursor: pointer;
+    
+}
+.menu:active{
     transform: scale(1.2);
 }

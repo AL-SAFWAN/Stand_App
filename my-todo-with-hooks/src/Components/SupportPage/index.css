@@ -1,8 +1,8 @@
 .support-table-card{
     display: flex;
     flex-direction: column;
-    margin: 2em;
-    width: 21vw;
+    margin: auto;
+    width: 90%;
     height: min-content; 
 
     border: 12px solid #c2c5db ;
@@ -142,4 +142,26 @@
     width: 90vw;
     margin-top: 1vh;
     min-height:  48vh;
+}
+
+.calenderAdmin{
+    margin: auto;
+    padding: 10px;
+    border: 15px solid #c2c5db;
+    border-radius: 10px;
+    width: 90vw;
+    margin-top: 4vh;
+    
+    
+    height:  80vh;
+}
+.allItems{ 
+    display: flex;
+    border: 6px solid #c2c5db;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 0.5em;
+    padding: 0.5em;
+    width: -moz-fit-content;
+  
 }

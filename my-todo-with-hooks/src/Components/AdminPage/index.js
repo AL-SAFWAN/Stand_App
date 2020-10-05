@@ -8,7 +8,6 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment'
 import { useDispatch } from 'react-redux'
-import { loadUsersActivity } from "../../action/userActivityAction";
 import Chart from 'react-google-charts'
 import { IconButton, } from "@material-ui/core";
 import { animated, config, useSpring, interpolate } from 'react-spring'
@@ -19,7 +18,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteSupportUser, editSupportUser, loadSupportUser } from '../../action/supportDateAction';
 import { addSupportUser } from '../../action/supportDateAction'
-import { GET_ERRORS } from '../../action/type';
 import SupportTodayCard from '../SupportPage/SupportTodayCard'
 import { returnErrors } from '../../action/errorAction';
 
@@ -61,9 +59,9 @@ export default function Index({state}) {
             */}
     
 
-            <div><SupportTodayCard state ={state}/></div>
+            <div style ={{marginTop: "5em"}}><SupportTodayCard state ={state}/></div>
             </div>
-            <div className="calender"><Cal allUsers={state.support}></Cal></div></div>
+            <div className="calenderAdmin"><Cal allUsers={state.support}></Cal></div></div>
         
     </>)
 }
@@ -105,12 +103,13 @@ const ExpandingForm = ({ name, state }) => {
 
     const [openTable, setOpenTable] = useState(false)
     const [users, setUsers] = useState([])
+
     const dispatch = useDispatch();
 
 
-    useEffect(() => {
-        dispatch(() => { loadUsersActivity(dispatch) })
-    }, [])
+    // maybe problem is here 
+    // this is for the admin
+
 
     useEffect(() => {
         // im setting the user array of the menu selection 
@@ -205,7 +204,7 @@ const ExpandingForm = ({ name, state }) => {
                         return (
                             <div className="div-container1" key={i + user.name}>
                                 <div className="textField-display">
-                                    <TextField fullWidth id="standard-basic" label="" value={user.name} />
+                                    <TextField fullWidth id={"standard-basic" +i + user.name+name} label="" value={user.name} />
                                 </div>
                                 <div className="date-item">
                                     <TextField
@@ -484,7 +483,7 @@ function Cal({ allUsers }) {
             defaultView="month"
             events={events}
             localizer={localizer}
-            style={{ height: "86vh" }}
+            style={{ height: "80vh" }}
             onSelectEvent={onClick}
         />
     );

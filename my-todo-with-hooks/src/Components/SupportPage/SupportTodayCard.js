@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { useSpring, animated, config } from 'react-spring'
 import TextField from '@material-ui/core/TextField';
@@ -17,13 +17,13 @@ const compareForToday = (array) => {
     return todayInLine
 }
 
-export default function SupportTodayCard({state}) {
+export default function SupportTodayCard({ state }) {
 
- const dispatch = useDispatch();
- useEffect(() => {
-     dispatch(() => { loadSupportUser(dispatch) })
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(() => { loadSupportUser(dispatch) })
 
- }, [])
+    }, [])
 
 
     console.log(state)
@@ -62,7 +62,7 @@ export default function SupportTodayCard({state}) {
 
 
 const Badge = ({ array, name }) => {
- const [openTable, setOpenTable] = useState(false)
+    const [openTable, setOpenTable] = useState(false)
     const { ...rest } = useSpring({
         // ref: springRef,
         config: config.slow,
@@ -73,25 +73,25 @@ const Badge = ({ array, name }) => {
         overflow: "hidden"
     })
 
-    if (array.length == 0 ) return <> 
-     <div className="user-card" >
-    {/* <div className="user-icon"></div> */}
+    if (array.length == 0) return <>
+        <div className="user-card" >
+            {/* <div className="user-icon"></div> */}
 
             <div className="text-container">
 
                 <div className="support-type"> {name}</div>
-               
-                    <div className="username"> NotAssign</div>
+
+                <div className="username"> NotAssign</div>
 
             </div> </div>
-    
+
     </>
 
-   
+
 
     return (<>
-        <div className="user-card" 
-        onMouseEnter={() => {
+        <div className="user-card"
+            onMouseEnter={() => {
                 setOpenTable(true)
             }
             }
@@ -108,52 +108,54 @@ const Badge = ({ array, name }) => {
                     <div className="username"> {array[0].name} </div>}
 
             </div> </div>
-            
-        <animated.div className="div-outer-container" style={{ ...rest }}>
 
-            <div style = {{marginLeft: 20,marginRight:20}} key={name} >
+        <animated.div className="div-outer-container" style={{ ...rest }}>
+            <div style={{
+                margin: "auto",
+                width: " 80%"
+            }} key={name} >
 
                 {/* here i'll map the slice array  */}
                 {array.map((user, i) => {
                     return (
 
 
-                        <div className="div-container1" key={i + user.name}>
+                        <div className="allItems" key={i + user.name}>
 
-                      <div className="textField-display">
-                                    <TextField fullWidth id="standard-basic" label="" value={user.name} />
-                                </div>
+                            <div className="textField-display">
+                                <TextField fullWidth id= {`standard-basic +${i}`+ user.name}  label="" value={user.name} />
+                            </div>
 
-                     <div className="date-item">
-                                    <TextField
-                                        fullWidth
-                                        id="datetime-local"
-                                        label="start"
-                                        type="date"
-                                        value={user.start}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
-                                </div>
-                                
+                            <div className="date-item">
+                                <TextField
+                                    fullWidth
+                                    id="datetime-local"
+                                    label="start"
+                                    type="date"
+                                    value={user.start}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
 
-                     <div className="date-item">
 
-                                    <TextField
-                                        fullWidth
-                                        id="datetime-local"
-                                        label="end"
-                                        type="date"
-                                        value={user.end}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
-                                </div>
-                       
+                            <div className="date-item">
 
-                     
+                                <TextField
+                                    fullWidth
+                                    id="datetime-local"
+                                    label="end"
+                                    type="date"
+                                    value={user.end}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
+
+
+
                         </div>)
                 }
                 )}
@@ -191,7 +193,7 @@ const Badge = ({ array, name }) => {
 //     return (
 //         <div className="container"
 //             key={name}
-            
+
 //         >
 
 

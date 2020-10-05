@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import "./Activity.css"
 import { useDispatch } from "react-redux";
-import { loadUsersActivity } from "../action/userActivityAction"
-import Img from '../img/support.png'
 import io from 'socket.io-client'
 import { animated, config, interpolate, useSpring, useSprings, useTransition } from 'react-spring'
-import { useGesture } from 'react-use-gesture';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import zIndex from '@material-ui/core/styles/zIndex';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+
 
 
 const Item = ({ user, i, set }) => {

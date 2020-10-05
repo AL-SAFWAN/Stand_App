@@ -171,9 +171,9 @@ export default function Index({ state }) {
 
 
                 dispatch(() => setItemToAdd(dispatch, newTodos, "Today"));
-       
-                dispatch(()=>returnErrors( `Added to Today's todo: ${text}`, "success",dispatch)
-                    
+
+                dispatch(() => returnErrors(`Added to Today's todo: ${text}`, "success", dispatch)
+
                 )
             })
     };
@@ -216,8 +216,9 @@ export default function Index({ state }) {
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                 <CheckboxOption one={one} two={two} three={three} four={four} setOne={setOne} setTwo={setTwo} setThree={setThree} setFour={setFour} />
                 <SearchTable text={text} setText={setText} data={filterData} addTodo={addTodo} ></SearchTable>
-                <SupportTodayCard state={state} />
-
+                <div style= {{ width: "23.5vw" ,marginTop:"2em"}}>
+                    <SupportTodayCard state={state} />
+                </div>
             </div>
 
             <div className="calender"> <Support style={{ margin: "auto" }} data={filterData.filter(item => {
