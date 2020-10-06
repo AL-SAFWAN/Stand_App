@@ -18,29 +18,7 @@ import { Route, Switch, useHistory, useLocation, withRouter } from 'react-router
 import { config, animated, useTransition } from "react-spring";
 
 
-const Routers = ({ location, state }) => {
 
-
-
-  const transitions = useTransition(location, location => location.pathname, {
-    config:{duration: 400},
-    from:  { opacity: 0},
-    enter: { opacity: 1},
-    leave: { opacity: 0},
-  })
-  return transitions.map(({ item: location, props, key }) => (
-    <animated.div key={key} style={props}>
-      <Switch location={location}>
-
-        <Route exact path='/' render={ ()=> <OnLog state ={state}/>} />
-        <Route exact path='/support' render={() =><SupportPage state={state} /> } />
-        <Route exact path='/standup' render={()=> <StandupForm state={state} />} />
-        <Route exact path='/admin' render={()=> <AdminPage state={state}/>} />
-
-      </Switch>
-    </animated.div>
-  ))
-}
 
 function App({ location }) {
 
@@ -53,16 +31,19 @@ function App({ location }) {
   useEffect(() =>
     dispatch(() => loadUser(dispatch, state)), []);
 
-
-    console.log("here", state.error)
     const { msg, id,type } = state.error;
  
 
   return (
-    <React.Fragment>
+    <div>
       <MenuBar state={state}></MenuBar>
 
-      <Routers location={location} state ={state}/>
+      <Switch >
+        <Route exact path='/' render={ ()=> <OnLog state ={state}/>} />
+        <Route exact path='/support' render={() =><SupportPage state={state} /> } />
+        <Route exact path='/standup' render={()=> <StandupForm state={state} />} />
+        <Route exact path='/admin' render={()=> <AdminPage state={state}/>} />
+      </Switch>
 
       <Snackbar
         anchorOrigin={{
@@ -84,7 +65,7 @@ function App({ location }) {
         />
       </Snackbar>
 
-    </React.Fragment>
+    </div>
   );
 }
 

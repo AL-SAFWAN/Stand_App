@@ -68,7 +68,7 @@ const Badge = ({ array, name }) => {
         config: config.slow,
         opacity: openTable ? 1 : 0,
         // Add the new height 
-        height: openTable ? (85 * array.length) + 10 : 0,
+        height: openTable ? (85 * array.length) + 20 : 0,
         from: { opacity: 0, height: 0 },
         overflow: "hidden"
     })
@@ -97,7 +97,8 @@ const Badge = ({ array, name }) => {
             }
             onMouseLeave={() => {
                 setOpenTable(false)
-            }}>
+            }}
+            >
 
             <div className="user-icon"></div>
 
@@ -112,7 +113,8 @@ const Badge = ({ array, name }) => {
         <animated.div className="div-outer-container" style={{ ...rest }}>
             <div style={{
                 margin: "auto",
-                width: " 80%"
+                width: " 80%",
+                paddingBottom:18
             }} key={name} >
 
                 {/* here i'll map the slice array  */}

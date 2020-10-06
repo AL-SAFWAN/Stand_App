@@ -44,7 +44,6 @@ export const addSupportUser = (name, user, dispatch) => {
 export const deleteSupportUser = (name, id, dispatch) => {
 
 
-    console.log(id)
     axios.delete("/api/supportDates/"
         + id
     )
@@ -56,8 +55,13 @@ export const deleteSupportUser = (name, id, dispatch) => {
     );
 };
 
-export const editSupportUser = (name, array, dispatch) => {
+export const editSupportUser = (name, array, dispatch, todo) => {
+    console.log(todo)
 
+    axios.patch("/api/supportDates/" + todo.id, {
+        start: todo.start,
+        end: todo.end
+      })
 
     dispatch({
         type: EDIT_USERS,

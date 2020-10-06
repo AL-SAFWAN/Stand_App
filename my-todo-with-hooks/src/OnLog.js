@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import UserDisplay from './Components/UserDisplay';
 import FrontPage from "./Components/auth/FrontPage";
@@ -7,14 +7,15 @@ import Graph from "./Components/ActivityGraph"
 import Calander from './Components/Calander'
 import MyEditor from './Components/MyEditor'
 import io from 'socket.io-client'
+import { animated, useChain, useSpring } from "react-spring";
 
 
 
 //i will get the information of the users who are online here 
 
 // from the state when im locked in, set my data 
-export default function OnLog({state}) { 
-  
+export default function OnLog({ state }) {
+
 
   const [step, setStep] = useState(1);
   // const [users, setUser] = useState([]);
@@ -33,15 +34,42 @@ export default function OnLog({state}) {
 
 
 
+  const springRef1 = useRef()
+  const springRef2 = useRef()
+  const springRef3 = useRef()
+   
+  const spring1 = useSpring({
+    from: { opacity: 0},
+    to:async (next, cancel) => {
+      await next({ opacity: 1 })
+    }
+
+  }
+  )
+  const spring2 = useSpring({
+    from: { opacity: 0, transform: `translate3d(0,50%,0) scale(${0})` },
+    to:async (next, cancel) => {
+      await next({ opacity: 1 ,transform: `translate3d(0%,0,0) scale(${1})`})
+    }
+
+  }
+  )
+
+  const spring3 = useSpring({
+    from: { opacity: 0, transform: `translate3d(0,-50%,0) `, display: "none"},
+    to :{ transform:  `translate3d(0%,0,0)`,opacity: 1, display:"block" },
+    delay:100
+  }
+  )
 
 
   const style = {
     container: {
-      display: 'flex',overflowX: "hidden"
+      display: 'flex', overflowX: "hidden"
 
     },
     item: {
-      margin: "auto",alignSelf: "center"
+      margin: "auto", alignSelf: "center"
 
     },
     itemTwo: {
@@ -74,21 +102,24 @@ export default function OnLog({state}) {
 
             <div style={{ margin: "auto" }}>
 
-              <div style={{ height: "15vh", width: width, margin: "auto" }}>
+            <animated.div style ={spring3}>
+                <div style={{ height: "15vh", width: width, margin: "auto" }}>
+                < Graph state={state} /></div>
+              </animated.div>
 
-                < Graph state={state} />
-              </div>
-              <RunningTodos width={width} state={state}></RunningTodos>
-              {/* add a calander here  */}
+              <animated.div style = {spring1} >
+                <RunningTodos width={width} state={state}></RunningTodos>
+              </animated.div>
+
               <OpenEditor />
-              <div className="calender">
+              <animated.div style ={spring2} className="calender">
                 <Calander state={state} />
-              </div>
+              </animated.div>
             </div>
-            
-            <div style={style.item}>
+
+            <animated.div style={{ ...style.item}}>
               <UserDisplay state={state} />
-            </div>
+            </animated.div>
 
           </div>
         </React.Fragment>
@@ -102,13 +133,13 @@ export default function OnLog({state}) {
 
   // move this to items 
   // happens when the item is changed 
-   
+
   // useEffect(() => {
   //   const items = [...state.item.Today]
 
   //   if (auth.isAuthenticated) {
 
-     
+
   //     let done = 0, notDone = 0
 
   //     const isCompleted = items.reduce((a, c) => {
@@ -120,7 +151,7 @@ export default function OnLog({state}) {
 
 
   //   }
-  
+
   // }, [state.item ])
 
   // socket.on("users", users => { setUser(users) })

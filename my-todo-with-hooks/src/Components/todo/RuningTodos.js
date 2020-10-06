@@ -146,7 +146,7 @@ const move = (result, sTodo, dTodo, dispatch, token) => {
   });
 };
 
-function RuningTodos({ state,width }) {
+function RuningTodos({ state, width }) {
   const dispatch = useDispatch();
   const token = tokenConfig(state);
 
@@ -168,9 +168,15 @@ function RuningTodos({ state,width }) {
   }, []);
 
   const todoObj = {
-    Yesterday: Yesterday,
-    Today: Today,
-    Blocker: Blocker,
+    Yesterday: Yesterday.sort(function (x, y) {
+      return (x.isCompleted === y.isCompleted) ? 0 : x.isCompleted ? 1 : -1;
+    }),
+    Today: Today.sort(function (x, y) {
+      return (x.isCompleted === y.isCompleted) ? 0 : x.isCompleted ? 1 : -1;
+    }),
+    Blocker: Blocker.sort(function (x, y) {
+      return (x.isCompleted === y.isCompleted) ? 0 : x.isCompleted ? 1 : -1;
+    }),
     BeyoundYesturday: BeyoundYesturday,
     BeyoundToday: BeyoundToday
   }
@@ -187,7 +193,7 @@ function RuningTodos({ state,width }) {
           justify="space-evenly"
           alignItems="flex-start"
           style={gridStyle.parent}
-          style={{ 
+          style={{
             margin: "auto",
             width: width,
             boxSizing: "border-box",
@@ -196,7 +202,7 @@ function RuningTodos({ state,width }) {
             justifySelf: "auto"
           }}
         >
-          
+
           <Grid item xs={3} style={gridStyle.child}>
             <RenderTodoItems key={"y"} id={"Yesterday"} todos={Yesterday} state={state} ></RenderTodoItems>
           </Grid>

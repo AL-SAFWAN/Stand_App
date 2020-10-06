@@ -61,9 +61,10 @@ router.delete("/:id", (req, res) => {
 });
 
 router.patch("/:id", (req, res) => {
-  const id = { itemId: req.body.itemId };
+
   console.log(req.body)
-  models.supportDate.update(req.body, { where: id })
+
+  models.supportDate.update(req.body, { where: {id:req.params.id} })
     .then((item) => {
       res.json(item)
     })

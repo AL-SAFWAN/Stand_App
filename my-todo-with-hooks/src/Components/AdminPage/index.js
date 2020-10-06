@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import TextField from '@material-ui/core/TextField';
 import "./index.css"
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -19,31 +19,65 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteSupportUser, editSupportUser, loadSupportUser } from '../../action/supportDateAction';
 import { addSupportUser } from '../../action/supportDateAction'
 import SupportTodayCard from '../SupportPage/SupportTodayCard'
+import StandUpTodayCard from '../SupportPage/StandUpTodayCard'
 import { returnErrors } from '../../action/errorAction';
-
-export default function Index({state}) {
-  
- 
+import { loadUsers, loadUsersActivity } from '../../action/userActivityAction';
 
 
-    
+export default function Index({ state }) {
 
+    const dispatch = useDispatch();
 
-    // if( (item.start<=today)&&(item.end >=0) )
+    const isMountedRef = useIsMountedRef();
+
+    function useIsMountedRef() {
+        const isMountedRef = useRef(null);
+        useEffect(() => {
+            isMountedRef.current = true;
+            return () => isMountedRef.current = false;
+        });
+        return isMountedRef;
+    }
+
+    useEffect(() => {
+        if (isMountedRef.current) {
+            dispatch(() => { loadUsersActivity(dispatch) })
+        }
+    }, [isMountedRef])
+
+    // animation here 
+    const spring2 = useSpring({
+        from: { opacity: 0, transform: `translate3d(50%,0,0) scale(${0})` },
+        to: async (next, cancel) => {
+            await next({ opacity: 1, transform: `translate3d(0%,0,0) scale(${1})` })
+        }
+
+    }
+    )
+
+    const spring3 = useSpring({
+        from: { opacity: 0, transform: `translate3d(-50%,0,0) scale(${0})` },
+        to: async (next, cancel) => {
+            await next({ opacity: 1, transform: `translate3d(0%,0,0) scale(${1})` })
+        }
+
+    }
+    )
+
 
     return (<>
-        
-        <div style={{ display: "flex",  justifyContent: "center",  marginRight: "1vw", marginLeft: "1vw" }}>
-        <div style={{ display: "flex", flexDirection:"column" , marginRight: "1vw", marginLeft: "1vw" }}>
 
-            <div style={{ marginRight: "1vw", marginTop: "3vh" }} >
-                <ExpandingForm state={state} name={"1st line"} />
-                <ExpandingForm state={state} name={"2nd line"} />
-                <ExpandingForm state={state} name={"3rd line"} />
-                <ExpandingForm state={state} name={"Stand Up"} />
-            </div>
+        <div style={{ display: "flex", justifyContent: "center", marginRight: "1vw", marginLeft: "1vw" }}>
+            <animated.div style={{ ...spring3, display: "flex", flexDirection: "column", marginRight: "1vw", marginLeft: "1vw" }}>
 
-            {/* 
+                <div style={{ marginTop: "3vh" }} >
+                    <ExpandingForm state={state} name={"1st line"} />
+                    <ExpandingForm state={state} name={"2nd line"} />
+                    <ExpandingForm state={state} name={"3rd line"} />
+                    <ExpandingForm state={state} name={"Stand Up"} />
+                </div>
+
+                {/* 
 
             What data will i need to enter 
             who is on support today and who is doing the stand up 
@@ -57,12 +91,15 @@ export default function Index({state}) {
             since its already sorted this will be ok 
 
             */}
-    
 
-            <div style ={{marginTop: "5em"}}><SupportTodayCard state ={state}/></div>
-            </div>
-            <div className="calenderAdmin"><Cal allUsers={state.support}></Cal></div></div>
-        
+
+                <div style={{ marginTop: "3vh" }}><SupportTodayCard state={state} /></div>
+                <div style={{ marginTop: "3vh" }}> <StandUpTodayCard state={state} /></div>
+            </animated.div>
+
+            <animated.div style={spring2} className="calenderAdmin"><Cal allUsers={state.support}></Cal></animated.div>
+        </div>
+
     </>)
 }
 const getSupportType = (supportName) => {
@@ -101,10 +138,11 @@ const getSupportTypeFromInt = (supportName) => {
 
 const ExpandingForm = ({ name, state }) => {
 
+    const dispatch = useDispatch();
+
     const [openTable, setOpenTable] = useState(false)
     const [users, setUsers] = useState([])
 
-    const dispatch = useDispatch();
 
 
     // maybe problem is here 
@@ -147,24 +185,23 @@ const ExpandingForm = ({ name, state }) => {
         overflow: "hidden"
     })
 
-    const clicked = (selectedName, start, end, index) => {
+    const clickedAdd = (selectedName, start, end, index) => {
         if (typeof (selectedName) === "string" || typeof (selectedName) === "undefined") {
 
-            dispatch(()=>returnErrors(`please enter the field: ${name}`, "error",dispatch))
+            dispatch(() => returnErrors(`please enter the field: ${name}`, "error", dispatch))
 
             return
         }
         const user = {
-
             name: selectedName.name,
             userId: selectedName.id,
             start: start,
             end: end,
             supportType: getSupportType(name)
         }
+
         dispatch(() => addSupportUser(name, user, dispatch))
         setOpenTable(true)
-
         const setArr = [...users]
         setArr.splice(index, 1)
         setUsers(setArr)
@@ -195,7 +232,7 @@ const ExpandingForm = ({ name, state }) => {
             }}
         >
             <div   >
-                <ExpandingFormHeader state={state} userData={users} clicked={clicked} name={name} />
+                <ExpandingFormHeader state={state} userData={users} clicked={clickedAdd} name={name} />
             </div>
 
             <animated.div className="div-outer-container" style={{ ...rest }}>
@@ -204,7 +241,7 @@ const ExpandingForm = ({ name, state }) => {
                         return (
                             <div className="div-container1" key={i + user.name}>
                                 <div className="textField-display">
-                                    <TextField fullWidth id={"standard-basic" +i + user.name+name} label="" value={user.name} />
+                                    <TextField fullWidth id={"standard-basic" + i + user.name + name} label="" value={user.name} />
                                 </div>
                                 <div className="date-item">
                                     <TextField
@@ -218,7 +255,10 @@ const ExpandingForm = ({ name, state }) => {
                                             // use this to set the redux array
                                             const newArr = [...state.support[name]]
                                             newArr[i].start = e.target.value
-                                            dispatch(() => editSupportUser(name, newArr, dispatch))
+                                            console.log(newArr)
+                                            // send the backend newArr[i]
+                                            
+                                            dispatch(() => editSupportUser(name, newArr, dispatch, newArr[i]))
 
                                             // setAddedUser(newArr)
                                             // call here?
@@ -240,7 +280,9 @@ const ExpandingForm = ({ name, state }) => {
                                             // // use this to set the redux array 
                                             const newArr = [...state.support[name]]
                                             newArr[i].end = e.target.value
-                                            dispatch(() => editSupportUser(name, newArr, dispatch))
+
+                                            dispatch(() => editSupportUser(name, newArr, dispatch,newArr[i]))
+
                                         }}
                                         InputLabelProps={{
                                             shrink: true,

@@ -12,6 +12,7 @@ import moment from 'moment'
 import { returnErrors } from "../../action/errorAction";
 import { tokenConfig } from '../../action/authAction'
 import { GET_ERRORS } from "../../action/type";
+import { animated, useSpring } from "react-spring";
 
 var request = require('request');
 
@@ -179,6 +180,26 @@ export default function Index({ state }) {
     };
 
 
+    const spring2 = useSpring({
+        from: { opacity: 0, transform: `translate3d(0,50%,0) scale(${0})` },
+        to: async (next, cancel) => {
+            await next({ opacity: 1, transform: `translate3d(0%,0,0) scale(${1})` })
+        }
+
+    }
+    )
+
+    const spring3 = useSpring({
+        from: { opacity: 0, transform: `translate3d(0,-50%,0) scale(${0})` },
+        to: async (next, cancel) => {
+            await next({ opacity: 1, transform: `translate3d(0%,0,0) scale(${1})` })
+        }
+
+    }
+    )
+    
+    
+  
 
     const [one, setOne] = useState(true)
     const [two, setTwo] = useState(true)
@@ -213,18 +234,19 @@ export default function Index({ state }) {
 
     return (
         <div>
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <animated.div style={{ ...spring3,display: "flex", justifyContent: "space-evenly" }}>
                 <CheckboxOption one={one} two={two} three={three} four={four} setOne={setOne} setTwo={setTwo} setThree={setThree} setFour={setFour} />
                 <SearchTable text={text} setText={setText} data={filterData} addTodo={addTodo} ></SearchTable>
-                <div style= {{ width: "23.5vw" ,marginTop:"2em"}}>
-                    <SupportTodayCard state={state} />
+                <div style={{ width: "23.5vw", marginTop: "2em" }}> <SupportTodayCard state={state} />
                 </div>
-            </div>
+            </animated.div>
 
-            <div className="calender"> <Support style={{ margin: "auto" }} data={filterData.filter(item => {
+            <animated.div className="calender" style={spring2}> <Support style={{ margin: "auto" }} data={filterData.filter(item => {
                 if (text === false) return true
                 return item.text.toLowerCase().includes(text.toLowerCase())
-            })}></Support></div>
+            })}></Support>
+
+            </animated.div>
         </div>
     )
 }
