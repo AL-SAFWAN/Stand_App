@@ -9,6 +9,13 @@ export const returnErrors = (msg, type , dispatch) => {
   })
 };
 
+export const returnLogErrors = (msg, status, id = null) => {
+  return {
+    type: GET_ERRORS,
+    payload: { msg, status, id , type : "error"}
+  };
+};
+
 export const returnErrorsOfItem = (dispatch, msg, status, todos, id,text) => {
   // adding back the item
   dispatch(() => setItemToAdd(dispatch, todos, id));

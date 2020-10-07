@@ -13,6 +13,7 @@ import {loadNote, setOpenNote} from '../../action/noteAction'
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
+import moment from 'moment'
 
 function Item({ id, todos, todo, index, classes, token }) {
 
@@ -39,13 +40,20 @@ function Item({ id, todos, todo, index, classes, token }) {
 
   const handelToggle = () => {
     dispatch(() => { loading(dispatch) })
+    
     var checking = check ? false : true;
+    var date = checking? moment().toDate(): moment(todos[index].createdAt).add(2,"hours").toDate()
+    console.log(checking)
     axios.patch("/api/items/" + todos[index].id, {
       id: todo.id,
-      isCompleted: checking
+      isCompleted: checking,
+      endAt: date,
     }, token).catch(err => dispatch(returnErrors(err.response.data.msg, err.response.status)));
+
     setCheck(checking);
+    
     todos[index].isCompleted = checking;
+    todos[index].endAt = date
   };
   const deleteTodo = () => {
     

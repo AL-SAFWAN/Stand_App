@@ -6,7 +6,7 @@
     "client-install": "npm install --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server.js",
-    "client": "npm start --prefix my-todo-with-hooks",
+    "client": "npm start --prefix public",
     "dev": "concurrently \"npm run server\" \" npm run client\""
   },
   "author": "SAFWAN",

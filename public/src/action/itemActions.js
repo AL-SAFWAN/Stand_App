@@ -13,7 +13,7 @@ import {
   SET_ITEM_BT
 } from "./type";
 import axios from "axios";
-import { returnErrors } from "./errorAction";
+import { returnLogErrors } from "./errorAction";
 
 
 //this is only prerformed once
@@ -30,7 +30,7 @@ export const loadItem = (dispatch,id) => {
       BeyoundYesturday :res.data.Items.BeyoundYesturday,
       BeyoundToday :res.data.Items.BeyoundToday,
     })
-  }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));;
+  }).catch(err => dispatch(returnLogErrors(err.response.data, err.response.status)));;
 };
 
 export const setItemToDelete = (dispatch, index, name) => {

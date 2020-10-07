@@ -31,21 +31,21 @@ function App({ location }) {
   useEffect(() =>
     dispatch(() => loadUser(dispatch, state)), []);
 
-    const { msg, id,type } = state.error;
- 
+  const { msg, id, type } = state.error;
+
 
   return (
     <div>
-      <MenuBar state={state}></MenuBar>
-
+      {/* <MenuBar state={state}></MenuBar> */}
+      <Bar style={{ position: "sticky" }} state={state} dispatch={dispatch}></Bar>
       <Switch >
-        <Route exact path='/' render={ ()=> <OnLog state ={state}/>} />
-        <Route exact path='/support' render={() =><SupportPage state={state} /> } />
-        <Route exact path='/standup' render={()=> <StandupForm state={state} />} />
-        <Route exact path='/admin' render={()=> <AdminPage state={state}/>} />
+        <Route exact path='/' render={() => <OnLog state={state} />} />
+        <Route exact path='/support' render={() => <SupportPage state={state} />} />
+        <Route exact path='/standup' render={() => <StandupForm state={state} />} />
+        <Route exact path='/admin' render={() => <AdminPage state={state} />} />
       </Switch>
 
-      <Snackbar
+      { (type != false) && <Snackbar
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left"
@@ -58,12 +58,12 @@ function App({ location }) {
           elevation={6}
           variant="filled"
           onClose={() => dispatch(clearErrors())}
-          severity= {type}
+          severity={type}
           children={msg.toString()}
           style={{ opacity: 1, transform: "none", visibility: undefined }}
           direction="up"
         />
-      </Snackbar>
+      </Snackbar>}
 
     </div>
   );
@@ -76,4 +76,3 @@ export default withRouter(App);
 //  <AdminPage state ={state}/>
 //  <StandupForm state ={state}></StandupForm>
 //  done  <SupportPage/>
-// <Bar style={{ position: "sticky" }} state={state} dispatch={dispatch}></Bar>

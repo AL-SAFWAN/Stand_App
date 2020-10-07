@@ -17,7 +17,7 @@ import { animated, useChain, useSpring } from "react-spring";
 export default function OnLog({ state }) {
 
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   // const [users, setUser] = useState([]);
   const { auth, note } = state
 
@@ -33,35 +33,35 @@ export default function OnLog({ state }) {
 
 
 
+  const noteProps = useSpring({
+    to: { transform: note.openNote ? `translate3d(0%,0,0) scale(1)` : `translate3d(-50%,0,0) scale(0)`, opacity: 1, display: "block" },
+    delay: 200
+  })
 
-  const springRef1 = useRef()
-  const springRef2 = useRef()
-  const springRef3 = useRef()
-   
   const spring1 = useSpring({
-    from: { opacity: 0},
-    to:async (next, cancel) => {
+    from: { opacity: 0 },
+    to: async (next, cancel) => {
       await next({ opacity: 1 })
     }
 
   }
+
   )
   const spring2 = useSpring({
     from: { opacity: 0, transform: `translate3d(0,50%,0) scale(${0})` },
-    to:async (next, cancel) => {
-      await next({ opacity: 1 ,transform: `translate3d(0%,0,0) scale(${1})`})
+    to: async (next, cancel) => {
+      await next({ opacity: 1, transform: `translate3d(0%,0,0) scale(${1})` })
     }
 
   }
   )
 
   const spring3 = useSpring({
-    from: { opacity: 0, transform: `translate3d(0,-50%,0) `, display: "none"},
-    to :{ transform:  `translate3d(0%,0,0)`,opacity: 1, display:"block" },
-    delay:100
+    from: { opacity: 0, transform: `translate3d(0,-50%,0) `, display: "none" },
+    to: { transform: `translate3d(0%,0,0)`, opacity: 1, display: "block" },
+    delay: 100
   }
   )
-
 
   const style = {
     container: {
@@ -82,7 +82,8 @@ export default function OnLog({ state }) {
   const OpenEditor = () => {
 
     if (note.openNote) {
-      return (<MyEditor state={state} />)
+      return (
+        <animated.div style={noteProps} ><MyEditor state={state} /></animated.div>)
     }
     else {
       return (<React.Fragment />)
@@ -93,6 +94,8 @@ export default function OnLog({ state }) {
   const width = "92vw"
 
   switch (step) {
+    case 0:
+      return (<></>)
     case 1:
       return (<FrontPage state={state}></FrontPage>)
     case 2:
@@ -102,22 +105,25 @@ export default function OnLog({ state }) {
 
             <div style={{ margin: "auto" }}>
 
-            <animated.div style ={spring3}>
+              <animated.div style={spring3}>
                 <div style={{ height: "15vh", width: width, margin: "auto" }}>
-                < Graph state={state} /></div>
+                  < Graph state={state} /></div>
               </animated.div>
 
-              <animated.div style = {spring1} >
+              <animated.div style={spring1} >
                 <RunningTodos width={width} state={state}></RunningTodos>
               </animated.div>
 
               <OpenEditor />
-              <animated.div style ={spring2} className="calender">
+
+
+
+              <animated.div style={spring2} className="calender">
                 <Calander state={state} />
               </animated.div>
             </div>
-
-            <animated.div style={{ ...style.item}}>
+ 
+            <animated.div style={{ ...style.item }}>
               <UserDisplay state={state} />
             </animated.div>
 

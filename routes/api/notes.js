@@ -41,7 +41,7 @@ router.post("/", (req, res) => {
     models.note.update(req.body, { where: id })
       .then((item) => { 
         res.json(item)})
-      .catch(err => res.status(404).json({ msg: false }));
+      .catch(err => res.status(404).json({ msg: "Failed to update" }));
   });
 
 module.exports = router;

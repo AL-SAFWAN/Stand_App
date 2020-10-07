@@ -8,7 +8,7 @@ import {
   REGISTER_FAIL
 } from "./type";
 import axios from "axios";
-import { returnErrors } from "./errorAction";
+import { returnLogErrors } from "./errorAction";
 
 // this only get the user information such as the name and email 
 
@@ -24,7 +24,7 @@ export const loadUser = (dispatch, getState) => {
     })
     .catch(err => {
       console.log("error", err.response)
-      dispatch(returnErrors(err.response.data.msg, err.response.status));
+      dispatch(returnLogErrors(err.response.data.msg, err.response.status));
       dispatch({
         type: AUTH_ERROR
       });
@@ -57,7 +57,7 @@ export const register = ({ name, email, password }) => dispatch => {
       })
     }).catch(err => {
       dispatch(
-        returnErrors(err.response.data.msg, err.response.status, REGISTER_FAIL));
+        returnLogErrors(err.response.data.msg, err.response.status, REGISTER_FAIL));
       dispatch({
         type: REGISTER_FAIL,
       })
@@ -81,7 +81,7 @@ export const login = ({ email, password }) => (dispatch) => {
       payload: res.data
     })).catch(err => {
       dispatch(
-        returnErrors(err.response.data.msg, err.response.status, LOGIN_FAIL));
+        returnLogErrors(err.response.data.msg, err.response.status, LOGIN_FAIL));
       dispatch({
         type: LOGIN_FAIL,
       })

@@ -14,6 +14,14 @@ import { tokenConfig } from '../../action/authAction'
 import { GET_ERRORS } from "../../action/type";
 import { animated, useSpring } from "react-spring";
 
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { Link } from "react-router-dom";
+
 var request = require('request');
 
 // objective 
@@ -30,43 +38,6 @@ var request = require('request');
 
 
 
-var headers = {
-    'Content-Type': 'application/json'
-};
-
-var options = {
-    url: 'https://acrosshealth.freshdesk.com/api/v2/tickets?per_page=100',
-    headers: headers,
-    auth: {
-        'user': 'kQXIq7tf8krxBCtan8WM',
-        'pass': 'X'
-    }
-};
-
-
-
-const fetchData = (setData) => {
-
-
-    request(options, (error, response, body) => {
-
-        if (!error && response.statusCode == 200) {
-            var obj = JSON.parse(body)
-            setData(
-                obj.map(ticket => {
-                    const { created_at, subject, priority, id } = ticket
-                    const item = {
-                        createdAt: created_at,
-                        text: subject,
-                        priority,
-                        id
-                    }
-                    return item
-                })
-            )
-        }
-    })
-}
 
 const CheckboxOption = ({ one, two, three, four, setOne, setTwo, setThree, setFour }) => {
 
@@ -127,7 +98,6 @@ const SearchTable = ({ data, addTodo, text, setText }) => {
 
 
 
-    console.log(text)
     return (
         <>
             <div className="table-container" >
@@ -146,7 +116,6 @@ const SearchTable = ({ data, addTodo, text, setText }) => {
 }
 
 export default function Index({ state }) {
-
     const dispatch = useDispatch()
 
     const token = tokenConfig(state)
@@ -161,20 +130,14 @@ export default function Index({ state }) {
             userId: state.auth.user.id,
             endAt: moment().add(2, "hours").toDate()
         };
-        console.log("itemOBj-> ", itemObj)
 
 
         axios.post("/api/items", itemObj, token)
             .then((req, res) => {
-                console.log("req data: form ", req.data)
                 const todos = state.item.Today
                 const newTodos = [req.data, ...todos];
-
-
                 dispatch(() => setItemToAdd(dispatch, newTodos, "Today"));
-
                 dispatch(() => returnErrors(`Added to Today's todo: ${text}`, "success", dispatch)
-
                 )
             })
     };
@@ -194,33 +157,81 @@ export default function Index({ state }) {
         to: async (next, cancel) => {
             await next({ opacity: 1, transform: `translate3d(0%,0,0) scale(${1})` })
         }
-
     }
     )
-    
-    
-  
 
     const [one, setOne] = useState(true)
     const [two, setTwo] = useState(true)
     const [three, setThree] = useState(true)
     const [four, setFour] = useState(true)
-
-
-
     const [data, setData] = useState([])
     const [filterData, setFilteredData] = useState([])
+    const [key, setKey] = useState(null)
+    const [keyVal, setKeyVal] = useState([])
+
 
     useEffect(() => {
-        fetchData(setData)
+        if (state.auth.user === null) return
+        axios.get("/api/auth/key/" + state.auth.user.id).then(res => {
+            setKey(res.data.apiKey)
+        })
 
-    }, [])
+    }, [state.auth.user])
+
+    useEffect(() => {
+        var headers = {
+            'Content-Type': 'application/json'
+        };
+
+        var options = {
+            url: 'https://acrosshealth.freshdesk.com/api/v2/tickets?per_page=100',
+            headers: headers,
+            auth: {
+                'user': `${key}`,
+                'pass': 'X'
+            }
+        };
+
+
+        request(options, (error, response, body) => {
+            var obj = JSON.parse(body)
+
+            if (response.statusCode === 401) {
+
+                if (key !== null) {
+                    dispatch(() => returnErrors("Invalid Api key", "error", dispatch))
+                }
+                setKey(null)
+            }
+
+            if (!error && response.statusCode == 200) {
+
+                dispatch(() => returnErrors("Valid Api key", "success", dispatch))
+                axios.patch("/api/auth/update/" + state.auth.user.id, {
+                    apiKey: key
+                }).then(() => {
+                    var obj = JSON.parse(body)
+                    setData(
+                        obj.map(ticket => {
+                            const { created_at, subject, priority, id } = ticket
+                            const item = {
+                                createdAt: created_at,
+                                text: subject,
+                                priority,
+                                id
+                            }
+                            return item
+                        })
+                    )
+                })
+            }
+        })
+    }, [key])
 
     useEffect(() => {
         const arr = data.filter(item => {
             return ((one ? 1 : 0) == item.priority) || ((two ? 2 : 0) == item.priority) || ((three ? 3 : 0) == item.priority) || ((four ? 4 : 0) == item.priority)
         })
-        console.log("arr", arr)
         if (arr !== undefined) {
             setFilteredData(
                 arr
@@ -230,11 +241,44 @@ export default function Index({ state }) {
 
     const [text, setText] = useState(false)
 
+    const handleClose = () => {
+        setKey(keyVal)
+    };
 
 
     return (
         <div>
-            <animated.div style={{ ...spring3,display: "flex", justifyContent: "space-evenly" }}>
+            <Dialog open={key === null} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Freshdesk API key</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Please provide your Freshdesk API
+          </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="API KEY"
+                        type="text"
+                        fullWidth
+                        onChange={e => setKeyVal(e.target.value)}
+                    />
+
+                </DialogContent>
+                <DialogActions>
+
+                    <Link to='/'> <Button color="primary">
+
+                        Back
+          </Button></Link>
+                    <Button onClick={handleClose} color="primary">
+                        Done
+          </Button>
+
+                </DialogActions>
+            </Dialog>
+
+            <animated.div style={{ ...spring3, display: "flex", justifyContent: "space-evenly" }}>
                 <CheckboxOption one={one} two={two} three={three} four={four} setOne={setOne} setTwo={setTwo} setThree={setThree} setFour={setFour} />
                 <SearchTable text={text} setText={setText} data={filterData} addTodo={addTodo} ></SearchTable>
                 <div style={{ width: "23.5vw", marginTop: "2em" }}> <SupportTodayCard state={state} />
@@ -247,6 +291,7 @@ export default function Index({ state }) {
             })}></Support>
 
             </animated.div>
+
         </div>
     )
 }

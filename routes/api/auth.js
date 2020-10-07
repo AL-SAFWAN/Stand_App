@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
   models.myUser.findOne({ where: { email } }).then((user) => {
 
     if (user === null)
-      return res.status(400).json({ msg: "User Does not exsists" });
+      return res.status(400).json({ msg: "User Does not exists" });
     bcrypt.compare(password, user.password).then((isMatch) => {
 
       if (!isMatch) {
@@ -50,6 +50,28 @@ router.get("/user", auth, (req, res) => {
     .then((user) => {
       res.json(user);
     });
+});
+
+router.get("/key/:id", (req, res) => {
+ 
+  models.myUser
+    .findOne({
+      attributes: { exclude: ["password", "createdAt", "updatedAt", "email","name"]  },
+      where: { id: req.params.id },
+    })
+    .then((user) => {
+      res.json(user);
+    });
+});
+
+router.patch("/update/:id", (req, res) => {
+
+
+  models.myUser.update(req.body, { where: {id:req.params.id} })
+    .then((item) => {
+      res.json(item)
+    })
+    .catch(err => res.status(404).json({ msg: "Failed to update" }));
 });
 
 router.get("/users", (req, res) => {

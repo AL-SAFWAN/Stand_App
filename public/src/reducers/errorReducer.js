@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
         msg:  " ",
         status: null,
         id: null, 
-        type: "info"
+        type: false
       };
     default:
       return state;

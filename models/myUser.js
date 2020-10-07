@@ -32,7 +32,7 @@ var myUser = connection.define(
     accountType: {
       type: Sequelize.INTEGER,
     },
-    isStandup: {
+    apiKey: {
       type: Sequelize.BOOLEAN,
     }
   }
