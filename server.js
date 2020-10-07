@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io")
+const fileUpload = require("express-fileupload")
 
 const app = express();
 const server = http.createServer(app)
@@ -14,12 +15,22 @@ const connection = require("./db");
 
 // used for pulling data from the backend
 app.use(express.json());
+app.use(fileUpload())
 app.use("/api/items", require("./routes/api/items"));
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/notes", require("./routes/api/notes"));
 app.use("/api/standupDates", require("./routes/api/standupDates"));
 app.use("/api/supportDates", require("./routes/api/supportDates"));
+
+// upload end point 
+app.post('/upload', (req,res) =>{
+    if(req.files === null) {
+        return res.status(400).json({msg: "no image uploaded "})
+    }
+    const file = req.files.file
+    file.mv(`$`)
+})
 
 const users = []
 const result = []

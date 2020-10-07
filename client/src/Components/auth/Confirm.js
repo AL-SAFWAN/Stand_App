@@ -78,6 +78,7 @@ export default function Confirm({
 
   const goBack = () => {
     const { name, email, password } = values;
+
     const newUser = {
       name,
       email,
@@ -85,8 +86,7 @@ export default function Confirm({
     };
     register(newUser)(dispatch)
 
-    // console.log(setStep);
-    // setStep(1);
+   
   };
 
   const classes = useStyles();

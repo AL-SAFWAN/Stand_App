@@ -47,16 +47,6 @@ export default function UserForm({ setStep }) {
           handleChange={handleChange}
         />
       );
-    // case 2:
-    //   return (
-    //     <FormPersonalDetails
-    //       nextStep={nextStep}
-    //       preStep={preStep}
-    //       values={values}
-    //       setValue={setValue}
-    //       handleChange={handleChange}
-    //     />
-    //   );
     case 2:
       return (
         <Confirm
