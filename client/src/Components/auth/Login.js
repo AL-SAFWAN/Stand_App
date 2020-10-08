@@ -3,7 +3,7 @@ import {
   Paper,
   TextField,
   Typography,
-  Button
+  Button, FormControl
 } from "@material-ui/core";
 
 export default function Login({ classes, vals, setVals, handleSubmit, openUserForms }) {
@@ -30,7 +30,7 @@ export default function Login({ classes, vals, setVals, handleSubmit, openUserFo
       >
         Sign In
             </Typography>
-      <form>
+      <FormControl>
         <TextField
           name={"email"}
           key={"Email"}
@@ -49,11 +49,12 @@ export default function Login({ classes, vals, setVals, handleSubmit, openUserFo
           label={"Enter your password"}
           type="password"
           autoComplete={"current-password"}
-          style={{ margin: 30, marginTop:5, marginBottom:50, width: 350, textAlign: "center" }}
+          style={{ margin: 30, marginTop: 5, marginBottom: 50, width: 350, textAlign: "center" }}
           value={Password}
           onChange={e => setPassword(e.target.value)}
         ></TextField>
-      </form>
+
+      </FormControl>
       <Button
         className={classes.button}
         variant="contained"
