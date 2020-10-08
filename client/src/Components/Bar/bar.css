@@ -101,9 +101,23 @@ ul {
     z-index: 1
   }
   
-  .menu {
-    width: 100%;
-  }
+ 
+.menu{
+  width: fit-content;
+  margin-left: 1em;
+  margin-right: 1em;
+  border: 2px solid white;
+  border-radius: 5px;
+  padding: 7px;
+  color: white;
+}
+.menu:hover{
+  cursor: pointer;
+  
+}
+.menu:active{
+  transform: scale(1.2);
+}
   
   .menu-item {
     height: 50px;

@@ -18,7 +18,10 @@ const ItemToEvent = (item) => {
         return { color: "gold" }
       case 4:
         return { color: "red" }
+        default:
+          return {color: "white"}
     }
+
   }
 
 
@@ -30,7 +33,7 @@ const ItemToEvent = (item) => {
     //   name: item.name,
     start: moment(item.createdAt).local().toDate(),
     end: moment(item.createdAt).local().add(3, "hour").toDate(),
-    title: <a href={url} target="_blank" style={setColor()}>{item.text}</a>
+    title: <a href={url} target="_blank" rel="noopener noreferrer" style={setColor()}>{item.text}</a>
   }
   return event
 }

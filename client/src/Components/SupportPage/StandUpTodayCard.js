@@ -72,7 +72,7 @@ const Badge = ({ array, name, openTable }) => {
         overflow: "hidden"
     })
 
-    if (array.length == 0) return <>
+    if (array.length === 0) return <>
         <div className="user-card" >
             {/* <div className="user-icon"></div> */}
 

@@ -5,7 +5,6 @@ import {
   Typography,
   Button,
   Avatar,
-  FormControl
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios'
@@ -37,7 +36,6 @@ export default function FormUserDetails({
   nextStep,
   values,
   setValue,
-  handleChang,
   uploadedFile,
   setUploadedFile
 }) {
@@ -55,7 +53,6 @@ export default function FormUserDetails({
 
 
   const [file, setFile] = useState('')
-  const [fileName, setFileName] = useState('')
 
   const style = {
     margin: 10, width: 350, textAlign: "center"
@@ -89,8 +86,6 @@ export default function FormUserDetails({
   const onChange = (e) => {
 
     setFile(e.target.files[0])
-    setFileName(e.target.files[0].name)
-  
   }
 
 
@@ -117,13 +112,8 @@ export default function FormUserDetails({
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: 'space-around', margin: "auto", width: 350, }}>
 
-          {uploadedFile ?
-
-            <Avatar src style={{ width: 65, height: 65, fontSize: 14, margin: 5 }} src={uploadedFile.filePath} alt={values.name} > {values.name}</Avatar>
-            :
-            <Avatar style={{ width: 65, height: 65, fontSize: 14, margin: 5 }} > {values.name}</Avatar>
-          }
-
+            <Avatar  style={{ width: 65, height: 65, fontSize: 14, margin: 5 }} src={uploadedFile.filePath} alt={values.name} > {values.name}</Avatar>
+          
 
           <input
             accept="image/*"

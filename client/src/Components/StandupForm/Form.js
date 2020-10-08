@@ -1,8 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState} from "react";
 import "./index.css"
 import FactoryCard from './FactoryCard'
-import { loadUsersActivity } from "../../action/userActivityAction"
-import { useDispatch } from "react-redux";
 import { animated, useSprings, interpolate, useSpring, config } from 'react-spring'
 import { useGesture } from 'react-use-gesture'
 import FactorySideCard from './FactorySideCard'
@@ -40,8 +38,8 @@ const Users = ({ userData }) => {
     let lowArr = []
 
     // --side card sprint --
-    const [{ opacityL, yL, xL }, setLeftSide, stopLeft] = useSpring(() => ({ opacityL: 0, yL: 0, xL: -40, config: config.wobbly }))
-    const [{ opacityR, yR, xR }, setRightSide, stopRight] = useSpring(() => ({ opacityR: 0, yR: -60, xR: +140, config: config.wobbly }))
+    const [{ opacityL, yL, xL }, setLeftSide] = useSpring(() => ({ opacityL: 0, yL: 0, xL: -40, config: config.wobbly }))
+    const [{ opacityR, yR, xR }, setRightSide] = useSpring(() => ({ opacityR: 0, yR: -60, xR: +140, config: config.wobbly }))
     //----
 
     const User = () => {
@@ -69,7 +67,7 @@ const Users = ({ userData }) => {
 
             )
 
-            if (userData[index].Yesterday.length == 0) {
+            if (userData[index].Yesterday.length === 0) {
                 setYesterday([])
                 setLeftSide({ opacityL: 1, yL: -3, xL: -40 })
             } else {
@@ -77,7 +75,7 @@ const Users = ({ userData }) => {
                 setYesterday(userData[index].Yesterday)
                 setLeftSide({ opacityL: 1, yL: 29, xL: 1 })
             }
-            if (userData[index].Blocker.length == 0){
+            if (userData[index].Blocker.length === 0){
                 setBlocker([])
                 setRightSide({ opacityR: 1, yR: -66, xR: 140 })
             }else{

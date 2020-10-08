@@ -10,7 +10,7 @@ import axios from "axios";
 import { setItemToAdd } from "../../action/itemActions";
 import { tokenConfig } from '../../action/authAction'
 import {loadNote} from '../../action/noteAction'
-import Support from '../Support'
+
 
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -166,6 +166,7 @@ export default function App({ state }) {
         copyS.splice(index, 1)
         return true
       }
+      return false
     })
     if (name === theCopiedTodo.name) {
       onEventResize(data)

@@ -4,12 +4,12 @@ import { Avatar, TextField } from '@material-ui/core'
 import { KeyboardArrowLeft } from '@material-ui/icons';
 import { IconButton, } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { animated, useTransition, config, useSpring, useSprings, useChain, interpolate } from 'react-spring'
+import { animated, useTransition, config, useSpring, useChain } from 'react-spring'
 import moment from 'moment'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { tokenConfig } from '../../action/authAction'
-let idKey = 0
+
 
 export default function FactoryCard({ name, userId, filePath }) {
     return (
@@ -21,7 +21,7 @@ export default function FactoryCard({ name, userId, filePath }) {
                         <Avatar className="imgBg" src={filePath} style={{
                             width: "85px",
                             height: "85px"
-                        }} src={filePath}>{name}</Avatar>
+                        }} >{name}</Avatar>
 
                         <h1 className="userName"> {name}</h1></div>
                     <div></div>

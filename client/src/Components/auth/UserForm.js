@@ -65,5 +65,7 @@ export default function UserForm({ setStep }) {
           handleChange={handleChange}
         />
       );
+      default:
+        return <></>
   }
 }

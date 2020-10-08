@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import moment from 'moment'
 import { returnErrors } from "../../action/errorAction";
 import { tokenConfig } from '../../action/authAction'
-import { GET_ERRORS } from "../../action/type";
+
 import { animated, useSpring } from "react-spring";
 
 import Button from '@material-ui/core/Button';
@@ -86,6 +86,8 @@ const SearchTable = ({ data, addTodo, text, setText }) => {
                 return { color: "gold" }
             case 4:
                 return { color: "red" }
+            default:
+                return{color: "white"}
         }
     }
 
@@ -194,7 +196,7 @@ export default function Index({ state }) {
 
 
         request(options, (error, response, body) => {
-            var obj = JSON.parse(body)
+          
 
             if (response.statusCode === 401) {
 
@@ -204,7 +206,7 @@ export default function Index({ state }) {
                 setKey(null)
             }
 
-            if (!error && response.statusCode == 200) {
+            if (!error && response.statusCode === 200) {
 
                 dispatch(() => returnErrors("Valid Api key", "success", dispatch))
                 axios.patch("/api/auth/update/" + state.auth.user.id, {
@@ -230,7 +232,7 @@ export default function Index({ state }) {
 
     useEffect(() => {
         const arr = data.filter(item => {
-            return ((one ? 1 : 0) == item.priority) || ((two ? 2 : 0) == item.priority) || ((three ? 3 : 0) == item.priority) || ((four ? 4 : 0) == item.priority)
+            return ((one ? 1 : 0) === item.priority) || ((two ? 2 : 0) === item.priority) || ((three ? 3 : 0) === item.priority) || ((four ? 4 : 0) === item.priority)
         })
         if (arr !== undefined) {
             setFilteredData(

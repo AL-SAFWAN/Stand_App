@@ -110,5 +110,8 @@ export default function FrontPage({state}) {
           </Grid>
         </Grid>
       );
+      
+  default:
+    return<></>
   }
 }

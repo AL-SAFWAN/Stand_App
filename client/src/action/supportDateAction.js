@@ -1,13 +1,10 @@
 import {
     DELETE_USER,
     ADD_USER,
-    ADD_1ST_LINE_USERS,
-    ADD_2ND_LINE_USERS,
-    ADD_3RD_LINE_USERS,
-    GET_SUPPORT_USERS, LOAD_SUPPORT_USERS, EDIT_USERS, EDIT_2ND_LINE_USERS, EDIT_3RD_LINE_USERS
+    LOAD_SUPPORT_USERS,
+    EDIT_USERS
 } from "./type";
 import axios from "axios";
-import { returnErrors } from "./errorAction";
 
 
 export const loadSupportUser = (dispatch) => {
@@ -61,7 +58,7 @@ export const editSupportUser = (name, array, dispatch, todo) => {
     axios.patch("/api/supportDates/" + todo.id, {
         start: todo.start,
         end: todo.end
-      })
+    })
 
     dispatch({
         type: EDIT_USERS,

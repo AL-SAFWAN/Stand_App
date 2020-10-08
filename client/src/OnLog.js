@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import UserDisplay from './Components/UserDisplay';
 import FrontPage from "./Components/auth/FrontPage";
@@ -7,7 +7,7 @@ import Graph from "./Components/ActivityGraph"
 import Calander from './Components/Calander'
 import MyEditor from './Components/MyEditor'
 import io from 'socket.io-client'
-import { animated, useChain, useSpring } from "react-spring";
+import { animated,  useSpring } from "react-spring";
 
 
 
@@ -130,6 +130,8 @@ export default function OnLog({ state }) {
           </div>
         </React.Fragment>
       )
+    default:
+      return <></>
 
   }
 

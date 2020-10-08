@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import "./Activity.css"
-import { useDispatch } from "react-redux";
 import io from 'socket.io-client'
 import { animated, config, interpolate, useSpring, useSprings, useTransition } from 'react-spring'
 import Avatar from '@material-ui/core/Avatar';
@@ -116,7 +115,7 @@ export default function ActivityGraph({ state }) {
     const [users, setUsers] = useState([]);
 
     const nonActiveUserIndex = []
-    const dispatch = useDispatch();
+ 
 
     let socket;
 
@@ -137,7 +136,7 @@ export default function ActivityGraph({ state }) {
     }, [])
 
     if (allActiveUser.length > 0) {
-        users.map((user, i) => {
+        users.forEach((user, i) => {
             const found = allActiveUser.some(
                 activeUser => {
                     return user.name === activeUser.name
@@ -150,11 +149,6 @@ export default function ActivityGraph({ state }) {
 
 
 
-    const active = {
-        display: "flex",
-        flexDirection: "column",
-        alignSelf: "flex-end"
-    }
     const [clicked, setClicked] = useState(false)
 
     const spring = useSpring({

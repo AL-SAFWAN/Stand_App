@@ -10,7 +10,6 @@ import { createEditorStateFromRaw, serialiseEditorStateToRaw } from "draftail"
 import { setOpenNote } from "../action/noteAction";
 import { useDispatch } from 'react-redux'
 
-import DateTimePicker from './Calander/DateTimePicker'
 import GanttChart from './ganttChart'
 import "./Activity.css"
 import moment from 'moment'

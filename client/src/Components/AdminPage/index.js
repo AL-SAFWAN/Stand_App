@@ -10,18 +10,18 @@ import moment from 'moment'
 import { useDispatch } from 'react-redux'
 import Chart from 'react-google-charts'
 import { IconButton, } from "@material-ui/core";
-import { animated, config, useSpring, interpolate } from 'react-spring'
+import { animated, config, useSpring } from 'react-spring'
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import DeleteIcon from "@material-ui/icons/Delete";
-import { deleteSupportUser, editSupportUser, loadSupportUser } from '../../action/supportDateAction';
+import { deleteSupportUser, editSupportUser } from '../../action/supportDateAction';
 import { addSupportUser } from '../../action/supportDateAction'
 import SupportTodayCard from '../SupportPage/SupportTodayCard'
 import StandUpTodayCard from '../SupportPage/StandUpTodayCard'
 import { returnErrors } from '../../action/errorAction';
-import { loadUsers, loadUsersActivity } from '../../action/userActivityAction';
+import {  loadUsersActivity } from '../../action/userActivityAction';
 
 
 export default function Index({ state }) {
@@ -162,7 +162,7 @@ const ExpandingForm = ({ name, state }) => {
         const arr = userData.filter(userMenu => {
             let isUser = true
             displayArr.forEach(displayedUser => {
-                if (displayedUser.userId == userMenu.id) {
+                if (displayedUser.userId === userMenu.id) {
 
                     isUser = false
                 }
@@ -407,7 +407,7 @@ const ExpandingFormHeader = ({ state, name, userData, clicked }) => {
 }
 
 function GanttChart({ todos }) {
-    if (todos.length == 0) {
+    if (todos.length === 0) {
         return <></>
     }
     const createEventsFromTodo = (todo) => {
@@ -479,6 +479,8 @@ const ItemToEvent = (item) => {
                 return { color: "gold" }
             case 3:
                 return { color: "red" }
+            default: 
+            return{color: "white"}
         }
     }
 
@@ -496,7 +498,7 @@ const ItemToEvent = (item) => {
 function Cal({ allUsers }) {
 
     const [events, setEvents] = useState([])
-    const [data, setData] = useState([])
+   
 
     const fetchData = () => {
         var array = []

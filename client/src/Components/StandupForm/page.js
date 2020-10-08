@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import StandUpTodayCard from '../SupportPage/StandUpTodayCard'
 import { useSpring, animated, useTransition } from 'react-spring'
-import { useDrag, useGesture } from 'react-use-gesture'
+import { useDrag} from 'react-use-gesture'
 import StandupForm from './Form'
 
 
@@ -98,7 +98,7 @@ const SupportPage = ({ setToggle, props, state, i, s }) => {
     const bind = useDrag(({ down, movement, velocity }) => {
 
         set({ xy: down ? movement : [0, 0] })
-        const [x, y] = movement
+        const [_, y] = movement
 
         if (y > 300 || y < -300) {
 

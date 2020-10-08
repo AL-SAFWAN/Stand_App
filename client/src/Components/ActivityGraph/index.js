@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Bar, Pie } from 'react-chartjs-2'
-import Button from '@material-ui/core/Button';
+import { Bar} from 'react-chartjs-2'
 import moment from 'moment'
 
 export default function Graph({ state }) {

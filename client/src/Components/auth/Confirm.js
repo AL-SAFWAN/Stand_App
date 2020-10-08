@@ -50,12 +50,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Confirm({
-  setStep,
-  nextStep,
   preStep,
   values,
-  setValue,
-  handleChange,
   uploadedFile
 }) {
   const dispatch = useDispatch();
@@ -120,12 +116,8 @@ export default function Confirm({
 
           <div style={{ display: "flex", alignItems: "center", justifyContent: 'space-around', margin: "13px", }}>
 
-            {uploadedFile ?
-
-              <Avatar src style={{ width: 65, height: 65, fontSize: 14, margin: 5,marginRight: 10 }} src={uploadedFile.filePath} alt={values.name} > {values.name}</Avatar>
-              :
-              <Avatar style={{ width: 65, height: 65, fontSize: 14, margin: 5,marginRight: 10 }} > {values.name}</Avatar>
-            }
+              <Avatar  style={{ width: 65, height: 65, fontSize: 14, margin: 5,marginRight: 10 }} src={uploadedFile.filePath} alt={values.name} > {values.name}</Avatar>
+              
             <ListItemText primary={"User Name"} secondary={values.name} />
 
           </div>

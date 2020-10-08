@@ -1,13 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './bar.css';
-import SettingsIcon from '@material-ui/icons/Settings';
-import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
 import EjectIcon from '@material-ui/icons/Eject';
 import Typography from "@material-ui/core/Typography";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
-import { useDispatch } from "react-redux";
 import { logout } from '../../action/authAction'
-import { CSSTransition } from 'react-transition-group'
 import { Link } from 'react-router-dom';
 import { Avatar } from '@material-ui/core';
 
@@ -110,9 +106,9 @@ function NavItem(props) {
 
   return (
     <li className="nav-item">
-      <a href="#" className="icon-button">
+      <div className="icon-button">
         {props.icon}
-      </a>
+      </div>
       
        {props.text}
     </li>

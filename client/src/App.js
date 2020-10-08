@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./action/authAction";
 import { clearErrors } from "./action/errorAction";
@@ -6,7 +6,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import Bar from './Components/Bar'
 
-import MenuBar from "../src/Components/auth/Bar";
 
 import OnLog from './OnLog'
 
@@ -14,13 +13,13 @@ import StandupForm from './Components/StandupForm/page'
 import SupportPage from './Components/SupportPage'
 import AdminPage from './Components/AdminPage'
 
-import { Route, Switch, useHistory, useLocation, withRouter } from 'react-router-dom'
-import { config, animated, useTransition } from "react-spring";
+import { Route, Switch, withRouter } from 'react-router-dom'
 
 
 
 
-function App({ location }) {
+
+function App( ) {
 
 
   const dispatch = useDispatch();
@@ -45,7 +44,7 @@ function App({ location }) {
         <Route exact path='/admin' render={() => <AdminPage state={state} />} />
       </Switch>
 
-      { (type != false) && <Snackbar
+      { (type !== false) && <Snackbar
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left"
