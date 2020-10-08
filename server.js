@@ -29,7 +29,14 @@ app.post('/upload', (req,res) =>{
         return res.status(400).json({msg: "no image uploaded "})
     }
     const file = req.files.file
-    file.mv(`$`)
+    console.log("in file call",file)
+    file.mv(`${__dirname}/client/public/uploads/${file.name}`, err=>{
+        if(err){
+            console.log(err)
+            return res.status(500).send(err)
+        }
+        res.json({fileName: file.name,filePath : `/uploads/${file.name}`})
+    })
 })
 
 const users = []
@@ -73,7 +80,7 @@ io.on("connection", socket => {
 
     socket.on("getAllUser", (cb) => {
 
-        connection.query("SELECT name,id from standapp.users")
+        connection.query("SELECT name,id,filePath from standapp.users")
             .then(([results, metadata]) => {
                 console.log(results, "<-----results of select name ------\n,")
                 const users = [...results]
@@ -82,7 +89,7 @@ io.on("connection", socket => {
                     connection.query(`select sum(isCompleted =1)as done,sum(isCompleted =0)as notDone from standapp.items where userId = ${user.id} and date(createdAt) = current_date()`)
                         .then(([results, metadata]) => {
                         
-                            newArray.push({name: user.name, result : results[0] })
+                            newArray.push({name: user.name, filePath:user.filePath, result : results[0] })
                          
                         if((users.length-1) === i ){
                             console.log( "new array ->",newArray)
@@ -104,7 +111,7 @@ io.on("connection", socket => {
     
     socket.on("getAllActiveUser", (cb) => {
 
-        connection.query(" SELECT users.id,users.name FROM standapp.items  join standapp.users on items.userId = users.id where date(items.createdAt) = current_date() group by users.name")
+        connection.query(" SELECT users.id,users.name,users.filePath FROM standapp.items  join standapp.users on items.userId = users.id where date(items.createdAt) = current_date() group by users.name")
             .then(([results, metadata]) => {
 
                 console.log(results, "<-----results of select active name ------\n,")
@@ -116,7 +123,7 @@ io.on("connection", socket => {
                     connection.query(`select sum(isCompleted =1)as done,sum(isCompleted =0)as notDone from standapp.items where userId = ${user.id} and date(createdAt) = current_date()`)
                         .then(([results, metadata]) => {
                         
-                            newArray.push({name: user.name, result : results[0] })
+                            newArray.push({name: user.name,filePath:user.filePath, result : results[0] })
                          
                         if((users.length-1) === i ){
                             console.log( "new array ->",newArray)

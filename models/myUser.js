@@ -34,7 +34,9 @@ var myUser = connection.define(
     },
     apiKey: {
       type: Sequelize.BOOLEAN,
-    }
+    },
+    filePath:
+    {type:  Sequelize.STRING}
   }
 );
 

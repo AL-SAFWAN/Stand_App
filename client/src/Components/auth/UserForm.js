@@ -10,7 +10,9 @@ export default function UserForm({ setStep }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");  
+  const [uploadedFile, setUploadedFile] = useState('')
+
   // const setStep = ()=>{
   //     setStep(1)
   // }
@@ -34,6 +36,7 @@ export default function UserForm({ setStep }) {
   const setValue = { setName, setEmail, setPassword, setConfirmPassword };
   const values = { name, email, password, confirmPassword };
 
+
   console.log(state);
   switch (step) {
     case 1:
@@ -45,11 +48,15 @@ export default function UserForm({ setStep }) {
           setValue={setValue}
           values={values}
           handleChange={handleChange}
+          uploadedFile={uploadedFile}
+          setUploadedFile={setUploadedFile}
+
         />
       );
     case 2:
       return (
         <Confirm
+        uploadedFile={uploadedFile}
           setStep={setStep}
           nextStep={nextStep}
           preStep={preStep}

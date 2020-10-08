@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { useSpring, animated, config } from 'react-spring'
 import TextField from '@material-ui/core/TextField';
 import { loadSupportUser } from '../../action/supportDateAction';
+import { Avatar } from '@material-ui/core';
 
 const compareForToday = (array) => {
 
@@ -11,6 +12,7 @@ const compareForToday = (array) => {
     const today = new moment().local().format("YYYY-MM-DD")
     const todayInLine = []
     array.forEach(user => {
+
         if ((user.start <= today) && (user.end >= today)) {
             todayInLine.push(user)
         }
@@ -31,23 +33,23 @@ export default function StandUpTodayCard({ state }) {
 
     const standUp = compareForToday([...state.support["Stand Up"]])
 
-
+    console.log(standUp)
 
     const [openTable, setOpenTable] = useState(false)
     return (
         <>
             <div className="support-table-card"
-               onMouseEnter={() => {
-                setOpenTable(true)
-            }
-            }
-            onMouseLeave={() => {
-                setOpenTable(false)
-            }}
+                onMouseEnter={() => {
+                    setOpenTable(true)
+                }
+                }
+                onMouseLeave={() => {
+                    setOpenTable(false)
+                }}
             >
                 <div>
 
-                    <Badge openTable = {openTable} array={standUp} name="Stand Up Today" className="marginTop" />
+                    <Badge openTable={openTable} array={standUp} name="Stand Up Today" className="marginTop" />
 
                 </div>
             </div>
@@ -58,7 +60,8 @@ export default function StandUpTodayCard({ state }) {
 
 
 
-const Badge = ({ array, name,openTable }) => {
+const Badge = ({ array, name, openTable }) => {
+
     const { ...rest } = useSpring({
         // ref: springRef,
         config: config.slow,
@@ -87,8 +90,13 @@ const Badge = ({ array, name,openTable }) => {
 
     return (<>
         <div className="user-card">
-
-            <div className="user-icon"></div>
+            {/* user the avatar her
+                check if the file name is passes into this page
+            */}
+          
+                <Avatar src={array[0].filePath} style= {{ width: "5vh",
+    height: "5vh"}} className="user-icon"> {array[0].name}</Avatar>
+           
 
             <div className="text-container">
 
@@ -103,7 +111,7 @@ const Badge = ({ array, name,openTable }) => {
             <div style={{
                 margin: "auto",
                 width: " 80%",
-                paddingBottom:18
+                paddingBottom: 18
             }} key={name} >
 
                 {/* here i'll map the slice array  */}
@@ -114,7 +122,7 @@ const Badge = ({ array, name,openTable }) => {
                         <div className="allItems" key={i + user.name}>
 
                             <div className="textField-display">
-                                <TextField fullWidth id= {`standard-basic +${i}`}  label="" value={user.name} />
+                                <TextField fullWidth id={`standard-basic +${i}`} label="" value={user.name} />
                             </div>
 
                             <div className="date-item">

@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
     attributes: { exclude: ["createdAt","updatedAt"] },
     include: {
       model: models.myUser,
-      attributes: { exclude: ["accountType","createdAt","updatedAt","isStandup","email","password"] }
+      attributes: { exclude: ["accountType","createdAt","updatedAt","email","password"] }
     }
     }).then(
       dates => {
@@ -23,7 +23,9 @@ router.get("/", (req, res) => {
             end:moment(date.dataValues.end).local().format("YYYY-MM-DD"),
             name: date.dataValues.user.dataValues.name,
             userId: date.dataValues.user.dataValues.id,
-            supportType: date.dataValues.supportType
+            supportType: date.dataValues.supportType,
+            filePath: date.dataValues.user.filePath
+
           }
           formatedArr.push(formatedObj)
         });
@@ -46,7 +48,7 @@ router.post("/", (req, res) => {
       start: moment( date.dataValues.start).local().format("YYYY-MM-DD"),
       end:moment(date.dataValues.end).local().format("YYYY-MM-DD"),
       userId: date.userId,
-      supportType: date.dataValues.supportType
+      supportType: date.dataValues.supportType,
     }
     console.log(formatedObj)
       res.json(formatedObj)

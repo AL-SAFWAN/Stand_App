@@ -53,7 +53,7 @@ const Users = ({ userData }) => {
         const [drag, setDrag] = React.useState(false)
 
         // maybe optimise the backend using sockets 
-        const users = userData.map((user, i) => <FactoryCard name={user.name} userId={user.id} />) 
+        const users = userData.map((user, i) => <FactoryCard name={user.name} userId={user.id} filePath ={user.filePath}/>) 
 
 
         const [props, set] = useSprings(users.length, i => ({ ...to(i), from: from(i) }))

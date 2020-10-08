@@ -4,6 +4,7 @@ import { useSpring, animated, config } from 'react-spring'
 import TextField from '@material-ui/core/TextField';
 import { useDispatch } from 'react-redux';
 import { loadSupportUser } from '../../action/supportDateAction';
+import { Avatar } from '@material-ui/core';
 const compareForToday = (array) => {
 
 
@@ -98,9 +99,12 @@ const Badge = ({ array, name }) => {
             onMouseLeave={() => {
                 setOpenTable(false)
             }}
-            >
+        >
 
-            <div className="user-icon"></div>
+            <Avatar src={array[0].filePath} style={{
+                width: "5vh",
+                height: "5vh"
+            }} className="user-icon"> {array[0].name}</Avatar>
 
             <div className="text-container">
 
@@ -114,7 +118,7 @@ const Badge = ({ array, name }) => {
             <div style={{
                 margin: "auto",
                 width: " 80%",
-                paddingBottom:18
+                paddingBottom: 18
             }} key={name} >
 
                 {/* here i'll map the slice array  */}
@@ -125,7 +129,7 @@ const Badge = ({ array, name }) => {
                         <div className="allItems" key={i + user.name}>
 
                             <div className="textField-display">
-                                <TextField fullWidth id= {`standard-basic +${i}`+ user.name}  label="" value={user.name} />
+                                <TextField fullWidth id={`standard-basic +${i}` + user.name} label="" value={user.name} />
                             </div>
 
                             <div className="date-item">

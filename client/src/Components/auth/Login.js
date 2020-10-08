@@ -49,7 +49,7 @@ export default function Login({ classes, vals, setVals, handleSubmit, openUserFo
           label={"Enter your password"}
           type="password"
           autoComplete={"current-password"}
-          style={{ margin: 30, width: 350, textAlign: "center" }}
+          style={{ margin: 30, marginTop:5, marginBottom:50, width: 350, textAlign: "center" }}
           value={Password}
           onChange={e => setPassword(e.target.value)}
         ></TextField>

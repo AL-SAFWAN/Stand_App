@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { logout } from '../../action/authAction'
 import { CSSTransition } from 'react-transition-group'
 import { Link } from 'react-router-dom';
+import { Avatar } from '@material-ui/core';
+
 
 
 export default function index({ state, dispatch }) {
@@ -47,7 +49,7 @@ export default function index({ state, dispatch }) {
             | Stand App
       </Typography>
         </div>
-        <WhenLogin dispatch={dispatch} authenticated={authenticated} />
+        <WhenLogin  dispatch={dispatch} authenticated={authenticated} />
       </NavBar>
     </React.Fragment>
   )
@@ -61,7 +63,12 @@ export default function index({ state, dispatch }) {
     if (authenticated.isAuthenticated) {
       return (
         <React.Fragment>
+          
           <div className= "link-items"> 
+
+        <Avatar style ={{width: 50 , height: 50, fontSize: 14}} src={authenticated.user.filePath} > {authenticated.user.name}</Avatar>
+        <h1 style= {{color: "white", marginRight: "18vw", marginLeft: "1vw" }}>Welcome {authenticated.user.name}</h1>
+
           <Link to='/'>
           <div className= "menu">Dashboard</div>
           </Link>

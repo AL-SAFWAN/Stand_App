@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./index.css"
-import { TextField } from '@material-ui/core'
+import { Avatar, TextField } from '@material-ui/core'
 import { KeyboardArrowLeft } from '@material-ui/icons';
 import { IconButton, } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -11,14 +11,18 @@ import { useSelector } from 'react-redux'
 import { tokenConfig } from '../../action/authAction'
 let idKey = 0
 
-export default function FactoryCard({ name, userId }) {
+export default function FactoryCard({ name, userId, filePath }) {
     return (
         <React.Fragment>
 
             <div className="outer-container">
                 <div className="parent-container">
                     <div className="flex-container">
-                        <img className="imgBg" />
+                        <Avatar className="imgBg" src={filePath} style={{
+                            width: "85px",
+                            height: "85px"
+                        }} src={filePath}>{name}</Avatar>
+
                         <h1 className="userName"> {name}</h1></div>
                     <div></div>
                 </div>
@@ -47,6 +51,7 @@ const Todos = ({ config = { mass: 5, tension: 650, friction: 55 }, todos, onDele
         (
             <animated.div style={props} key={key}>{
                 <div className="listItem">
+
                     <div className="todo">{item.text}</div>
                     <IconButton onClick={() => onDeleteTodo(item.id)}>
                         <DeleteIcon />
@@ -92,7 +97,7 @@ const FactoryInputField = ({ name, id, userId }) => {
         e.preventDefault();
         if (!value) return;
         // todos.push({})
-      
+
         const itemObj = {
             createdAt: todoDateObj[id],
             name: id,
@@ -108,7 +113,7 @@ const FactoryInputField = ({ name, id, userId }) => {
                 console.log(req.data)
                 setTodos([req.data, ...todos,])
             })
-            console.log(todos)
+        console.log(todos)
         setValue("");
     };
 

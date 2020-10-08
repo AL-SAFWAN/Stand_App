@@ -3,11 +3,11 @@ import "./Activity.css"
 import { useDispatch } from "react-redux";
 import io from 'socket.io-client'
 import { animated, config, interpolate, useSpring, useSprings, useTransition } from 'react-spring'
-
+import Avatar from '@material-ui/core/Avatar';
 
 
 const Item = ({ user, i, set }) => {
-
+    console.log(user)
     const [above, setAbove] = useState(false)
     const { o, x } = useSpring({
         o: above ? 1 : 0,
@@ -33,15 +33,17 @@ const Item = ({ user, i, set }) => {
                 }}
                 className="hover-info" >
                 <div className="div-arrow"></div>
+                <div style ={{alignSelf: "center", textDecoration: "underline"}}>{user.name}</div>
                 <div> Done = <strong>{done}</strong></div>
                 <div> Not Done = <strong>{notDone}</strong></div>
             </animated.div>
-
+        
             <div className="badge"
                 style={{ border: `2px solid ${color}` }}
                 onClick={() => { setAbove(!above) }}
             >
-                {user.name}
+                {/* I need to set the img here */}
+                <Avatar style ={{width: 65, height: 65, fontSize: 14}} src ={user.filePath} > {user.name}</Avatar>
             </div>
 
 

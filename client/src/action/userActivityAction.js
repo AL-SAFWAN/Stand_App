@@ -17,6 +17,7 @@ export const loadUsersActivity = (dispatch) => {
             axios.get("/api/items/user/" + user.id).then((res) => {
                   userCnt++
                 const { Today, Blocker } = res.data.Items
+               
                 var done = 0;
                 var notDone = 0;
                 Today.forEach(val => {
@@ -28,11 +29,11 @@ export const loadUsersActivity = (dispatch) => {
                 })
                 var diff = done - notDone
                 if (Blocker.length > 0) {
-                    blockedUsers.push({ id : user.id ,name: user.name, amount: Blocker.length, ...res.data.Items })
+                    blockedUsers.push({ id : user.id ,name: user.name, amount: Blocker.length,filePath: user.filePath, ...res.data.Items })
                 } else {
                     if (diff > 0) {
-                        activeUsers.push({ id : user.id ,name: user.name, done, notDone, ...res.data.Items })
-                    } else { neutralUsers.push({ id : user.id ,name: user.name, done, notDone, ...res.data.Items }) }
+                        activeUsers.push({ id : user.id ,name: user.name, done, notDone, filePath: user.filePath,...res.data.Items })
+                    } else { neutralUsers.push({ id : user.id ,name: user.name, done, notDone, filePath: user.filePath,...res.data.Items }) }
                 }
                 
                 if(users.length === userCnt){

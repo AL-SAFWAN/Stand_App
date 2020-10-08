@@ -7,7 +7,8 @@ import {
   ListItemText,
   IconButton,
   Typography,
-  Button
+  Button,
+  Avatar
 } from "@material-ui/core";
 
 import Input from "@material-ui/core/Input";
@@ -32,18 +33,19 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.primary
   },
   button: {
-    marginLeft: 25,
+    marginLeft: 35,
 
     marginRight: 25,
-    marginTop: 10
+    marginTop: 45
   },
-  list:{
-    marginLeft: 30,
-    marginTop: 15
+  list: {
+    marginLeft: 35,
+    marginTop: -15,
+    marginBottom: 10
   },
-  password:{
+  password: {
     position: "absolute",
-    marginTop:21 
+    top: 32
   }
 }));
 
@@ -53,7 +55,8 @@ export default function Confirm({
   preStep,
   values,
   setValue,
-  handleChange
+  handleChange,
+  uploadedFile
 }) {
   const dispatch = useDispatch();
   const [val, setValues] = React.useState({
@@ -71,7 +74,7 @@ export default function Confirm({
 
   // const renderPasswordSection = () => {
   //   return (
-     
+
   //   );
   // };
 
@@ -82,11 +85,12 @@ export default function Confirm({
     const newUser = {
       name,
       email,
-      password
+      password, 
+      filePath: uploadedFile.filePath
     };
     register(newUser)(dispatch)
 
-   
+
   };
 
   const classes = useStyles();
@@ -95,7 +99,7 @@ export default function Confirm({
     <Paper
       style={{
         margin: "auto",
-        height: 400,
+        height: 450,
         width: 450,
         textAlign: "center",
         position: "relative",
@@ -112,37 +116,50 @@ export default function Confirm({
       </Typography>
 
       <List>
-        <ListItem className={classes.list}> 
-          <ListItemText primary={"User Name"} secondary={values.name} />
+        <ListItem className={classes.list}>
+
+          <div style={{ display: "flex", alignItems: "center", justifyContent: 'space-around', margin: "13px", }}>
+
+            {uploadedFile ?
+
+              <Avatar src style={{ width: 65, height: 65, fontSize: 14, margin: 5,marginRight: 10 }} src={uploadedFile.filePath} alt={values.name} > {values.name}</Avatar>
+              :
+              <Avatar style={{ width: 65, height: 65, fontSize: 14, margin: 5,marginRight: 10 }} > {values.name}</Avatar>
+            }
+            <ListItemText primary={"User Name"} secondary={values.name} />
+
+          </div>
         </ListItem>
 
-        <ListItem className={classes.list} style = {{marginTop: -13}}> 
+        <ListItem className={classes.list} style={{ marginLeft: 53}}>
+          <ListItemText primary={"Email"} secondary={values.email} />
+        </ListItem>
+
+        <ListItem className={classes.list} style={{  marginLeft: 53}}>
           <ListItemText
             primary={"password"}
-            // secondary={renderPasswordSection}
+          // secondary={renderPasswordSection}
           />
-          <Input  className={classes.password}
-        id="standard-adornment-password"
-        type={val.showPassword ? "text" : "password"}
-        value={val.password}
-        disabled = {true}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              edge="end"
-            >
-              {val.showPassword ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          </InputAdornment>
-        }
-      />
-        </ListItem>
 
-        <ListItem className={classes.list}> 
-          <ListItemText primary={"Email"} secondary={values.email} />
+          <Input className={classes.password}
+            id="standard-adornment-password"
+            type={val.showPassword ? "text" : "password"}
+            value={val.password}
+            disabled={true}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {val.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+
         </ListItem>
       </List>
 
