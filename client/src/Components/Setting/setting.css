@@ -1,0 +1,112 @@
+.box{
+    margin: auto;
+    margin-top: 10vh;
+    width: 60vw;
+    height: 60vh;
+    background-color: aliceblue;
+    box-shadow: 9px 18px 66px 28px rgba(0,0,0,0.75);
+    border-radius: 5px;
+}
+.nav{
+    position: absolute;
+    margin-left: 2vw;
+    margin-top: -5vh;
+    width: 10vw;
+    height: 70vh;
+    background-color: #3f51b5;
+    border-radius: 5px;
+    display: flex;   
+    align-content: space-evenly;
+
+} 
+.content{
+    position: absolute;
+    margin-left: 14vw;
+    margin-top: 5vh;
+    width: 44vw;
+    height: 50vh;
+    background-color: white;
+    box-shadow: 9px 10px 10px 10px rgba(0,0,0,0.75);
+    border-radius: 5px;
+    display: flex;   
+    align-content: space-evenly;
+}
+.ul{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.list-item{
+    text-align: center;
+    border: 3px solid white;
+    border-radius: 5px;
+    color: white;
+    margin-top: 0;
+    height: 10vh;
+    width: 8vw;
+    text-decoration: none;
+    margin: auto;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+
+.person{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 7vh;
+}
+.text-item{
+    margin: 1vh;
+    width: 30vw;
+}
+.text-item-img{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-self: start;
+    width: 31vw;    
+    /* padding-right: 1vw; */
+    justify-content: space-between;
+
+}
+.text-item-button{
+    margin: 8vh;
+    margin-right: 0;
+    margin-left: 1vw;
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.text-item-button-person{
+    margin: 14vh;
+    margin-right: 0;
+    margin-left: 1vw;
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.text-item-button-key{
+    margin: 20vh;
+    margin-right: 0;
+    margin-left: 1vw;
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.back-box{
+    position: absolute;
+    margin-left: 0vw;
+    margin-top: 0vh;
+    /* width: 44vw; */
+    height:60vh;
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    align-content: space-evenly;
+
+}

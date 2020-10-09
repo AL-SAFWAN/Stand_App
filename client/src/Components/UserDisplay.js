@@ -17,7 +17,7 @@ const Item = ({ user, i, set }) => {
     let done = user.result.done == null ? 0 : user.result.done
     let notDone = user.result.notDone == null ? 0 : user.result.notDone
     var diff = done - notDone
-    const color = diff > 0 ? "rgb(149, 252, 149)" : "#93d9d9"
+    const color = diff > 0 ? "rgb(149, 252, 149)" : " "
 
     return (
         <div

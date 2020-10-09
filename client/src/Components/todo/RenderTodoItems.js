@@ -66,7 +66,7 @@ function RenderTodos({ id, todos, setTodos, state }) {
 
       <Paper
         className={classes.paper}
-        style={{ maxHeight: 250, overflow: "auto" }}
+        style={{ maxHeight: 185, overflow: "auto" }}
         square
       >
         <List className={classes.root}>

@@ -9,12 +9,17 @@
     margin-right: 1em;
 }
 .div-outer-container{
+    
+    background: white;
     display: flex;
+    border-radius: 15px;
   
 }
 .div-container{
+    
     display: flex;
     
+    background: white;
     border: 12px solid #c2c5db ;
     border-radius: 5px;
     margin: auto;

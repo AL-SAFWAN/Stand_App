@@ -5,7 +5,7 @@ import { clearErrors } from "./action/errorAction";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import Bar from './Components/Bar'
-
+import Setting from './Components/Setting'
 
 import OnLog from './OnLog'
 
@@ -42,6 +42,8 @@ function App( ) {
         <Route exact path='/support' render={() => <SupportPage state={state} />} />
         <Route exact path='/standup' render={() => <StandupForm state={state} />} />
         <Route exact path='/admin' render={() => <AdminPage state={state} />} />
+        <Route exact path='/Setting' render={() => <Setting state={state} />} />
+
       </Switch>
 
       { (type !== false) && <Snackbar
