@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import { logout } from '../../action/authAction'
 import { Link } from 'react-router-dom';
-import { Avatar } from '@material-ui/core';
+import { Avatar,Chip } from '@material-ui/core';
 
 
 
@@ -62,9 +62,7 @@ export default function index({ state, dispatch }) {
           
           <div className= "link-items"> 
 
-        <Avatar style ={{width: 50 , height: 50, fontSize: 14}} src={authenticated.user.filePath} > {authenticated.user.name}</Avatar>
-        <h1 style= {{color: "white", marginRight: "18vw", marginLeft: "1vw" }}>Welcome {authenticated.user.name}</h1>
-
+     
           <Link to='/'>
           <div className= "menu">Dashboard</div>
           </Link>
@@ -85,8 +83,19 @@ export default function index({ state, dispatch }) {
           <div className= "menu">Setting</div>
           </Link>
 
-          </div>
+          </div>  
+
+          <Chip avatar={ <Avatar style ={{width: 50 , height: 50, fontSize: 14}} src={authenticated.user.filePath} > {authenticated.user.name}</Avatar>
+       } label = {
+         <div style ={{display: "flex"}}>
+        <h1 style= {{color: "white", marginRight: "0vw", marginLeft: "0vw" }}>Welcome {authenticated.user.name}</h1>
+
           <NavItem icon={<EjectIcon onClick={() => logOut()} />} />
+          </div>
+          } variant="outlined" />
+
+          
+     
   
         </React.Fragment>
       )

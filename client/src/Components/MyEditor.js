@@ -5,21 +5,22 @@ import "draft-js/dist/Draft.css"
 import "draftail/dist/draftail.css"
 
 import { DraftailEditor, BLOCK_TYPE, INLINE_STYLE } from "draftail"
-import { EditorState  } from "draft-js" 
+import { EditorState } from "draft-js"
 import { createEditorStateFromRaw, serialiseEditorStateToRaw } from "draftail"
 import { setOpenNote } from "../action/noteAction";
 import { useDispatch } from 'react-redux'
-
+import DeleteIcon from "@material-ui/icons/Delete";
 import GanttChart from './ganttChart'
 import "./Activity.css"
 import moment from 'moment'
 
-import { setItemToAdd } from "../action/itemActions";
+import { loading, setItemToAdd, setItemToDelete } from "../action/itemActions";
 
 import {
   TextField,
-  Button
+  Button, IconButton, Checkbox
 } from "@material-ui/core";
+import { returnErrors, returnErrorsOfItem } from "../action/errorAction"
 
 
 export default function MyEditor({ state }) {
@@ -80,21 +81,21 @@ export default function MyEditor({ state }) {
   const [valueEnd, setValueEnd] = useState(moment(todo.endAt).local().format("YYYY-MM-DDTHH:mm"));
   const [itemText, setItemText] = useState(todo.text)
 
+  const [check, setCheck] = useState(todo.isCompleted);
+  const [clicked, setClicked] = useState(false);
 
   const handleClose = () => {
     dispatch(() => setOpenNote(dispatch, false))
   };
 
   const setUpdatedValue = (value, at) => {
-
     if (at === "createdAt") {
       todo.createdAt = value
       setValue(value)
     } else if ((at === 'text')) {
       todo.text = value
-        setItemText(value)
+      setItemText(value)
     }
-
     else {
       todo.endAt = value
       setValueEnd(value)
@@ -123,7 +124,30 @@ export default function MyEditor({ state }) {
 
 
 
+  const deleteTodo = () => {
+    setOpenNote(dispatch, false)
+    setClicked(true);
+    todos.forEach((t, i) => {
+      if (t.id === todo.id) {
+        dispatch(() => setItemToDelete(dispatch, i, todo.name));
+      }
+    });
+    axios.delete("/api/items/" + todo.id, token).catch(err => {
+      dispatch(() =>
+        returnErrorsOfItem(
+          dispatch,
+          (todo.text + ": " + err.response.data.msg),
+          err.response.status,
+          todos,
+          todo.name,
+        )
+      );
+      console.log(" responce", err.response.data);
+    });
 
+  };
+
+ 
 
 
   return (
@@ -136,7 +160,6 @@ export default function MyEditor({ state }) {
 
         <div>
           <div className="date-container">
-
 
             <div className="date">
               <TextField
@@ -161,7 +184,8 @@ export default function MyEditor({ state }) {
                 InputLabelProps={{
                   shrink: true,
                 }}
-              /></div>
+              />
+            </div>
 
             <div className="date">
               <TextField
@@ -175,9 +199,21 @@ export default function MyEditor({ state }) {
                 }}
               /></div>
 
+            <IconButton
+
+              // aria-label="comments"
+              onClick={deleteTodo}
+            // disabled={clicked}
+            >
+
+              <DeleteIcon
+              // onClick={deleteTodo}
+              // disabled={clicked}
+              />
+            </IconButton>
+
+
           </div>
-
-
         </div>
 
       </div>

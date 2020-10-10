@@ -21,7 +21,7 @@ import { addSupportUser } from '../../action/supportDateAction'
 import SupportTodayCard from '../SupportPage/SupportTodayCard'
 import StandUpTodayCard from '../SupportPage/StandUpTodayCard'
 import { returnErrors } from '../../action/errorAction';
-import {  loadUsersActivity } from '../../action/userActivityAction';
+import { loadUsersActivity } from '../../action/userActivityAction';
 
 
 export default function Index({ state }) {
@@ -235,7 +235,12 @@ const ExpandingForm = ({ name, state }) => {
                 <ExpandingFormHeader state={state} userData={users} clicked={clickedAdd} name={name} />
             </div>
 
-            <animated.div className="div-outer-container" style={{ ...rest }}>
+            <animated.div className="div-outer-container" style={{
+                ...rest, 
+                paddingLeft: "1em",
+                paddingRight: "1em",
+                marginTop: " 1vh"
+            }}>
                 <div className="div-item-container" key={name} >
                     {state.support[name].map((user, i) => {
                         return (
@@ -257,7 +262,7 @@ const ExpandingForm = ({ name, state }) => {
                                             newArr[i].start = e.target.value
                                             console.log(newArr)
                                             // send the backend newArr[i]
-                                            
+
                                             dispatch(() => editSupportUser(name, newArr, dispatch, newArr[i]))
 
                                             // setAddedUser(newArr)
@@ -281,7 +286,7 @@ const ExpandingForm = ({ name, state }) => {
                                             const newArr = [...state.support[name]]
                                             newArr[i].end = e.target.value
 
-                                            dispatch(() => editSupportUser(name, newArr, dispatch,newArr[i]))
+                                            dispatch(() => editSupportUser(name, newArr, dispatch, newArr[i]))
 
                                         }}
                                         InputLabelProps={{
@@ -479,8 +484,8 @@ const ItemToEvent = (item) => {
                 return { color: "gold" }
             case 3:
                 return { color: "red" }
-            default: 
-            return{color: "white"}
+            default:
+                return { color: "white" }
         }
     }
 
@@ -498,7 +503,7 @@ const ItemToEvent = (item) => {
 function Cal({ allUsers }) {
 
     const [events, setEvents] = useState([])
-   
+
 
     const fetchData = () => {
         var array = []

@@ -101,10 +101,7 @@ const Badge = ({ array, name }) => {
             }}
         >
 
-            <Avatar src={array[0].filePath} style={{
-                width: "5vh",
-                height: "5vh"
-            }} className="user-icon"> {array[0].name}</Avatar>
+            <Avatar src={array[0].filePath}  style ={{width: 65, height: 65, fontSize: 14}}  className="user-icon"> {array[0].name}</Avatar>
 
             <div className="text-container">
 
