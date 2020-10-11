@@ -181,6 +181,7 @@ export default function Index({ state }) {
     }, [state.auth.user])
 
     useEffect(() => {
+        if (state.auth.user === null) return
         var headers = {
             'Content-Type': 'application/json'
         };
@@ -196,12 +197,15 @@ export default function Index({ state }) {
 
 
         request(options, (error, response, body) => {
-          
+                console.log( response)
 
             if (response.statusCode === 401) {
 
                 if (key !== null) {
                     dispatch(() => returnErrors("Invalid Api key", "error", dispatch))
+                } else{
+                    
+                    dispatch(() => returnErrors("You have to be logged in Freshdesh to use this page ", "info", dispatch))
                 }
                 setKey(null)
             }

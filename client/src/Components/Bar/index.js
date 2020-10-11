@@ -64,7 +64,7 @@ export default function index({ state, dispatch }) {
 
      
           <Link to='/'>
-          <div className= "menu">Dashboard</div>
+          <div className= "menu">Home</div>
           </Link>
 
           <Link to='/support'>
