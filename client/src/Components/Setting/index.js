@@ -25,7 +25,7 @@ export default function Index() {
 
     const [boxProps, setBoxProps , stop] = useSpring(() => ({
         config: config.molasses,
-        to: {opacity: 1, width: 1240, background: `linear-gradient(463deg, #96fbc4, #3f51b5)`},
+        to: {opacity: 1, width: 45, background: `linear-gradient(463deg, #96fbc4, #3f51b5)`},
       from: {opacity: 0, width:0, },
     reset: false,
 
@@ -99,7 +99,7 @@ export default function Index() {
     return (
         <div className="box">
             <animated.div className="back-box" 
-            style={boxProps}
+            style={{...boxProps, width: boxProps.width.interpolate(width=>`${width}vw`) } }
             />
 
             <nav className="nav">
