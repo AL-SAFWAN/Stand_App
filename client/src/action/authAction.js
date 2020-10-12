@@ -41,14 +41,14 @@ export const logout = (dispatch) => {
 }
 
 
-export const register = ({ name, email, password, filePath }) => dispatch => {
+export const register = ({ name, email, password, filePath,accountType }) => dispatch => {
 
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   }
-  const body = JSON.stringify({ name, email, password, filePath })
+  const body = JSON.stringify({ name, email, password, filePath,accountType })
 
   axios.post('/api/users', body, config)
     .then(res => {
@@ -64,6 +64,7 @@ export const register = ({ name, email, password, filePath }) => dispatch => {
       })
     })
 }
+
 export const updateDetails = ({ name, email, id, filePath }) => dispatch => {
 
   const config = {

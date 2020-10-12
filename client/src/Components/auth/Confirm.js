@@ -36,11 +36,11 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 35,
 
     marginRight: 25,
-    marginTop: 45
+    marginTop: 40
   },
   list: {
     marginLeft: 35,
-    marginTop: -15,
+    marginTop: -25,
     marginBottom: 10
   },
   password: {
@@ -52,7 +52,8 @@ const useStyles = makeStyles(theme => ({
 export default function Confirm({
   preStep,
   values,
-  uploadedFile
+  uploadedFile,
+  selectedName
 }) {
   const dispatch = useDispatch();
   const [val, setValues] = React.useState({
@@ -82,7 +83,8 @@ export default function Confirm({
       name,
       email,
       password, 
-      filePath: uploadedFile.filePath
+      filePath: uploadedFile.filePath,
+      accountType: selectedName
     };
     register(newUser)(dispatch)
 
@@ -106,7 +108,7 @@ export default function Confirm({
         gutterBottom
         variant="h5"
         component="h2"
-        style={{ paddingTop: 40 }}
+        style={{ paddingTop: 30 }}
       >
         Confirm your details
       </Typography>
@@ -125,6 +127,10 @@ export default function Confirm({
 
         <ListItem className={classes.list} style={{ marginLeft: 53}}>
           <ListItemText primary={"Email"} secondary={values.email} />
+        </ListItem>
+        
+        <ListItem className={classes.list} style={{ marginLeft: 53}}>
+          <ListItemText primary={"Account Type"} secondary={selectedName} />
         </ListItem>
 
         <ListItem className={classes.list} style={{  marginLeft: 53}}>
@@ -153,6 +159,8 @@ export default function Confirm({
           />
 
         </ListItem>
+
+
       </List>
 
       <Button className={classes.button} variant="contained" onClick={preStep}>

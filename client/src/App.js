@@ -40,7 +40,7 @@ function App( ) {
       <Switch >
         <Route exact path='/' render={() => <OnLog state={state} />} />
         <Route exact path='/support' render={() => <SupportPage state={state} />} />
-        <Route exact path='/standup' render={() => <StandupForm state={state} />} />
+        <Route exact path='/standup' render={() => <StandupForm state={state} />} />   
         <Route exact path='/admin' render={() => <AdminPage state={state} />} />
         <Route exact path='/Setting' render={() => <Setting state={state} />} />
 

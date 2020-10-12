@@ -9,7 +9,7 @@ const models = require("../../models");
 const connection = require("../../db");
 
 router.post("/", (req, res) => {
-  let { name, email, password, filePath } = req.body;
+  let { name, email, password, filePath,accountType } = req.body;
   // might want to use hooks to crpyt the pass
   if (!name || !email || !password) {
     return res.status(400).json({ msg: "please enter all fields" });
@@ -39,7 +39,7 @@ router.post("/", (req, res) => {
           user.password = hash;
         }
       });
-      models.myUser.create({ name, email, password, filePath, supportType: 0 }).then((user) => {
+      models.myUser.create({ name, email, password, filePath,accountType, supportType: 0, }).then((user) => {
 
         jwt.sign({ id: user.id }, config.get("jwtSecret"), (err, token) => {
           if (err) throw err;
@@ -50,7 +50,8 @@ router.post("/", (req, res) => {
               id: user.id,
               name: user.name,
               email: user.email,
-              filePath: user.filePath
+              filePath: user.filePath,
+              accountType: user.accountType
             },
           });
         });

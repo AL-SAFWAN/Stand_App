@@ -5,6 +5,9 @@ import {
   Typography,
   Button,
   Avatar,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios'
@@ -25,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 25,
 
     marginRight: 25,
-    marginTop: 40
+    marginTop: 15
   }
 }));
 
@@ -37,7 +40,9 @@ export default function FormUserDetails({
   values,
   setValue,
   uploadedFile,
-  setUploadedFile
+  setUploadedFile,
+  selectedName,
+  setSelectedName
 }) {
 
 
@@ -61,7 +66,7 @@ export default function FormUserDetails({
 
   const onSubmit = async (e) => {
 
-  e.preventDefault()
+    e.preventDefault()
     const formData = new FormData();
     formData.append(`file`, file)
 
@@ -101,31 +106,31 @@ export default function FormUserDetails({
         top: "50%"
       }}
     >
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="h2"
-          style={{ paddingTop: 40 }}
-        >
-          Hello Create your account
+      <Typography
+        gutterBottom
+        variant="h5"
+        component="h2"
+        style={{ paddingTop: 30 }}
+      >
+        Hello Create your account
       </Typography>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: 'space-around', margin: "auto", width: 350, }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: 'space-around', margin: "auto", width: 350, }}>
 
-            <Avatar  style={{ width: 65, height: 65, fontSize: 14, margin: 5 }} src={uploadedFile.filePath} alt={values.name} > {values.name}</Avatar>
-          
+        <Avatar style={{ width: 65, height: 65, fontSize: 14, margin: 5 }} src={uploadedFile.filePath} alt={values.name} > {values.name}</Avatar>
 
-          <input
-            accept="image/*"
-            style={{ display: "none" }}
-            id="contained-button-file"
-            multiple
-            type="file"
-            onChange={onChange}
-          />
-          <label htmlFor="contained-button-file">
 
-            {/* <TextField
+        <input
+          accept="image/*"
+          style={{ display: "none" }}
+          id="contained-button-file"
+          multiple
+          type="file"
+          onChange={onChange}
+        />
+        <label htmlFor="contained-button-file">
+
+          {/* <TextField
         id={"confirmPassword"}
         type="password"
         autoComplete="current-password"
@@ -135,47 +140,64 @@ export default function FormUserDetails({
         onChange={e => setValue.setConfirmPassword(e.target.value)}
       /> */}
 
-            <Button variant="contained" color="primary" component="span" >
-              Upload Image
+          <Button variant="contained" color="primary" component="span" >
+            Upload Image
         </Button>
 
-        <Button style ={{marginLeft: 5}} variant="contained" onClick={onSubmit}>
-        set
+          <Button style={{ marginLeft: 5 }} variant="contained" onClick={onSubmit}>
+            set
       </Button>
 
-          </label>
-        </div>
+        </label>
+      </div>
 
-        <TextField
-          id={"firstName"}
-          label={"Enter your username"}
-          style={{ margin: 7, width: 350, textAlign: "center" }}
-          value={values.name}
-          onChange={e => setValue.setName(e.target.value)}
-        ></TextField>
+      <TextField
+        id={"firstName"}
+        label={"Enter your username"}
+        style={{ margin: 7, width: 350, textAlign: "center" }}
+        value={values.name}
+        onChange={e => setValue.setName(e.target.value)}
+      ></TextField>
 
-        <TextField
-          id={"email"}
-          label={"Enter your email"}
-          style={style}
-          value={values.email}
-          onChange={e => setValue.setEmail(e.target.value)}
-        ></TextField>
+      <TextField
+        id={"email"}
+        label={"Enter your email"}
+        style={style}
+        value={values.email}
+        onChange={e => setValue.setEmail(e.target.value)}
+      ></TextField>
 
-        <TextField
-          id={"password"}
-          type="password"
-          autoComplete="current-password"
-          label={"Enter your password"}
-          style={style}
-          value={values.password}
-          onChange={e => setValue.setPassword(e.target.value)}
-        ></TextField>
-
-
+      <TextField
+        id={"password"}
+        type="password"
+        autoComplete="current-password"
+        label={"Enter your password"}
+        style={style}
+        value={values.password}
+        onChange={e => setValue.setPassword(e.target.value)}
+      ></TextField>
 
 
-      
+
+        <Select
+        fullWidth
+        style ={style}
+          //   labelId="demo-simple-select-placeholder-label-label"
+          //   id="demo-simple-select-placeholder-label"
+          value={selectedName}
+          onChange={(e) => setSelectedName(e.target.value)}
+        
+        >
+
+         
+          <MenuItem key={"user"} value={"user"}>{"User"}</MenuItem>
+          <MenuItem key={"admin"} value={"admin"}>{"Admin"}</MenuItem>
+         
+        </Select>
+
+     
+
+
       <Button className={classes.button} variant="contained" onClick={goBack}>
         back
       </Button>
@@ -183,7 +205,7 @@ export default function FormUserDetails({
       <Button className={classes.button} variant="contained" onClick={nextStep}>
         next
       </Button>
-      
+
     </Paper>
   );
 }

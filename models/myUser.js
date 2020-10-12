@@ -30,7 +30,7 @@ var myUser = connection.define(
       },
     },
     accountType: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     apiKey: {
       type: Sequelize.BOOLEAN,

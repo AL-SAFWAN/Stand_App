@@ -12,7 +12,7 @@ export default function UserForm({ setStep }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");  
   const [uploadedFile, setUploadedFile] = useState('')
-
+  const [selectedName,setSelectedName] = useState('user')
   // const setStep = ()=>{
   //     setStep(1)
   // }
@@ -50,7 +50,8 @@ export default function UserForm({ setStep }) {
           handleChange={handleChange}
           uploadedFile={uploadedFile}
           setUploadedFile={setUploadedFile}
-
+          selectedName={selectedName}
+          setSelectedName={setSelectedName}
         />
       );
     case 2:
@@ -63,6 +64,7 @@ export default function UserForm({ setStep }) {
           values={values}
           setValue={setValue}
           handleChange={handleChange}
+          selectedName={selectedName}
         />
       );
       default:

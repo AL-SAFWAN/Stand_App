@@ -27,7 +27,7 @@ import { loadUsersActivity } from '../../action/userActivityAction';
 export default function Index({ state }) {
 
     const dispatch = useDispatch();
-
+    const authenticated = state.auth;
     const isMountedRef = useIsMountedRef();
 
     function useIsMountedRef() {
@@ -64,10 +64,12 @@ export default function Index({ state }) {
     }
     )
 
+    if(authenticated.user === null) return <></> 
 
     return (<>
 
-        <div style={{ display: "flex", justifyContent: "center", marginRight: "1vw", marginLeft: "1vw" }}>
+        
+        {authenticated.user.accountType ==="admin" && <div style={{ display: "flex", justifyContent: "center", marginRight: "1vw", marginLeft: "1vw" }}>
             <animated.div style={{ ...spring3, display: "flex", flexDirection: "column", marginRight: "1vw", marginLeft: "1vw" }}>
 
                 <div style={{ marginTop: "3vh" }} >
@@ -98,7 +100,7 @@ export default function Index({ state }) {
             </animated.div>
 
             <animated.div style={spring2} className="calenderAdmin"><Cal allUsers={state.support}></Cal></animated.div>
-        </div>
+        </div>}
 
     </>)
 }

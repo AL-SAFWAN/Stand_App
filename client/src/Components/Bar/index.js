@@ -80,10 +80,10 @@ const WhenLogin = ({ authenticated, dispatch }) => {
           <Link to='/standup'>
             <div className="menu">Stand Up</div>
           </Link>
-
+        {authenticated.user.accountType ==="admin" &&
           <Link to='/admin'>
             <div className="menu">Admin</div>
-          </Link>
+          </Link>}
 
           <Link to='/Setting'>
             <div className="menu">Setting</div>
