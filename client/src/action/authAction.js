@@ -5,10 +5,11 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  UPDATE_USER
 } from "./type";
 import axios from "axios";
-import { returnLogErrors } from "./errorAction";
+import { returnErrors, returnLogErrors } from "./errorAction";
 
 // this only get the user information such as the name and email 
 
@@ -40,14 +41,14 @@ export const logout = (dispatch) => {
 }
 
 
-export const register = ({ name, email, password,filePath }) => dispatch => {
+export const register = ({ name, email, password, filePath }) => dispatch => {
 
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   }
-  const body = JSON.stringify({ name, email, password,filePath })
+  const body = JSON.stringify({ name, email, password, filePath })
 
   axios.post('/api/users', body, config)
     .then(res => {
@@ -62,6 +63,45 @@ export const register = ({ name, email, password,filePath }) => dispatch => {
         type: REGISTER_FAIL,
       })
     })
+}
+export const updateDetails = ({ name, email, id, filePath }) => dispatch => {
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }
+  const body = JSON.stringify({ name, email, id, filePath })
+
+  axios.patch('/api/users/userDetails', body, config)
+    .then(res => {
+      console.log(res)
+      dispatch({
+        type: UPDATE_USER,
+        payload: res.data
+      })
+    }).catch(err => {
+      console.log(err)
+      dispatch(
+        () => returnErrors(err.response.data.msg, "error", dispatch));
+
+    })
+}
+export const updatePassword = ({ password, id }) => dispatch => {
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }
+  const body = JSON.stringify({ password, id })
+
+  axios.patch('/api/users/userPassword', body, config).catch(err => {
+    console.log(err)
+    dispatch(
+      () => returnErrors(err.response.data.msg, "error", dispatch));
+
+  })
 }
 
 export const login = ({ email, password }) => (dispatch) => {
@@ -86,6 +126,32 @@ export const login = ({ email, password }) => (dispatch) => {
         type: LOGIN_FAIL,
       })
     })
+}
+
+
+export const passwordCheck = ({ email, password, dispatch, setMatched }) => {
+
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }
+  const body = JSON.stringify({ email, password })
+  // this should recieve the token 
+  //we get the invalid crdential error when loading in 
+
+  axios.post('/api/auth', body, config)
+
+    .then(res => { setMatched(true) })
+
+    .catch(err => {
+
+      dispatch(() => returnErrors(err.response.data.msg, "error", dispatch))
+      setMatched(false)
+    })
+
+
 }
 
 // used to auth the changed on the todo 

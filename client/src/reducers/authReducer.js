@@ -6,7 +6,8 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  UPDATE_USER
 } from "../action/type";
 
 const initailState = {
@@ -51,7 +52,15 @@ export default function(state = initailState, action) {
         isAuthenticated: null,
         isLoading: null,
         user: null
-      };
+      }
+
+    case UPDATE_USER:
+      return{
+        ...state,
+        ...action.payload,
+        isAuthenticated: true,
+        isLoading: false
+      }
     default:
       return state;
   }

@@ -25,7 +25,7 @@ var myUser = connection.define(
       validate: {
         len: {
           args: [6, 14],
-          msg: "passward must be above 6 chars and less that 14",
+          msg: "password must be above 6 chars and less that 14",
         },
       },
     },
