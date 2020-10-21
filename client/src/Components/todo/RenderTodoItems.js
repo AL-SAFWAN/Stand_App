@@ -8,7 +8,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import uuid from "uuid/v4";;
+
 
 //layout styling
 const useStyles = makeStyles(theme => ({
