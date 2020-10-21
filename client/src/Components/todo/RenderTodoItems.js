@@ -42,9 +42,10 @@ function RenderTodos({ id, todos, setTodos, state }) {
 
   function itemsArray() {
     var array = [];
-    todos.map((todo, index) => {
+    todos.map((todo, index) => { 
+     
       var itemObj = {
-        id: uuid(),
+        id: todo.id + todo.name,
         item: <Item key={index} id={id} classes={classes} todos={todos} todo={todo} index={index} token={token} />
       };
       return array.push(itemObj);
