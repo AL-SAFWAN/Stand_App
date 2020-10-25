@@ -32,17 +32,17 @@ function App( ) {
 
   const { msg, id, type } = state.error;
 
-
+  const authenticated = state.auth.isAuthenticated
   return (
     <div>
       {/* <MenuBar state={state}></MenuBar> */}
       <Bar style={{ position: "sticky" }} state={state} dispatch={dispatch}></Bar>
       <Switch >
         <Route exact path='/' render={() => <OnLog state={state} />} />
-        <Route exact path='/support' render={() => <SupportPage state={state} />} />
-        <Route exact path='/standup' render={() => <StandupForm state={state} />} />   
-        <Route exact path='/admin' render={() => <AdminPage state={state} />} />
-        <Route exact path='/Setting' render={() => <Setting state={state} />} />
+        <Route exact path='/support' render={() =>authenticated ? <SupportPage state={state} /> : <OnLog state={state} />} />
+        <Route exact path='/standup' render={() => authenticated ?<StandupForm state={state} /> : <OnLog state={state} />} />   
+        <Route exact path='/admin' render={() =>authenticated ?<AdminPage state={state} /> : <OnLog state={state} />} />
+        <Route exact path='/Setting' render={() =>authenticated? <Setting state={state} /> : <OnLog state={state} />} />
 
       </Switch>
 
