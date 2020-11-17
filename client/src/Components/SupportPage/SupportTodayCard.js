@@ -56,12 +56,6 @@ export default function SupportTodayCard({ state }) {
 
 
 
-
-
-
-
-
-
 const Badge = ({ array, name }) => {
     const [openTable, setOpenTable] = useState(false)
     const { ...rest } = useSpring({

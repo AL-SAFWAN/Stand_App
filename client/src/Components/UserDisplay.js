@@ -6,6 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 
 const Item = ({ user, i, set }) => {
+
     console.log(user)
     const [above, setAbove] = useState(false)
     const { o, x } = useSpring({
@@ -52,16 +53,11 @@ const Item = ({ user, i, set }) => {
 
 const MakeUsers = ({ props, userItems, set, clicked, onClicked }) => {
 
-    console.log("in make users", clicked)
-
-
     const transitions = useTransition(clicked, p => p, {
-
         from: { opacity: 0, fontSize: 0 },
         enter: { opacity: 1, fontSize: 40, marginTop:15 },
         leave: { opacity: 0, fontSize: 0 },
         config: config.stiff,
-
     })
 
     return (
@@ -80,7 +76,6 @@ const MakeUsers = ({ props, userItems, set, clicked, onClicked }) => {
                 }
                 <div
                     style={{ textAlign: "center", zIndex: 20 }}
-                    // {...bind()} 
                     onClick={() => {
                         onClicked(!clicked)
 
@@ -90,7 +85,6 @@ const MakeUsers = ({ props, userItems, set, clicked, onClicked }) => {
 
                         return<animated.div key={key} style={{ ...props }}><div className="movingButtons">
                             {item? "+" :"-" }
-                        
                         </div></animated.div>
                     })}
 
@@ -115,7 +109,8 @@ export default function ActivityGraph({ state }) {
     const [users, setUsers] = useState([]);
 
     const nonActiveUserIndex = []
- 
+    
+    console.log(allActiveUser, users)
 
     let socket;
 
@@ -126,13 +121,8 @@ export default function ActivityGraph({ state }) {
         })
         socket.emit("getAllActiveUser", users => {
             setAllActiveUser(users)
+            console.log(users)
         })
-
-
-
-
-
-
     }, [])
 
     if (allActiveUser.length > 0) {
@@ -191,10 +181,3 @@ export default function ActivityGraph({ state }) {
         </animated.div>
     )
 }
-
-//  sort the users based on activity 
-
-//                <div style={neutral} >
-//                 <MakeUsers users={neutralUsers} color={"#abbcf2"} borderColor={} />
-//             </div>
-//             <div style={blocker} >  <MakeUsers users={blockedUsers} color={"rgb(255, 136, 136)"} borderColor={"#f50057"} /></div>
