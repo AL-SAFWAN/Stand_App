@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import UserDisplay from './Components/UserDisplay';
-import FrontPage from "./Components/auth/FrontPage";
+import SignInPage from "./Components/auth/SignInPage";
 import RunningTodos from "./Components/todo/RuningTodos";
 import Graph from "./Components/ActivityGraph"
 import Calander from './Components/Calander'
@@ -97,7 +97,7 @@ export default function OnLog({ state }) {
     case 0:
       return (<></>)
     case 1:
-      return (<FrontPage state={state}></FrontPage>)
+      return (<SignInPage state={state}></SignInPage>)
     case 2:
       return (
         <React.Fragment>

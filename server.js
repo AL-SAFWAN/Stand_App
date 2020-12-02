@@ -2,25 +2,23 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io")
 const fileUpload = require("express-fileupload")
+const models = require("./models");
+const connection = require("./db");
+
 
 const app = express();
 const server = http.createServer(app)
 const io = socketIo(server)
 
-const models = require("./models");
-const connection = require("./db");
-const { request } = require("express");
-
-
-// used for pulling data from the backend
+// Use Routes
 app.use(express.json());
 app.use(fileUpload())
-app.use("/api/items", require("./routes/api/items"));
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/notes", require("./routes/api/notes"));
 app.use("/api/standupDates", require("./routes/api/standupDates"));
 app.use("/api/supportDates", require("./routes/api/supportDates"));
+app.use("/api/items", require("./routes/api/items"));
 
 // Image upload end point 
 app.post('/upload', (req, res) => {
@@ -42,9 +40,9 @@ const users = []
 const result = []
 
 io.on("connection", socket => {
-    console.log("-----start------\n")
-    console.log("Connection has been made")
-    console.log("---------------------\n")
+    // console.log("-----start------\n")
+    // console.log("Connection has been made")
+    // console.log("---------------------\n")
 
     socket.on('join', (user) => {
         // if its a new user

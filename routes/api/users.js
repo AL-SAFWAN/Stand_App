@@ -8,16 +8,22 @@ const jwt = require("jsonwebtoken");
 const models = require("../../models");
 const connection = require("../../db");
 
+/**
+ * @route   GET api/users
+ * @desc    Get all users
+ * @access  Public
+ */
+
 router.post("/", (req, res) => {
   let { name, email, password, filePath,accountType } = req.body;
-  // might want to use hooks to crpyt the pass
+
   if (!name || !email || !password) {
     return res.status(400).json({ msg: "please enter all fields" });
   }
   connection
     .sync()
     .then(() => {
-      // throw the error on this if the contraints are wrong
+
       models.myUser
         .findOne({
           where: { email: email },
@@ -33,7 +39,7 @@ router.post("/", (req, res) => {
         });
       });
       models.myUser.beforeCreate(async (user, options) => {
-        // the password seemed to be created twice 
+        // the password seemed to be hashed twice 
         if (user["_previousDataValues"].password == undefined) {
           const hash = await bcrypt.hashSync(user.password);
           user.password = hash;
@@ -43,7 +49,7 @@ router.post("/", (req, res) => {
 
         jwt.sign({ id: user.id }, config.get("jwtSecret"), (err, token) => {
           if (err) throw err;
-          // sends a responce to the client side with the token and user information
+          
           res.json({
             token,
             user: {

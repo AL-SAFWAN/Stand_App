@@ -65,20 +65,14 @@ export default function Confirm({
     setValues({ ...val, showPassword: !val.showPassword });
   };
 
-  const handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
-
-  // const renderPasswordSection = () => {
-  //   return (
-
-  //   );
-  // };
 
 
-  const goBack = () => {
+
+
+
+  const registerUser = () => {
     const { name, email, password } = values;
-
+    console.log('debug: create account', password)
     const newUser = {
       name,
       email,
@@ -149,7 +143,6 @@ export default function Confirm({
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
                   {val.showPassword ? <Visibility /> : <VisibilityOff />}
@@ -163,11 +156,11 @@ export default function Confirm({
 
       </List>
 
-      <Button className={classes.button} variant="contained" onClick={preStep}>
+      <Button id={"backBtn"}  className={classes.button} variant="contained" onClick={preStep}>
         back
       </Button>
 
-      <Button className={classes.button} variant="contained" onClick={goBack}>
+      <Button key={"confirmBtn"} className={classes.button} variant="contained" onClick={registerUser}>
         confirm
       </Button>
     </Paper>

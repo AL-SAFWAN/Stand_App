@@ -14,6 +14,7 @@ export const SET_ITEM_B = "SET_ITEM_B"
 export const SET_ITEM_BY = "SET_ITEM_BY"
 export const SET_ITEM_BT = "SET_ITEM_BT"
 
+// auth
 export const USER_LOADING ="USER_LOADING" 
 export const USER_LOADED="USER_LOADED"
 export const AUTH_ERROR="AUTH_ERROR"
@@ -23,7 +24,7 @@ export const LOGOUT_SUCCESS="LOGOUT_SUCCESS"
 export const REGISTER_SUCCESS="REGISTER_SUCCESS"
 export const REGISTER_FAIL="REGISTER_FAIL"
 export const UPDATE_USER="UPDATE_USER"
-
+// Errors
 export const GET_ERRORS="GET_ERRORS"
 export const CLEAR_ERRORS="CLEAR_ERRORS"
 

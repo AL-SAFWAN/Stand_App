@@ -6,6 +6,11 @@ const connection = require('../../db');
 const moment = require("moment")
 
 
+/**
+ * @route   GET api/items
+ * @desc    Get All Items
+ * @access  Public
+ */
 
 router.get("/user/:id", (req, res) => {
   // 
@@ -130,7 +135,6 @@ router.get("/user/:id", (req, res) => {
 });
 
 
-
 router.get("/user/Yesterday/:id", (req, res) => {
   // 
   models.Item.findAll({ where: { userId: req.params.id } }).then(
@@ -172,7 +176,12 @@ router.get("/user/Yesterday/:id", (req, res) => {
       return res.json(Yesterday);
     });
 });
-// work on yesterday call backend 
+ 
+/**
+ * @route   POST api/items
+ * @desc    Create An Item
+ * @access  Private
+ */
 
 router.post("/", auth, (req, res) => {
   connection.sync().then(() => {
@@ -184,6 +193,12 @@ router.post("/", auth, (req, res) => {
     )
   });
 });
+
+/**
+ * @route   DELETE api/items/:id
+ * @desc    Delete A Item
+ * @access  Private
+ */
 
 router.delete("/:id", auth, (req, res) => {
   models.Item.destroy({ where: { id: req.params.id } }).then(() => res.json({ success: true }))

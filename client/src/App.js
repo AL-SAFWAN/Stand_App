@@ -7,7 +7,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Bar from './Components/Bar'
 import Setting from './Components/Setting'
 
-import OnLog from './OnLog'
+import ControlLogIn from './ControlLogIn'
 
 import StandupForm from './Components/StandupForm/page'
 import SupportPage from './Components/SupportPage'
@@ -38,7 +38,7 @@ function App( ) {
       {/* <MenuBar state={state}></MenuBar> */}
       <Bar style={{ position: "sticky" }} state={state} dispatch={dispatch}></Bar>
       <Switch >
-        <Route exact path='/' render={() => <OnLog state={state} />} />
+        <Route exact path='/' render={() => <ControlLogIn state={state} />} />
         <Route exact path='/support' render={() =>authenticated ? <SupportPage state={state} /> : <Redirect to='/'/> } />
         <Route exact path='/standup' render={() => authenticated ?<StandupForm state={state} /> : <Redirect to='/'/> } />   
         <Route exact path='/admin' render={() =>authenticated ?<AdminPage state={state} /> :<Redirect to='/'/> } />

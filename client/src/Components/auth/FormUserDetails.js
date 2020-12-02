@@ -47,15 +47,11 @@ export default function FormUserDetails({
 
 
 
-  const goBack = () => {
-
+  const goBackToSignIn = () => {
     setStep(1);
   };
 
   const classes = useStyles();
-  console.log("In user form etailes");
-
-
 
   const [file, setFile] = useState('')
 
@@ -65,8 +61,8 @@ export default function FormUserDetails({
 
 
   const onSubmit = async (e) => {
-
     e.preventDefault()
+
     const formData = new FormData();
     formData.append(`file`, file)
 
@@ -80,16 +76,11 @@ export default function FormUserDetails({
       setUploadedFile({ fileName, filePath })
       console.log("file uploaded")
     }
-
-
     catch (err) {
       console.log(err.response.data.msg)
     }
   }
-
-
   const onChange = (e) => {
-
     setFile(e.target.files[0])
   }
 
@@ -112,7 +103,7 @@ export default function FormUserDetails({
         component="h2"
         style={{ paddingTop: 30 }}
       >
-        Hello Create your account
+        Hello Create Your Account
       </Typography>
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: 'space-around', margin: "auto", width: 350, }}>
@@ -129,17 +120,6 @@ export default function FormUserDetails({
           onChange={onChange}
         />
         <label htmlFor="contained-button-file">
-
-          {/* <TextField
-        id={"confirmPassword"}
-        type="password"
-        autoComplete="current-password"
-        label={"file name"}
-        style={{marginBottom: 3}}
-        value={values.confirmPassword}
-        onChange={e => setValue.setConfirmPassword(e.target.value)}
-      /> */}
-
           <Button variant="contained" color="primary" component="span" >
             Upload Image
         </Button>
@@ -176,33 +156,22 @@ export default function FormUserDetails({
         value={values.password}
         onChange={e => setValue.setPassword(e.target.value)}
       ></TextField>
-
-
-
         <Select
         fullWidth
         style ={style}
-          //   labelId="demo-simple-select-placeholder-label-label"
-          //   id="demo-simple-select-placeholder-label"
           value={selectedName}
           onChange={(e) => setSelectedName(e.target.value)}
-        
         >
-
-         
           <MenuItem key={"user"} value={"user"}>{"User"}</MenuItem>
           <MenuItem key={"admin"} value={"admin"}>{"Admin"}</MenuItem>
-         
         </Select>
 
-     
-
-
-      <Button className={classes.button} variant="contained" onClick={goBack}>
+    
+      <Button className={classes.button} variant="contained" onClick={goBackToSignIn}>
         back
       </Button>
 
-      <Button className={classes.button} variant="contained" onClick={nextStep}>
+      <Button key={"nextBtn"}  className={classes.button} variant="contained" onClick={nextStep}>
         next
       </Button>
 

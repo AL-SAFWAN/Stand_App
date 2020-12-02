@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginLeft: 25,
-
     marginRight: 25,
     marginTop: 10
   }
@@ -48,7 +47,7 @@ const gridStyle = {
   }
 };
 
-export default function FrontPage({state}) {
+export default function SignInPage({state}) {
 
   const dispatch = useDispatch()
 
@@ -56,7 +55,6 @@ export default function FrontPage({state}) {
 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-
   const vals = { Email, Password }
   const setVals = { setPassword, setEmail }
 
@@ -69,14 +67,13 @@ export default function FrontPage({state}) {
     e.preventDefault();
     e.persist();
     const User = { email: Email, password: Password };
-
+    console.log('debug: login', Password)
     console.log(User)
     login(User)(dispatch, state)
   };
 
-
-
   const classes = useStyles();
+
   switch (Step) {
     case 1:
       return (
