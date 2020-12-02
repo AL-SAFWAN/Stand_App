@@ -10,6 +10,13 @@ const models = require("../../models");
 
 //This is for the login page to auth the user and give accses
 
+
+/**
+ * @route   POST api/auth/login
+ * @desc    Login user
+ * @access  Public
+ */
+
 router.post("/", (req, res) => {
   const { email, password } = req.body;
 
@@ -26,6 +33,7 @@ router.post("/", (req, res) => {
       if (!isMatch) {
         return res.status(400).json({ msg: "Invalid credentials" });
       }
+
       jwt.sign({ id: user.id }, config.get("jwtSecret"), (err, token) => {
         if (err) throw err;
         res.json({
@@ -41,6 +49,12 @@ router.post("/", (req, res) => {
     });
   });
 });
+
+/**
+ * @route   GET api/auth/user
+ * @desc    Get user data
+ * @access  Private
+ */
 
 router.get("/user", auth, (req, res) => {
   models.myUser
@@ -66,7 +80,6 @@ router.get("/key/:id", (req, res) => {
 });
 
 router.patch("/update/:id", (req, res) => {
-
 
   models.myUser.update(req.body, { where: {id:req.params.id} })
     .then((item) => {

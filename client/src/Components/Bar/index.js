@@ -95,7 +95,7 @@ const WhenLogin = ({ authenticated, dispatch }) => {
         } label={
           <div style={{ display: "flex" }}>
             <h1 style={{ color: "white", marginRight: "0vw", marginLeft: "0vw" }}>Welcome {authenticated.user.name}</h1>
-              <NavItem icon={<EjectIcon onClick={() => logOut()} />} />
+              <NavItem  icon={<EjectIcon key={'logout'}  onClick={() => logOut()} />} />
           </div>
         } variant="outlined" />
 
